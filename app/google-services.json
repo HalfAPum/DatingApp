@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "915363383741",
+    "project_id": "dating-app-e8a6b",
+    "storage_bucket": "dating-app-e8a6b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:915363383741:android:0c46b666a6cd8d7e36ead4",
+        "android_client_info": {
+          "package_name": "com.narvatov.datingapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "915363383741-e2tgtqcqnso2an6r0cmd00j0psqi04if.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.narvatov.datingapp",
+            "certificate_hash": "134354e699f1b7b5630ef8868d22f6d5310fef6b"
+          }
+        },
+        {
+          "client_id": "915363383741-1frfbr9knov4mqn8t63fhb6bqat63u02.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHq-xUKwJ3qqztse5Y4TqAcJt01jVADl4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "915363383741-1frfbr9knov4mqn8t63fhb6bqat63u02.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
