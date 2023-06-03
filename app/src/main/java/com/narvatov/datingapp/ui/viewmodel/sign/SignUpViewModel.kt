@@ -3,6 +3,9 @@ package com.narvatov.datingapp.ui.viewmodel.sign
 import com.narvatov.datingapp.R
 import com.narvatov.datingapp.data.repository.UserRepository
 import com.narvatov.datingapp.model.local.NewUser
+import com.narvatov.datingapp.ui.navigation.BottomNavigationDestination
+import com.narvatov.datingapp.ui.navigation.SignIn
+import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.navigate
 import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.popBack
 import com.narvatov.datingapp.ui.viewmodel.ErrorViewModel
 import org.koin.android.annotation.KoinViewModel
@@ -29,8 +32,9 @@ class SignUpViewModel(
             else -> {
                 userRepository.signUp(NewUser(email, password, firstName, lastName))
 
-                popBack()
+                navigate(BottomNavigationDestination.Profile, popToInclusive = SignIn)
             }
         }
     }
+
 }

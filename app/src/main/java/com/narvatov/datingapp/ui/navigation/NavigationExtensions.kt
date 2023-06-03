@@ -55,11 +55,21 @@ fun NavHost(
 
 fun NavHostController.navigate(
     destination: Destination,
+    builder: NavOptionsBuilder.() -> Unit = {},
 ) {
     navigate(destination.route) {
         launchSingleTop = true
         restoreState = true
+
+        builder()
     }
+}
+
+fun NavOptionsBuilder.popUpTo(
+    destination: Destination,
+    popUpToBuilder: PopUpToBuilder.() -> Unit = {}
+) {
+    popUpTo(destination.route, popUpToBuilder)
 }
 
 fun NavHostController.popBackStack(

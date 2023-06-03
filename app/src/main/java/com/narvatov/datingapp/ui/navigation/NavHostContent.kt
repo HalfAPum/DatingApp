@@ -7,6 +7,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.navigationEvents
+import com.narvatov.datingapp.ui.screen.messages.Messages
+import com.narvatov.datingapp.ui.screen.profile.Profile
 import com.narvatov.datingapp.ui.screen.sign.SignIn
 import com.narvatov.datingapp.ui.screen.sign.SignUp
 import kotlinx.coroutines.flow.collectLatest
@@ -27,6 +29,13 @@ fun NavHostContent(
         scope.launch {
             navigationEvents.collectLatest { destination ->
                 when(destination) {
+                    is NavigateWithPopInclusive -> {
+                        navigate(destination.navigateDestination) {
+                            popUpTo(destination.popToInclusive) {
+                                inclusive = true
+                            }
+                        }
+                    }
                     is BackWithParam -> {
                         popBackStack(
                             destination = destination.back,
@@ -50,7 +59,13 @@ fun NavHostContent(
         }
 
         bottomNavigation {
+            composable(BottomNavigationDestination.Messages) {
+                Messages()
+            }
 
+            composable(BottomNavigationDestination.Profile) {
+                Profile()
+            }
         }
 
         composable(SignIn) {

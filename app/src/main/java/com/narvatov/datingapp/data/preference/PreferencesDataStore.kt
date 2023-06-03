@@ -17,14 +17,6 @@ class PreferencesDataStore(
 
     private val Context.userPreferencesDataStore by preferencesDataStore(USER_PREFERENCE)
 
-
-    suspend fun saveUserPreferences(userAuth: UserAuth) {
-        context.userPreferencesDataStore.edit { preferences ->
-            preferences[USER_EMAIL] = userAuth.email
-            preferences[USER_PASSWORD] = userAuth.password
-        }
-    }
-
     suspend fun getUserPreferences(): UserAuth {
         return context.userPreferencesDataStore.data.map { preferences ->
             val email = preferences[USER_EMAIL] ?: ""
@@ -34,6 +26,16 @@ class PreferencesDataStore(
         }.firstOrNull() ?: UserAuth.emptyUser
     }
 
+    suspend fun saveUserPreferences(userAuth: UserAuth) {
+        context.userPreferencesDataStore.edit { preferences ->
+            preferences[USER_EMAIL] = userAuth.email
+            preferences[USER_PASSWORD] = userAuth.password
+        }
+    }
+
+    suspend fun clearUserPreferences() {
+        saveUserPreferences(UserAuth.emptyUser)
+    }
 
     companion object {
         private const val USER_PREFERENCE = "USER_PREFERENCE"

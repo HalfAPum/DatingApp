@@ -15,6 +15,11 @@ interface Destination {
 
 }
 
+class NavigateWithPopInclusive(
+    val navigateDestination: Destination,
+    val popToInclusive: Destination,
+) : Destination
+
 object Back : Destination {
 
     fun withParam(destination: Destination, inclusive: Boolean): BackWithParam {

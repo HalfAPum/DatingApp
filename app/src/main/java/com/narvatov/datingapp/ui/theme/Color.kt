@@ -15,3 +15,5 @@ val OnPrimaryColor = Color.White
 
 val SoftGrey = Color(0xFFCDCDCD)
 val SuperSoftGrey = Color(0xFF8C8C8C)
+
+val RedError = Color(0xFFEE2017)

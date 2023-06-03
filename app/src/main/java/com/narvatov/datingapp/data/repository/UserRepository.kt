@@ -32,7 +32,7 @@ class UserRepository(
     }
 
     suspend fun logout() = IOOperation {
-        preferencesDataStore.saveUserPreferences(UserAuth.emptyUser)
+        preferencesDataStore.clearUserPreferences()
     }
 
 }

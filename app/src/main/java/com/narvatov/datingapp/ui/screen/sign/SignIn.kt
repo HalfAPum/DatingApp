@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.OutlinedTextField
@@ -19,7 +18,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -28,9 +26,13 @@ import com.narvatov.datingapp.ui.common.WideButton
 import com.narvatov.datingapp.ui.navigation.SignUp
 import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.navigate
 import com.narvatov.datingapp.ui.theme.Typography
+import com.narvatov.datingapp.ui.viewmodel.sign.SignInViewModel
+import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun SignIn() {
+fun SignIn(
+    viewModel: SignInViewModel = getViewModel()
+) {
     val scrollState = rememberScrollState()
 
     Column(modifier = Modifier
@@ -77,7 +79,7 @@ fun SignIn() {
             text = stringResource(R.string.sign_in),
             modifier = Modifier.padding(top = 40.dp)
         ) {
-
+            viewModel.signIn(email, password)
         }
 
         WideButton(
@@ -86,6 +88,11 @@ fun SignIn() {
         ) {
             navigate(SignUp)
         }
+
+        ErrorText(
+            errorViewModel = viewModel,
+            modifier = Modifier.fillMaxWidth().padding(top = 20.dp)
+        )
 
         Spacer(Modifier.height(100.dp))
     }

@@ -49,7 +49,7 @@ fun BottomBar(
                 BottomNavigationItem(
                     icon = {
                         Icon(
-                            painter = painterResource(destination.icon),
+                            imageVector = destination.icon,
                             contentDescription = stringResource(destination.text)
                         )
                     },

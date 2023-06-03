@@ -34,8 +34,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     buildFeatures {
@@ -86,7 +86,7 @@ dependencies {
     implementation("com.github.DogusTeknoloji:compose-date-picker:1.0.1")
 
     //Data store
-    implementation("androidx.datastore:datastore-preferences:1.1.0-alpha04")
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 
     //Firebase
     implementation (platform("com.google.firebase:firebase-bom:31.1.1"))

@@ -104,6 +104,11 @@ fun SignUp(
             modifier = Modifier.padding(top = 40.dp)
         ) { viewModel.signUp(email, password, firstName, lastName) }
 
+        ErrorText(
+            errorViewModel = viewModel,
+            modifier = Modifier.fillMaxWidth().padding(top = 20.dp)
+        )
+
         Spacer(Modifier.height(100.dp))
     }
 }
