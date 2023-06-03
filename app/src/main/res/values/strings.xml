@@ -9,4 +9,11 @@
     <string name="sign_up">Sign up</string>
     <string name="first_name">First name</string>
     <string name="last_name">Last name</string>
+    <string name="invalid_email">Invalid email</string>
+    <string name="password_8_symbols_warn">Password must contain at least 8 symbols</string>
+    <string name="first_name_shouldn_t_be_empty">First name shouldn\'t be empty</string>
+    <string name="last_name_shouldn_t_be_empty">Last name shouldn\'t be empty</string>
+    <string name="invalid_credentials">Invalid credentials entered</string>
+    <string name="messages">Messages</string>
+    <string name="profile">Profile</string>
 </resources>

@@ -68,7 +68,6 @@ dependencies {
     implementation("io.insert-koin:koin-android:3.2.0")
     implementation("io.insert-koin:koin-androidx-compose:3.2.0")
     implementation("io.insert-koin:koin-annotations:1.0.2")
-    implementation("com.google.firebase:firebase-messaging-ktx:23.1.0")
     ksp ("io.insert-koin:koin-ksp-compiler:1.0.2")
     implementation("io.insert-koin:koin-androidx-workmanager:3.1.2")
 
@@ -84,12 +83,17 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.2.2")
 
     //Date picker
-    implementation ("com.github.DogusTeknoloji:compose-date-picker:1.0.1")
+    implementation("com.github.DogusTeknoloji:compose-date-picker:1.0.1")
+
+    //Data store
+    implementation("androidx.datastore:datastore-preferences:1.1.0-alpha04")
 
     //Firebase
     implementation (platform("com.google.firebase:firebase-bom:31.1.1"))
     implementation ("com.google.firebase:firebase-crashlytics-ktx")
     implementation ("com.google.firebase:firebase-analytics-ktx")
+    implementation("com.google.firebase:firebase-messaging-ktx:23.1.0")
+    implementation("com.google.firebase:firebase-firestore-ktx:24.4.1")
 
     //Test dependencies
 

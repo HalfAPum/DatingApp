@@ -34,12 +34,12 @@ fun BottomBar(
             //Crutch part1 end
 
             val selectedRoute = navController.backQueue.asReversed().firstOrNull { entry ->
-                bottomNavigationItems.any { bottomNavItem ->
+                bottomNavigationDestinations.any { bottomNavItem ->
                     entry.destination.route == bottomNavItem.route
                 }
             }?.destination?.route
 
-            bottomNavigationItems.forEach { destination ->
+            bottomNavigationDestinations.forEach { destination ->
                 val selected = destination.route == selectedRoute
 
                 //Crutch part2 start
@@ -74,7 +74,7 @@ fun BottomBar(
                         // no mini back stack for tabs is left
                         // when you navigate to next bottom nav item
                         var popNextDestination = false
-                        bottomNavigationItems.reversed().forEach {
+                        bottomNavigationDestinations.reversed().forEach {
                             if (it.route == destination.route) {
                                 popNextDestination = true
                             } else if (popNextDestination) {

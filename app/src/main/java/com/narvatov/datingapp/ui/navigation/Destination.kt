@@ -2,6 +2,10 @@ package com.narvatov.datingapp.ui.navigation
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.AccountCircle
+import androidx.compose.material.icons.rounded.Message
+import androidx.compose.ui.graphics.vector.ImageVector
 import com.narvatov.datingapp.R
 
 interface Destination {
@@ -23,33 +27,30 @@ class BackWithParam(
     val inclusive: Boolean
 ) : Destination
 
-sealed class HeaderDestination(
-    route: String,
-    val headerText: String,
-    val canGoBack: Boolean = true
-) : Destination
-
-sealed class BottomNavigation(
-    name: String,
-    headerText: String,
-    @DrawableRes
-    val icon: Int,
+sealed class BottomNavigationDestination(
+    val icon: ImageVector,
     @StringRes
     val text: Int,
-): HeaderDestination(
-    route = name,
-    headerText = headerText,
-    canGoBack = false
-)
+): Destination {
 
-val bottomNavigationItems = emptyList<BottomNavigation>(
-//    BottomNavigation.Tasks,
-//    BottomNavigation.Plants,
-//    BottomNavigation.Settings,
+    object Messages : BottomNavigationDestination(
+        icon = Icons.Rounded.Message,
+        text = R.string.messages,
+    )
+
+    object Profile : BottomNavigationDestination(
+        icon = Icons.Rounded.AccountCircle,
+        text = R.string.profile,
+    )
+
+}
+
+val bottomNavigationDestinations = listOf(
+    BottomNavigationDestination.Messages,
+    BottomNavigationDestination.Profile,
 )
 
 sealed class DialogDestination(
-    route: String,
     val dismissOnBackPress: Boolean = true,
     val dismissOnClickOutside: Boolean = true,
 ) : Destination

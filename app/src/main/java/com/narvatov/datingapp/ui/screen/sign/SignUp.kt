@@ -24,9 +24,13 @@ import androidx.compose.ui.unit.dp
 import com.narvatov.datingapp.R
 import com.narvatov.datingapp.ui.common.WideButton
 import com.narvatov.datingapp.ui.theme.Typography
+import com.narvatov.datingapp.ui.viewmodel.sign.SignUpViewModel
+import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun SignUp() {
+fun SignUp(
+    viewModel: SignUpViewModel = getViewModel()
+) {
     val scrollState = rememberScrollState()
 
     Column(modifier = Modifier
@@ -98,9 +102,7 @@ fun SignUp() {
         WideButton(
             text = stringResource(R.string.sign_up),
             modifier = Modifier.padding(top = 40.dp)
-        ) {
-
-        }
+        ) { viewModel.signUp(email, password, firstName, lastName) }
 
         Spacer(Modifier.height(100.dp))
     }
