@@ -3,6 +3,7 @@ package com.narvatov.datingapp.model.local
 data class UserAuth(
     val email: String,
     val password: String,
+    val id: String? = null
 ) {
 
     val isEmpty: Boolean
