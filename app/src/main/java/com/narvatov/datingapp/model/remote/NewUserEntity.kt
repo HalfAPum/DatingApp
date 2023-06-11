@@ -8,9 +8,10 @@ class NewUserEntity : HashMap<String, String>() {
 
     companion object {
         fun NewUser.toNewUserEntity(): NewUserEntity = NewUserEntity().putAll(
-            Pair(Schema.USER_EMAIL, email),
-            Pair(Schema.USER_PASSWORD, password),
-            Pair(Schema.USER_NAME, "$firstName $lastName")
+            Schema.USER_EMAIL to email,
+            Schema.USER_PASSWORD to password,
+            Schema.USER_NAME to "$firstName $lastName",
+            Schema.USER_PHOTO_BASE_64 to photoBase64,
         )
     }
 

@@ -9,7 +9,6 @@ import com.narvatov.datingapp.model.local.User
 import com.narvatov.datingapp.model.local.UserAuth
 import com.narvatov.datingapp.model.remote.NewUserEntity
 import kotlinx.coroutines.tasks.await
-import org.koin.core.annotation.Factory
 import org.koin.core.annotation.Single
 
 @Single
@@ -30,8 +29,10 @@ class UserRemoteDataSource : DataSource() {
             val id = rawUser.id
             val email = rawUser.requestString(Schema.USER_EMAIL)
             val name = rawUser.requestString(Schema.USER_NAME)
+            val password = rawUser.requestString(Schema.USER_PASSWORD)
+            val photoBase64 = rawUser.requestString(Schema.USER_PHOTO_BASE_64)
 
-            id to User(id, email, name)
+            id to User(id, email, password, name, photoBase64)
         }.apply {
             allUsers = this
         }

@@ -12,24 +12,30 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.narvatov.datingapp.R
+import com.narvatov.datingapp.ui.common.ErrorText
+import com.narvatov.datingapp.ui.common.ProfilePhotoPicker
 import com.narvatov.datingapp.ui.common.WideButton
 import com.narvatov.datingapp.ui.theme.Typography
+import com.narvatov.datingapp.ui.viewmodel.PhotoViewModel
 import com.narvatov.datingapp.ui.viewmodel.sign.SignUpViewModel
 import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun SignUp(
-    viewModel: SignUpViewModel = getViewModel()
+    viewModel: SignUpViewModel = getViewModel(),
+    photoViewModel: PhotoViewModel,
 ) {
     val scrollState = rememberScrollState()
 
@@ -47,6 +53,15 @@ fun SignUp(
             modifier = Modifier.fillMaxWidth()
         )
 
+        val photoBitmap by photoViewModel.photoBitmapStateFlow.collectAsState()
+
+        ProfilePhotoPicker(
+            photoBitmap = photoBitmap,
+            modifier = Modifier
+                .padding(top = 30.dp)
+                .align(Alignment.CenterHorizontally),
+        )
+
         var firstName by rememberSaveable { mutableStateOf("") }
 
         OutlinedTextField(
@@ -57,7 +72,7 @@ fun SignUp(
             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             singleLine = true,
-            modifier = Modifier.padding(top = 40.dp).fillMaxWidth()
+            modifier = Modifier.padding(top = 20.dp).fillMaxWidth()
         )
 
         var lastName by rememberSaveable { mutableStateOf("") }
@@ -70,7 +85,7 @@ fun SignUp(
             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             singleLine = true,
-            modifier = Modifier.padding(top = 20.dp).fillMaxWidth()
+            modifier = Modifier.padding(top = 10.dp).fillMaxWidth()
         )
 
         var email by rememberSaveable { mutableStateOf("") }
@@ -83,7 +98,7 @@ fun SignUp(
             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             singleLine = true,
-            modifier = Modifier.padding(top = 20.dp).fillMaxWidth()
+            modifier = Modifier.padding(top = 10.dp).fillMaxWidth()
         )
 
         var password by rememberSaveable { mutableStateOf("") }
@@ -96,13 +111,13 @@ fun SignUp(
             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             singleLine = true,
-            modifier = Modifier.padding(top = 20.dp).fillMaxWidth()
+            modifier = Modifier.padding(top = 10.dp).fillMaxWidth()
         )
 
         WideButton(
             text = stringResource(R.string.sign_up),
-            modifier = Modifier.padding(top = 40.dp)
-        ) { viewModel.signUp(email, password, firstName, lastName) }
+            modifier = Modifier.padding(top = 20.dp)
+        ) { viewModel.signUp(email, password, firstName, lastName, photoBitmap) }
 
         ErrorText(
             errorViewModel = viewModel,

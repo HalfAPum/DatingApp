@@ -12,6 +12,8 @@ data class UserAuth(
     companion object {
         fun NewUser.toUserAuth() = UserAuth(email, password)
 
+        fun User.toUserAuth() = UserAuth(email, password, id)
+
         val emptyUser = UserAuth("", "")
     }
 

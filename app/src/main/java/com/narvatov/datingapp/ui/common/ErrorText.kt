@@ -1,4 +1,4 @@
-package com.narvatov.datingapp.ui.screen.sign
+package com.narvatov.datingapp.ui.common
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable

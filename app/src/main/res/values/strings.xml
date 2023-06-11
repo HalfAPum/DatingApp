@@ -18,4 +18,12 @@
     <string name="profile">Profile</string>
     <string name="no_user_id_was_provided">No user id was provided</string>
     <string name="requested_user_does_not_exist">Requested user does not exist</string>
+    <string name="upload_image">Upload image</string>
+    <string name="profile_image">Profile image</string>
+    <string name="select_photo_from_gallery">Select photo from gallery</string>
+    <string name="take_photo_now">Take photo now</string>
+    <string name="select_image">Select Image</string>
+    <string name="please_pick_photo_for_your_profile">Please pick photo for your profile</string>
+    <string name="photo_service_is_temporarily_unavailable">Photo service is temporarily unavailable</string>
+    <string name="space_photo">" photo"</string>
 </resources>

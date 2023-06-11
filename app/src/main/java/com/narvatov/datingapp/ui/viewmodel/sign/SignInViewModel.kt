@@ -18,7 +18,7 @@ class SignInViewModel(
 ) : ErrorViewModel() {
 
     init {
-        signInSavedUser()
+//        signInSavedUser()
     }
 
     private fun signInSavedUser() = launchCatching {

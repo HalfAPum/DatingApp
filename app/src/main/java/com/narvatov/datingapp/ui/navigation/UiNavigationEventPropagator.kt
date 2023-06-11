@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 object UiNavigationEventPropagator {
 
     val navigationEvents = MutableSharedFlow<Destination>(extraBufferCapacity = 1)
+    val bottomSheetVisibilityEvents = MutableSharedFlow<Boolean>(extraBufferCapacity = 1)
 
     private fun MutableSharedFlow<Destination>.navigate(destination: Destination) {
         println("NAVIGATOR LOGGER NAVIGATE TO ${destination.route}")
@@ -25,6 +26,14 @@ object UiNavigationEventPropagator {
 
     fun popBack() {
         navigationEvents.navigate(Back)
+    }
+
+    fun hidePhotoBottomSheet() {
+        bottomSheetVisibilityEvents.tryEmit(false)
+    }
+
+    fun showPhotoBottomSheet() {
+        bottomSheetVisibilityEvents.tryEmit(true)
     }
 
 }

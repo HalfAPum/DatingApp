@@ -3,11 +3,9 @@ package com.narvatov.datingapp.data.repository
 import com.narvatov.datingapp.data.preference.PreferencesDataStore
 import com.narvatov.datingapp.data.remotedb.datasource.UserRemoteDataSource
 import com.narvatov.datingapp.model.local.NewUser
-import com.narvatov.datingapp.model.local.User
 import com.narvatov.datingapp.model.local.UserAuth
 import com.narvatov.datingapp.model.local.UserAuth.Companion.toUserAuth
 import com.narvatov.datingapp.model.remote.NewUserEntity.Companion.toNewUserEntity
-import org.koin.core.annotation.Factory
 import org.koin.core.annotation.Single
 
 @Single
@@ -18,9 +16,11 @@ class UserRepository(
 ) : Repository() {
 
     suspend fun signIn(userAuth: UserAuth) = IOOperation {
-        userSessionRepository.user = userRemoteDataSource.getUser(userAuth)
+        val signedUser = userRemoteDataSource.getUser(userAuth)
 
-        preferencesDataStore.saveUserPreferences(userAuth)
+        userSessionRepository.user = signedUser
+
+        preferencesDataStore.saveUserPreferences(signedUser.toUserAuth())
     }
 
     suspend fun signUp(newUser: NewUser) = IOOperation {

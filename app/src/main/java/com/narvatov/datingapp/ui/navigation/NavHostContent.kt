@@ -3,23 +3,31 @@ package com.narvatov.datingapp.ui.navigation
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.bottomSheetVisibilityEvents
+import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.hidePhotoBottomSheet
 import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.navigationEvents
 import com.narvatov.datingapp.ui.screen.messages.Messages
 import com.narvatov.datingapp.ui.screen.profile.Profile
 import com.narvatov.datingapp.ui.screen.sign.SignIn
 import com.narvatov.datingapp.ui.screen.sign.SignUp
+import com.narvatov.datingapp.ui.viewmodel.PhotoViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @Composable
 fun NavHostContent(
     navController: NavHostController,
+    photoViewModel: PhotoViewModel,
     innerPadding: PaddingValues
 ) = with(navController) {
     val scope = rememberCoroutineScope()
+
+    val isBottomSheetVisible by bottomSheetVisibilityEvents.collectAsState(false)
 
     NavHost(
         navController = navController,
@@ -28,6 +36,12 @@ fun NavHostContent(
     ) {
         scope.launch {
             navigationEvents.collectLatest { destination ->
+                if (isBottomSheetVisible) {
+                    hidePhotoBottomSheet()
+
+                    return@collectLatest
+                }
+
                 when(destination) {
                     is NavigateWithPopInclusive -> {
                         navigate(destination.navigateDestination) {
@@ -73,7 +87,7 @@ fun NavHostContent(
         }
 
         composable(SignUp) {
-            SignUp()
+            SignUp(photoViewModel = photoViewModel)
         }
     }
 }
