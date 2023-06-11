@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.OutlinedTextField
@@ -17,7 +18,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -50,6 +54,8 @@ fun SignIn(
             modifier = Modifier.fillMaxWidth()
         )
 
+        val focusManager = LocalFocusManager.current
+
         var email by rememberSaveable { mutableStateOf("") }
 
         OutlinedTextField(
@@ -58,7 +64,13 @@ fun SignIn(
             label = {
                 Text(text = stringResource(R.string.email))
             },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Email,
+                imeAction = ImeAction.Next
+            ),
+            keyboardActions = KeyboardActions(onNext = {
+                focusManager.moveFocus(FocusDirection.Down)
+            }),
             singleLine = true,
             modifier = Modifier.padding(top = 40.dp).fillMaxWidth()
         )
@@ -71,7 +83,14 @@ fun SignIn(
             label = {
                 Text(text = stringResource(R.string.password))
             },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Password,
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions(onDone = {
+                viewModel.signIn(email, password)
+                focusManager.clearFocus()
+            }),
             singleLine = true,
             modifier = Modifier.padding(top = 20.dp).fillMaxWidth()
         )
@@ -81,6 +100,7 @@ fun SignIn(
             modifier = Modifier.padding(top = 40.dp)
         ) {
             viewModel.signIn(email, password)
+            focusManager.clearFocus()
         }
 
         WideButton(
