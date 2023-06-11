@@ -1,6 +1,7 @@
 package com.narvatov.datingapp.ui.screen.messages
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -17,6 +18,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.narvatov.datingapp.R
+import com.narvatov.datingapp.ui.navigation.Chat
+import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.navigate
 import com.narvatov.datingapp.ui.theme.Typography
 import com.narvatov.datingapp.ui.viewmodel.messages.MessagesViewModel
 import org.koin.androidx.compose.getViewModel
@@ -29,7 +32,10 @@ fun Messages(
 
     LazyColumn {
         items(users) { user ->
-            Row(Modifier.padding(vertical = 10.dp, horizontal = 20.dp)) {
+            Row(Modifier
+                .padding(vertical = 10.dp, horizontal = 20.dp)
+                .clickable { navigate(Chat, user.id) }
+            ) {
                 Image(
                     bitmap = user.photoBitmap.asImageBitmap(),
                     contentScale = ContentScale.Crop,

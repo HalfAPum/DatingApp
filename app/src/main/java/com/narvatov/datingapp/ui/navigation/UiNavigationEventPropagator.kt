@@ -16,6 +16,10 @@ object UiNavigationEventPropagator {
         navigationEvents.navigate(destination)
     }
 
+    fun navigate(destination: Destination, navigationParam: Any) {
+        navigationEvents.navigate(NavigateWithParam(destination, navigationParam))
+    }
+
     fun navigate(destination: Destination, popToInclusive: Destination) {
         navigationEvents.navigate(NavigateWithPopInclusive(destination, popToInclusive))
     }

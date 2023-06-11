@@ -3,7 +3,13 @@ package com.narvatov.datingapp.ui.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.DialogProperties
-import androidx.navigation.*
+import androidx.navigation.NamedNavArgument
+import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavController
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
+import androidx.navigation.NavOptionsBuilder
+import androidx.navigation.PopUpToBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.dialog
@@ -14,11 +20,12 @@ fun NavGraphBuilder.bottomNavigation(builder: NavGraphBuilder.() -> Unit) {
 
 fun NavGraphBuilder.composable(
     destination: Destination,
+    argument: NamedNavArgument? = null,
     content: @Composable (NavBackStackEntry) -> Unit,
 ) {
     composable(
         route = destination.route,
-        arguments = emptyList(),
+        arguments = if (argument == null) emptyList() else listOf(argument),
         deepLinks = emptyList(),
         content = content,
     )
@@ -55,9 +62,12 @@ fun NavHost(
 
 fun NavHostController.navigate(
     destination: Destination,
+    param: Any? = null,
     builder: NavOptionsBuilder.() -> Unit = {},
 ) {
-    navigate(destination.route) {
+    val route = if (param == null) destination.simpleRoute else "${destination.simpleRoute}/$param"
+
+    navigate(route) {
         launchSingleTop = true
         restoreState = true
 

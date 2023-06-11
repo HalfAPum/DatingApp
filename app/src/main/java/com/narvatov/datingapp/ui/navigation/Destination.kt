@@ -1,6 +1,5 @@
 package com.narvatov.datingapp.ui.navigation
 
-import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AccountCircle
@@ -10,14 +9,28 @@ import com.narvatov.datingapp.R
 
 interface Destination {
 
+    val simpleRoute: String
+        get() = javaClass.simpleName
+
     val route: String
-        get() = javaClass.simpleName ?: ""
+        get() = simpleRoute + navigationParamInner
+
+    val navigationParamInner: String
+        get() = if (navigationParam.isBlank()) "" else "/{$navigationParam}"
+
+    val navigationParam: String
+        get() = ""
 
 }
 
 class NavigateWithPopInclusive(
     val navigateDestination: Destination,
     val popToInclusive: Destination,
+) : Destination
+
+class NavigateWithParam(
+    val destination: Destination,
+    val param: Any,
 ) : Destination
 
 object Back : Destination {
@@ -63,5 +76,14 @@ sealed class DialogDestination(
 object SignIn : Destination
 
 object SignUp : Destination
+
+object Chat : Destination {
+
+    override val navigationParam: String
+        get() = USER_ID
+
+    const val USER_ID = "userId"
+
+}
 
 val noBottomBarDestinations = listOf(SignIn, SignUp).map { it.route }

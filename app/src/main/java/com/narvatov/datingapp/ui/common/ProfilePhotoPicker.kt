@@ -25,7 +25,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import com.narvatov.datingapp.R
 import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator
 import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.showPhotoBottomSheet
@@ -36,7 +35,6 @@ import com.narvatov.datingapp.ui.theme.Shapes
 @Composable
 fun ProfilePhotoPicker(
     modifier: Modifier = Modifier,
-    profileImageUrl: String? = null,
     photoBitmap: Bitmap? = null,
 ) {
     val isBottomSheetVisible by UiNavigationEventPropagator.bottomSheetVisibilityEvents.collectAsState(false)
@@ -61,14 +59,6 @@ fun ProfilePhotoPicker(
                 photoBitmap != null -> {
                     Image(
                         bitmap = photoBitmap.asImageBitmap(),
-                        contentScale = ContentScale.Crop,
-                        contentDescription = stringResource(R.string.profile_image),
-                        modifier = Modifier.fillMaxSize().align(Alignment.Center),
-                    )
-                }
-                profileImageUrl != null -> {
-                    AsyncImage(
-                        model = profileImageUrl,
                         contentScale = ContentScale.Crop,
                         contentDescription = stringResource(R.string.profile_image),
                         modifier = Modifier.fillMaxSize().align(Alignment.Center),
