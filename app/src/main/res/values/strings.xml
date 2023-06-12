@@ -26,4 +26,6 @@
     <string name="please_pick_photo_for_your_profile">Please pick photo for your profile</string>
     <string name="photo_service_is_temporarily_unavailable">Photo service is temporarily unavailable</string>
     <string name="space_photo">" photo"</string>
+    <string name="your_message">Your message</string>
+    <string name="send_message">Send message</string>
 </resources>

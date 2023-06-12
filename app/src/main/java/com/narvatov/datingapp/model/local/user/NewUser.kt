@@ -1,4 +1,4 @@
-package com.narvatov.datingapp.model.local
+package com.narvatov.datingapp.model.local.user
 
 data class NewUser(
     val email: String,

@@ -56,7 +56,7 @@ fun SignIn(
 
         val focusManager = LocalFocusManager.current
 
-        var email by rememberSaveable { mutableStateOf("") }
+        var email by rememberSaveable { mutableStateOf("kitty@gmail.com") }
 
         OutlinedTextField(
             value = email,
@@ -75,7 +75,7 @@ fun SignIn(
             modifier = Modifier.padding(top = 40.dp).fillMaxWidth()
         )
 
-        var password by rememberSaveable { mutableStateOf("") }
+        var password by rememberSaveable { mutableStateOf("123123123") }
 
         OutlinedTextField(
             value = password,

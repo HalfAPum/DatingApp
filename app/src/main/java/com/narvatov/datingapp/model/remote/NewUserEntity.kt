@@ -2,7 +2,7 @@ package com.narvatov.datingapp.model.remote
 
 import com.narvatov.datingapp.data.remotedb.Schema
 import com.narvatov.datingapp.data.remotedb.putAll
-import com.narvatov.datingapp.model.local.NewUser
+import com.narvatov.datingapp.model.local.user.NewUser
 
 class NewUserEntity : HashMap<String, String>() {
 

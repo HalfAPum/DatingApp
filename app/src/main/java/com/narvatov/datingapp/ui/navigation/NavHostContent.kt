@@ -102,11 +102,11 @@ fun NavHostContent(
 
         composable(
             destination = Chat,
-            argument = navArgument(Chat.USER_ID) { type = NavType.StringType }
+            argument = navArgument(Chat.FRIEND_ID) { type = NavType.StringType }
         ) { backStackEntry ->
-            val userId = backStackEntry.arguments?.getString(Chat.USER_ID)
+            val fiendId = backStackEntry.arguments?.getString(Chat.FRIEND_ID)
 
-            val chatViewModel: ChatViewModel = getViewModel(parameters = { parametersOf(userId) })
+            val chatViewModel: ChatViewModel = getViewModel(parameters = { parametersOf(fiendId) })
 
             Chat(viewModel = chatViewModel)
         }

@@ -4,7 +4,7 @@ import com.halfapum.general.coroutines.launchCatching
 import com.narvatov.datingapp.R
 import com.narvatov.datingapp.data.preference.PreferencesDataStore
 import com.narvatov.datingapp.data.repository.UserRepository
-import com.narvatov.datingapp.model.local.UserAuth
+import com.narvatov.datingapp.model.local.user.UserAuth
 import com.narvatov.datingapp.ui.navigation.BottomNavigationDestination
 import com.narvatov.datingapp.ui.navigation.SignIn
 import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.navigate

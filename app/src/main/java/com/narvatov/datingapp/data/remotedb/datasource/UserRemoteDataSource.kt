@@ -1,20 +1,16 @@
 package com.narvatov.datingapp.data.remotedb.datasource
 
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import com.narvatov.datingapp.data.remotedb.Schema
 import com.narvatov.datingapp.data.remotedb.requestString
 import com.narvatov.datingapp.data.remotedb.throwNoSuchUserException
-import com.narvatov.datingapp.model.local.User
-import com.narvatov.datingapp.model.local.UserAuth
+import com.narvatov.datingapp.model.local.user.User
+import com.narvatov.datingapp.model.local.user.UserAuth
 import com.narvatov.datingapp.model.remote.NewUserEntity
 import kotlinx.coroutines.tasks.await
 import org.koin.core.annotation.Single
 
 @Single
-class UserRemoteDataSource : DataSource() {
-
-    private val db = Firebase.firestore
+class UserRemoteDataSource : RemoteDataSource() {
 
     private var allUsers: Map<String, User> = emptyMap()
 

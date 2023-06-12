@@ -5,8 +5,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.narvatov.datingapp.data.remotedb.throwNoUserId
-import com.narvatov.datingapp.model.local.UserAuth
-import kotlinx.coroutines.flow.first
+import com.narvatov.datingapp.model.local.user.UserAuth
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import org.koin.core.annotation.Single

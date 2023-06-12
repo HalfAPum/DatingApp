@@ -2,10 +2,10 @@ package com.narvatov.datingapp.data.repository
 
 import com.narvatov.datingapp.data.preference.PreferencesDataStore
 import com.narvatov.datingapp.data.remotedb.datasource.UserRemoteDataSource
-import com.narvatov.datingapp.model.local.NewUser
-import com.narvatov.datingapp.model.local.User
-import com.narvatov.datingapp.model.local.UserAuth
-import com.narvatov.datingapp.model.local.UserAuth.Companion.toUserAuth
+import com.narvatov.datingapp.model.local.user.NewUser
+import com.narvatov.datingapp.model.local.user.User
+import com.narvatov.datingapp.model.local.user.UserAuth
+import com.narvatov.datingapp.model.local.user.UserAuth.Companion.toUserAuth
 import com.narvatov.datingapp.model.remote.NewUserEntity.Companion.toNewUserEntity
 import org.koin.core.annotation.Single
 

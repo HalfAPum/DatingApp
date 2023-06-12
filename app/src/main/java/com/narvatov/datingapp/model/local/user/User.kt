@@ -1,4 +1,4 @@
-package com.narvatov.datingapp.model.local
+package com.narvatov.datingapp.model.local.user
 
 import android.graphics.Bitmap
 import com.narvatov.datingapp.utils.toBitmap

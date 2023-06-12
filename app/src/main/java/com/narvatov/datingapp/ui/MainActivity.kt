@@ -22,6 +22,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.core.view.WindowInsetsCompat.Type.ime
+import androidx.core.view.WindowInsetsCompat.toWindowInsetsCompat
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.narvatov.datingapp.ui.common.PhotoPickBottomSheet
@@ -49,7 +51,16 @@ class MainActivity : ComponentActivity() {
                 val bottomBarState = rememberSaveable { (mutableStateOf(false)) }
                 val navController = rememberNavController()
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
-                bottomBarState.value = navBackStackEntry?.destination?.route?.showBottomBar ?: false
+
+                val shouldBottomBarBeVisible = navBackStackEntry?.destination?.route?.showBottomBar ?: false
+
+                window.decorView.setOnApplyWindowInsetsListener { view, insets ->
+                    val insetsCompat = toWindowInsetsCompat(insets, view)
+                    bottomBarState.value = shouldBottomBarBeVisible && insetsCompat.isVisible(ime()).not()
+                    view.onApplyWindowInsets(insets)
+                }
+
+                bottomBarState.value = shouldBottomBarBeVisible
 
                 val sheetState = rememberBottomSheetState(
                     initialValue = BottomSheetValue.Collapsed

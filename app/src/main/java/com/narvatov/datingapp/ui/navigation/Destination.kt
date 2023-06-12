@@ -80,9 +80,9 @@ object SignUp : Destination
 object Chat : Destination {
 
     override val navigationParam: String
-        get() = USER_ID
+        get() = FRIEND_ID
 
-    const val USER_ID = "userId"
+    const val FRIEND_ID = "fiendId"
 
 }
 
