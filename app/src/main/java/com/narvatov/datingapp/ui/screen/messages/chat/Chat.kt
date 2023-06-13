@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -41,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import com.narvatov.datingapp.R
 import com.narvatov.datingapp.model.local.message.FriendChatMessage
 import com.narvatov.datingapp.model.local.message.UserChatMessage
+import com.narvatov.datingapp.ui.ListSpacer
 import com.narvatov.datingapp.ui.screen.messages.chat.message.FriendMessage
 import com.narvatov.datingapp.ui.screen.messages.chat.message.UserMessage
 import com.narvatov.datingapp.ui.theme.PrimaryColor
@@ -49,7 +52,6 @@ import com.narvatov.datingapp.ui.viewmodel.messages.chat.ChatViewModel
 
 @Composable
 fun Chat(viewModel: ChatViewModel) {
-    val user = viewModel.user
     val friendFlow = viewModel.friendStageFlow.collectAsState()
     val chatMessages by viewModel.chatMessageFlow.collectAsState(emptyList())
 
@@ -80,13 +82,27 @@ fun Chat(viewModel: ChatViewModel) {
                 }
             }
 
-            LazyColumn(modifier = Modifier.fillMaxWidth().weight(1F)) {
+            val chatMessagesListState = rememberLazyListState()
+
+            LazyColumn(
+                state = chatMessagesListState,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1F)
+                    .padding(horizontal = 20.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+                reverseLayout = true,
+            ) {
+                ListSpacer()
+
                 items(chatMessages) { chatMessage ->
                     when(chatMessage) {
                         is FriendChatMessage -> FriendMessage(chatMessage)
                         is UserChatMessage -> UserMessage(chatMessage)
                     }
                 }
+
+                ListSpacer()
             }
 
             Box(modifier = Modifier.background(Color.LightGray)) {

@@ -12,14 +12,14 @@ import org.koin.core.annotation.Single
 @Single
 class UserRemoteDataSource : RemoteDataSource() {
 
+    override val collectionName = Schema.USER_TABLE
+
     private var allUsers: Map<String, User> = emptyMap()
 
     suspend fun getAllUsers(): Map<String, User> = IOOperation {
         if (allUsers.isNotEmpty()) return@IOOperation allUsers
 
-        val data = db.collection(Schema.USER_TABLE)
-            .get()
-            .await()
+        val data = collection.get().await()
 
         data.documents.associate { rawUser ->
             val id = rawUser.id
@@ -49,7 +49,7 @@ class UserRemoteDataSource : RemoteDataSource() {
     }
 
     suspend fun saveNewUser(newUserEntity: NewUserEntity) = IOOperation {
-        db.collection(Schema.USER_TABLE).add(newUserEntity).await()
+        collection.add(newUserEntity).await()
     }
 
 }
