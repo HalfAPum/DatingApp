@@ -1,18 +1,18 @@
 package com.narvatov.datingapp.data.remotedb.datasource
 
-import com.google.firebase.firestore.DocumentChange
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.ktx.snapshots
 import com.narvatov.datingapp.data.remotedb.Schema
 import com.narvatov.datingapp.data.remotedb.requestString
 import com.narvatov.datingapp.model.local.message.ChatMessage
 import com.narvatov.datingapp.model.remote.SendNewMessage
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.tasks.await
 import org.koin.core.annotation.Factory
 import java.util.Date
+import java.util.LinkedList
 
 //Todo pass user and friend when create object
 @Factory
@@ -23,10 +23,16 @@ class ChatRemoteDataSource : RemoteDataSource() {
     }
 
     //Todo add paging
-    fun chatMessagesFlow(userId: String, friendId: String) = merge(
-        friendChatMessagesFlow(userId, friendId),
-        userChatMessagesFlow(userId, friendId),
-    )
+    fun chatMessagesFlow(
+        userId: String,
+        friendId: String
+    ) = friendChatMessagesFlow(userId, friendId)
+        .combine(userChatMessagesFlow(userId, friendId)) { friendMessages, userMessages ->
+        LinkedList<ChatMessage>().apply {
+            addAll(friendMessages)
+            addAll(userMessages)
+        }.sortedBy { it.sendDate.time }
+    }
 
     private fun friendChatMessagesFlow(
         userId: String,
@@ -49,15 +55,16 @@ class ChatRemoteDataSource : RemoteDataSource() {
         userId: String
     ) = orderBy(Schema.CHAT_TIMESTAMP, Query.Direction.DESCENDING)
         .snapshots()
-        .map { it.documentChanges }
+        .map {
+            it.documents }
         .map { documentChange ->
             documentChange
-                .filter { it.type == DocumentChange.Type.ADDED }
-                .map { it.document }
+//                .filter { it.type == DocumentChange.Type.ADDED }
+//                .map { it. }
                 .mapMessage(userId)
         }
 
-    private fun List<QueryDocumentSnapshot>.mapMessage(userId: String): List<ChatMessage> {
+    private fun List<DocumentSnapshot>.mapMessage(userId: String): List<ChatMessage> {
         return map { rawMessage ->
             val text = rawMessage.requestString(Schema.CHAT_MESSAGE)
             val senderId = rawMessage.requestString(Schema.CHAT_SENDER_ID)
