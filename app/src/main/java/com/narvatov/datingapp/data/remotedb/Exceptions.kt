@@ -10,3 +10,7 @@ fun throwNoSuchUserException(context: Context): Nothing = throw NoSuchElementExc
 fun throwNoUserId(context: Context): Nothing = throw IllegalArgumentException(
     context.getString(R.string.no_user_id_was_provided)
 )
+
+fun throwNoConversationId(context: Context): Nothing = throw IllegalArgumentException(
+    context.getString(R.string.conversation_between_this_users_doesn_t_exist)
+)

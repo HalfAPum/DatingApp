@@ -15,3 +15,4 @@ fun DocumentSnapshot.requestString(field: String): String {
 suspend fun <T> Task<T>.awaitUnit() {
     await()
 }
+

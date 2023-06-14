@@ -1,9 +1,11 @@
 package com.narvatov.datingapp.data.remotedb.datasource
 
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.snapshots
 import com.narvatov.datingapp.data.remotedb.Schema
 import com.narvatov.datingapp.data.remotedb.awaitUnit
 import com.narvatov.datingapp.data.remotedb.mapMessage
+import com.narvatov.datingapp.data.remotedb.throwNoConversationId
 import com.narvatov.datingapp.model.local.message.Conversation
 import com.narvatov.datingapp.model.remote.ConversationEntity
 import kotlinx.coroutines.flow.combine
@@ -17,24 +19,51 @@ class ConversationRemoteDataSource(
 
     override val collectionName = Schema.CONVERSATION_TABLE
 
-    val conversationFlow = collection
-        .whereEqualTo(Schema.CONVERSATION_AUTHOR_ID, userId)
-        .snapshots()
-        .map { it.documents }
-        .map { it.mapMessage(userId) }
-        .combine(collection
-            .whereEqualTo(Schema.CONVERSATION_RESPONDER_ID, userId)
-            .snapshots()
-            .map { it.documents }
-            .map { it.mapMessage(userId) }) { source1, source2 ->
+    val conversationFlow = userAuthoredConversationFlow
+        .combine(userRespondedConversationFlow) { source1, source2 ->
             LinkedList<Conversation>().apply {
                 addAll(source1)
                 addAll(source2)
-            }.sortedBy { it.sendTime }
+            }.sortedBy { it.sendDate.time }
         }
 
+    private val userAuthoredConversationFlow
+        get() = collection
+            .whereEqualTo(Schema.CONVERSATION_AUTHOR_ID, userId)
+            .conversationFlow()
+
+    private val userRespondedConversationFlow
+        get() = collection
+            .whereEqualTo(Schema.CONVERSATION_RESPONDER_ID, userId)
+            .conversationFlow()
+
+    private fun Query.conversationFlow() = this
+        .snapshots()
+        .map { it.documents }
+        .map { it.mapMessage(userId) }
+
+    suspend fun getConversationId(friendId: String) = IOOperation {
+        val userAuthorFriendConversation = collection
+            .whereEqualTo(Schema.CONVERSATION_AUTHOR_ID,userId)
+            .whereEqualTo(Schema.CONVERSATION_RESPONDER_ID, friendId)
+            .get()
+            .await()
+            .documents.getOrNull(0)?.id
+
+        val friendAuthorUserConversation = collection
+            .whereEqualTo(Schema.CONVERSATION_AUTHOR_ID,friendId)
+            .whereEqualTo(Schema.CONVERSATION_RESPONDER_ID, userId)
+            .get()
+            .await()
+            .documents.getOrNull(0)?.id
+
+        userAuthorFriendConversation
+            ?: friendAuthorUserConversation
+            ?: throwNoConversationId(context)
+    }
+
     suspend fun addConversation(conversationEntity: ConversationEntity) = IOOperation {
-        collection.add(conversationEntity).await().id
+        collection.add(conversationEntity).awaitUnit()
     }
 
     suspend fun updateConversation(
@@ -44,19 +73,6 @@ class ConversationRemoteDataSource(
         collection.document(conversationId)
             .update(conversationEntity as Map<String, Any>)
             .awaitUnit()
-    }
-
-    suspend fun getConversationId(friendId: String) = IOOperation {
-        collection.whereEqualTo(Schema.CONVERSATION_AUTHOR_ID,userId)
-            .whereEqualTo(Schema.CONVERSATION_RESPONDER_ID, friendId)
-            .get()
-            .await()
-            .documents.getOrNull(0)?.id
-            ?: collection.whereEqualTo(Schema.CONVERSATION_AUTHOR_ID,friendId)
-                .whereEqualTo(Schema.CONVERSATION_RESPONDER_ID, userId)
-                .get()
-                .await()
-                .documents[0].id
     }
 
 }
