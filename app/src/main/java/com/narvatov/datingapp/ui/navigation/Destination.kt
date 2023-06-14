@@ -86,4 +86,4 @@ object Chat : Destination {
 
 }
 
-val noBottomBarDestinations = listOf(SignIn, SignUp).map { it.route }
+val noBottomBarDestinations = listOf(SignIn, SignUp, Chat).map { it.route }

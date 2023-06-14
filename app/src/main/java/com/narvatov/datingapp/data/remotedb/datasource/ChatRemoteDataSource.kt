@@ -44,9 +44,9 @@ class ChatRemoteDataSource(
     private fun Query.chatMessagesFlow() = this
         .orderBy(Schema.CHAT_TIMESTAMP, Query.Direction.DESCENDING)
         .snapshots()
-        .map { it.documents.mapMessage(userId) }
+        .map { it.documents.mapMessage() }
 
-    private fun List<DocumentSnapshot>.mapMessage(userId: String): List<ChatMessage> {
+    private fun List<DocumentSnapshot>.mapMessage(): List<ChatMessage> {
         return map { rawMessage ->
             val text = rawMessage.requestString(Schema.CHAT_MESSAGE)
             val senderId = rawMessage.requestString(Schema.CHAT_SENDER_ID)

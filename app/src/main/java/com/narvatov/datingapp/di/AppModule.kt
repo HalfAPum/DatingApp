@@ -2,6 +2,7 @@ package com.narvatov.datingapp.di
 
 import com.halfapum.general.coroutines.Dispatcher
 import com.narvatov.datingapp.data.remotedb.datasource.ChatRemoteDataSource
+import com.narvatov.datingapp.data.remotedb.datasource.ConversationRemoteDataSource
 import com.narvatov.datingapp.data.repository.ChatRepository
 import com.narvatov.datingapp.data.repository.UserSessionRepository
 import org.koin.core.parameter.parametersOf
@@ -15,7 +16,8 @@ val appModule = module {
         ChatRepository(
             get<UserSessionRepository>().user.id,
             get(),
-            get(parameters = { parametersOf(get()) })
+            get(parameters = { parametersOf(get()) }),
+            get()
         )
     }
 
@@ -23,6 +25,12 @@ val appModule = module {
         ChatRemoteDataSource(
             get<UserSessionRepository>().user.id,
             get(),
+        )
+    }
+
+    factory {
+        ConversationRemoteDataSource(
+            get<UserSessionRepository>().user.id,
         )
     }
 

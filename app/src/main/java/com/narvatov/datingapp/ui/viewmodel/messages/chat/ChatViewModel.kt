@@ -28,9 +28,7 @@ class ChatViewModel(
     private val _friendStateFlow = MutableStateFlow<User?>(null)
     val friendStageFlow = _friendStateFlow.asStateFlow()
 
-    val chatMessageFlow = chatRepository
-        .chatMessageFlow
-        .flowOn(dispatcher.IO)
+    val chatMessageFlow = chatRepository.chatMessageFlow.flowOn(dispatcher.IO)
 
     init {
         getFriend()
@@ -43,6 +41,8 @@ class ChatViewModel(
     }
 
     fun sendMessage(message: String) = launchCatching {
+        if (message.isBlank()) return@launchCatching
+
         chatRepository.sendMessage(message)
     }
 

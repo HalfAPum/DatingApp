@@ -12,4 +12,15 @@ object Schema {
     const val CHAT_TIMESTAMP = "timestamp"
     const val CHAT_SENDER_ID = "sender_id"
     const val CHAT_RECEIVER_ID = "receiver_id"
+
+    const val CONVERSATION_TABLE = "conversation"
+    const val CONVERSATION_AUTHOR_ID = "author_id"
+    const val CONVERSATION_RESPONDER_ID = "responder_id"
+    const val CONVERSATION_AUTHOR_PHOTO_BASE_64 = "author_photo_base_64"
+    const val CONVERSATION_RESPONDER_PHOTO_BASE_64 = "responder_photo_base_64"
+    const val CONVERSATION_AUTHOR_NAME = "author_name"
+    const val CONVERSATION_RESPONDER_NAME = "responder_name"
+    const val CONVERSATION_LAST_MESSAGE = "last_message"
+    const val CONVERSATION_LAST_MESSAGE_TIMESTAMP = "last_message_timestamp"
+    const val CONVERSATION_LAST_MESSAGE_SENDER_ID = "last_message_sender_id"
 }

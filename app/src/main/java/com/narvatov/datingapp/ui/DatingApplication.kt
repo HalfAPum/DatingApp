@@ -22,7 +22,7 @@ class DatingApplication : Application(), KoinComponent {
 
         generalCoroutineExceptionHandler = object : DefaultCoroutineExceptionHandler() {
             override fun handleException(context: CoroutineContext, exception: Throwable) {
-                Timber.e(coroutineTag, exceptionMessage, exception)
+                Timber.e(coroutineTag + exceptionMessage + exception)
 
                 ExceptionPropagator.propagate(exception)
             }

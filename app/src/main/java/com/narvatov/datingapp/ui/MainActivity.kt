@@ -26,6 +26,7 @@ import androidx.core.view.WindowInsetsCompat.Type.ime
 import androidx.core.view.WindowInsetsCompat.toWindowInsetsCompat
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.halfapum.general.coroutines.launchCatching
 import com.narvatov.datingapp.ui.common.PhotoPickBottomSheet
 import com.narvatov.datingapp.ui.navigation.BottomBar
 import com.narvatov.datingapp.ui.navigation.NavHostContent
@@ -46,6 +47,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        launchCatching {  }
         setContent {
             DatingAppTheme {
                 val bottomBarState = rememberSaveable { (mutableStateOf(false)) }
