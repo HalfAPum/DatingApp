@@ -13,7 +13,7 @@ import com.narvatov.datingapp.data.delegate.dispatcher.IDispatcherDelegate
 abstract class RemoteDataSource : IDispatcherDelegate by DispatcherDelegate, IContextDelegate by ContextDelegate,
     ICoroutineDelegate by CoroutineDelegate {
 
-    protected val db = Firebase.firestore
+    private val db = Firebase.firestore
 
     abstract val collectionName: String
 

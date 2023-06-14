@@ -1,6 +1,7 @@
 package com.narvatov.datingapp.data.remotedb.datasource
 
 import com.narvatov.datingapp.data.remotedb.Schema
+import com.narvatov.datingapp.data.remotedb.awaitUnit
 import com.narvatov.datingapp.data.remotedb.requestString
 import com.narvatov.datingapp.data.remotedb.throwNoSuchUserException
 import com.narvatov.datingapp.model.local.user.User
@@ -14,6 +15,7 @@ class UserRemoteDataSource : RemoteDataSource() {
 
     override val collectionName = Schema.USER_TABLE
 
+    //TODO ALL USERS IS TEMP IMPLEMENTATION REMOVE THIS SHIT LATER
     private var allUsers: Map<String, User> = emptyMap()
 
     suspend fun getAllUsers(): Map<String, User> = IOOperation {
@@ -49,7 +51,7 @@ class UserRemoteDataSource : RemoteDataSource() {
     }
 
     suspend fun saveNewUser(newUserEntity: NewUserEntity) = IOOperation {
-        collection.add(newUserEntity).await()
+        collection.add(newUserEntity).awaitUnit()
     }
 
 }
