@@ -2,7 +2,7 @@ package com.narvatov.datingapp.ui.viewmodel.sign
 
 import android.graphics.Bitmap
 import com.narvatov.datingapp.R
-import com.narvatov.datingapp.data.repository.UserRepository
+import com.narvatov.datingapp.data.repository.user.UserRepository
 import com.narvatov.datingapp.model.local.user.NewUser
 import com.narvatov.datingapp.ui.navigation.BottomNavigationDestination
 import com.narvatov.datingapp.ui.navigation.SignIn

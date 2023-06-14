@@ -3,6 +3,7 @@ package com.narvatov.datingapp.ui.navigation
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AccountCircle
+import androidx.compose.material.icons.rounded.ConnectWithoutContact
 import androidx.compose.material.icons.rounded.Message
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.narvatov.datingapp.R
@@ -56,6 +57,11 @@ sealed class BottomNavigationDestination(
         text = R.string.messages,
     )
 
+    object Connect : BottomNavigationDestination(
+        icon = Icons.Rounded.ConnectWithoutContact,
+        text = R.string.connect,
+    )
+
     object Profile : BottomNavigationDestination(
         icon = Icons.Rounded.AccountCircle,
         text = R.string.profile,
@@ -65,6 +71,7 @@ sealed class BottomNavigationDestination(
 
 val bottomNavigationDestinations = listOf(
     BottomNavigationDestination.Messages,
+    BottomNavigationDestination.Connect,
     BottomNavigationDestination.Profile,
 )
 

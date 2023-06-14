@@ -13,6 +13,7 @@ import androidx.navigation.navArgument
 import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.bottomSheetVisibilityEvents
 import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.hidePhotoBottomSheet
 import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.navigationEvents
+import com.narvatov.datingapp.ui.screen.connect.Connect
 import com.narvatov.datingapp.ui.screen.messages.Messages
 import com.narvatov.datingapp.ui.screen.messages.chat.Chat
 import com.narvatov.datingapp.ui.screen.profile.Profile
@@ -85,6 +86,10 @@ fun NavHostContent(
         bottomNavigation {
             composable(BottomNavigationDestination.Messages) {
                 Messages()
+            }
+
+            composable(BottomNavigationDestination.Connect) {
+                Connect()
             }
 
             composable(BottomNavigationDestination.Profile) {

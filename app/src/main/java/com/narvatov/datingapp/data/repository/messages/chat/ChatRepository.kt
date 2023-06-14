@@ -1,7 +1,8 @@
-package com.narvatov.datingapp.data.repository
+package com.narvatov.datingapp.data.repository.messages.chat
 
 import com.narvatov.datingapp.data.remotedb.datasource.ChatRemoteDataSource
 import com.narvatov.datingapp.data.remotedb.datasource.ConversationRemoteDataSource
+import com.narvatov.datingapp.data.repository.Repository
 import com.narvatov.datingapp.model.remote.ConversationEntity.Companion.updateConversationEntity
 import com.narvatov.datingapp.model.remote.SendNewMessage.Companion.newSendMessageEntity
 import kotlin.properties.Delegates.notNull

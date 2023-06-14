@@ -3,8 +3,8 @@ package com.narvatov.datingapp.ui.viewmodel.messages.chat
 import androidx.lifecycle.ViewModel
 import com.halfapum.general.coroutines.Dispatcher
 import com.halfapum.general.coroutines.launchCatching
-import com.narvatov.datingapp.data.repository.ChatRepository
-import com.narvatov.datingapp.data.repository.UserRepository
+import com.narvatov.datingapp.data.repository.messages.chat.ChatRepository
+import com.narvatov.datingapp.data.repository.user.UserRepository
 import com.narvatov.datingapp.model.local.user.User
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

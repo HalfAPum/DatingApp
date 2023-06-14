@@ -24,7 +24,7 @@ class ConversationRemoteDataSource(
             LinkedList<Conversation>().apply {
                 addAll(source1)
                 addAll(source2)
-            }.sortedBy { it.sendDate.time }
+            }.sortedByDescending { it.sendDate.time }
         }
 
     private val userAuthoredConversationFlow

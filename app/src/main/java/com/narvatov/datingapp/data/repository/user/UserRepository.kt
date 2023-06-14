@@ -1,7 +1,8 @@
-package com.narvatov.datingapp.data.repository
+package com.narvatov.datingapp.data.repository.user
 
 import com.narvatov.datingapp.data.preference.PreferencesDataStore
 import com.narvatov.datingapp.data.remotedb.datasource.UserRemoteDataSource
+import com.narvatov.datingapp.data.repository.Repository
 import com.narvatov.datingapp.model.local.user.NewUser
 import com.narvatov.datingapp.model.local.user.User
 import com.narvatov.datingapp.model.local.user.UserAuth

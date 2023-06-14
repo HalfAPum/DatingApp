@@ -3,7 +3,7 @@ package com.narvatov.datingapp.ui.viewmodel.sign
 import com.halfapum.general.coroutines.launchCatching
 import com.narvatov.datingapp.R
 import com.narvatov.datingapp.data.preference.PreferencesDataStore
-import com.narvatov.datingapp.data.repository.UserRepository
+import com.narvatov.datingapp.data.repository.user.UserRepository
 import com.narvatov.datingapp.model.local.user.UserAuth
 import com.narvatov.datingapp.ui.navigation.BottomNavigationDestination
 import com.narvatov.datingapp.ui.navigation.SignIn
