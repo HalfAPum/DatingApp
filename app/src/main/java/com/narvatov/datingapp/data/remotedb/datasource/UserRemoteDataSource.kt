@@ -1,6 +1,8 @@
 package com.narvatov.datingapp.data.remotedb.datasource
 
 import com.google.firebase.firestore.ktx.snapshots
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
 import com.narvatov.datingapp.data.remotedb.Schema
 import com.narvatov.datingapp.data.remotedb.awaitUnit
 import com.narvatov.datingapp.data.remotedb.mapUser
@@ -53,6 +55,14 @@ class UserRemoteDataSource : RemoteDataSource() {
         .document(userId)
         .snapshots()
         .map { it.mapUser() }
+
+    suspend fun updateUserFCM(userId: String, user: User) = IOOperation {
+        val token = Firebase.messaging.token.await()
+
+        collection.document(userId).update(Schema.USER_FCM_TOKEN, token).awaitUnit()
+
+        user.fcmToken = token
+    }
 
     suspend fun saveNewUser(newUserEntity: NewUserEntity) = IOOperation {
         collection.add(newUserEntity).awaitUnit()

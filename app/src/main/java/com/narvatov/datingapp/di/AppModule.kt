@@ -17,6 +17,7 @@ val appModule = module {
             get<UserSessionRepository>().user.id,
             get(),
             get(parameters = { parametersOf(get()) }),
+            get(),
             get()
         )
     }

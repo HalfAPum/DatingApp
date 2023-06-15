@@ -10,12 +10,18 @@ data class User(
     val name: String,
     val photoBase64: String,
     val online: Boolean,
+    var fcmToken: String,
 ) {
+
+    val offline = online.not()
 
     val photoBitmap: Bitmap by lazy { photoBase64.toBitmap }
 
+    val isNotEmpty: Boolean
+        get() = this == emptyUser
+
     companion object {
-        val emptyUser = User("","", "", "", "", false)
+        val emptyUser = User("","", "", "", "", false, "")
     }
 
 }

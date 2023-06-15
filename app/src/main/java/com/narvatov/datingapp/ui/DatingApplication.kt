@@ -5,6 +5,7 @@ import com.halfapum.general.coroutines.exception.DefaultCoroutineExceptionHandle
 import com.halfapum.general.coroutines.exception.ExceptionPropagator
 import com.halfapum.general.coroutines.exception.generalCoroutineExceptionHandler
 import com.narvatov.datingapp.di.appModule
+import com.narvatov.datingapp.di.networkModule
 import com.narvatov.datingapp.di.viewModelModule
 import com.narvatov.datingapp.utils.plantTimberDebug
 import org.koin.android.ext.koin.androidContext
@@ -37,6 +38,7 @@ class DatingApplication : Application(), KoinComponent {
                 defaultModule,
                 appModule,
                 viewModelModule,
+                networkModule,
             )
         }
     }

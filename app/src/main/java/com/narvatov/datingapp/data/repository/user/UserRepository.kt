@@ -24,6 +24,8 @@ class UserRepository(
         userSessionRepository.updateUserAvailability(true)
 
         preferencesDataStore.saveUserPreferences(signedUser.toUserAuth())
+
+        userRemoteDataSource.updateUserFCM(signedUser.id, userSessionRepository.user)
     }
 
     suspend fun signUp(newUser: NewUser) = IOOperation {
