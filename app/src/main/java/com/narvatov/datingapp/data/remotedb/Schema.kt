@@ -6,6 +6,7 @@ object Schema {
     const val USER_EMAIL = "email"
     const val USER_PASSWORD = "password"
     const val USER_PHOTO_BASE_64 = "photo_base_64"
+    const val USER_AVAILABLE = "available"
 
     const val CHAT_TABLE = "chat"
     const val CHAT_MESSAGE = "message"

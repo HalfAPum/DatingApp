@@ -54,4 +54,10 @@ class UserRemoteDataSource : RemoteDataSource() {
         collection.add(newUserEntity).awaitUnit()
     }
 
+    suspend fun updateUserAvailability(userId: String, available: Boolean) = IOOperation {
+        if (userId.isBlank()) return@IOOperation
+
+        collection.document(userId).update(Schema.USER_AVAILABLE, available).awaitUnit()
+    }
+
 }

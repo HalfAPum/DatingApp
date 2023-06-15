@@ -21,6 +21,7 @@ class UserRepository(
         val signedUser = userRemoteDataSource.getUser(userAuth)
 
         userSessionRepository.user = signedUser
+        userSessionRepository.updateUserAvailability(true)
 
         preferencesDataStore.saveUserPreferences(signedUser.toUserAuth())
     }
@@ -43,6 +44,7 @@ class UserRepository(
     }
 
     suspend fun logout() = IOOperation {
+        userSessionRepository.updateUserAvailability(false)
 
         userRemoteDataSource.clearAllUsers()
 

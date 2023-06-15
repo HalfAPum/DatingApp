@@ -26,7 +26,6 @@ import androidx.core.view.WindowInsetsCompat.Type.ime
 import androidx.core.view.WindowInsetsCompat.toWindowInsetsCompat
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.halfapum.general.coroutines.launchCatching
 import com.narvatov.datingapp.ui.common.PhotoPickBottomSheet
 import com.narvatov.datingapp.ui.navigation.BottomBar
 import com.narvatov.datingapp.ui.navigation.NavHostContent
@@ -36,18 +35,19 @@ import com.narvatov.datingapp.ui.navigation.showBottomBar
 import com.narvatov.datingapp.ui.theme.DatingAppTheme
 import com.narvatov.datingapp.ui.theme.Shapes
 import com.narvatov.datingapp.ui.viewmodel.PhotoViewModel
+import com.narvatov.datingapp.ui.viewmodel.UserAvailabilityViewModel
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
 
     private val photoViewModel by viewModel<PhotoViewModel>()
+    private val userAvailabilityViewModel by viewModel<UserAvailabilityViewModel>()
 
     @OptIn(ExperimentalMaterialApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        launchCatching {  }
         setContent {
             DatingAppTheme {
                 val bottomBarState = rememberSaveable { (mutableStateOf(false)) }
@@ -109,6 +109,16 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        userAvailabilityViewModel.isUserAvailable = true
+    }
+
+    override fun onPause() {
+        super.onPause()
+        userAvailabilityViewModel.isUserAvailable = false
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
