@@ -38,6 +38,8 @@ class UserRepository(
 
     suspend fun getUser(userId: String) = getAllUsers().getOrDefault(userId, User.emptyUser)
 
+    fun getUserFlow(userId: String) = userRemoteDataSource.getUserFlow(userId)
+
     suspend fun deleteAccount() = IOOperation {
 
         logout()

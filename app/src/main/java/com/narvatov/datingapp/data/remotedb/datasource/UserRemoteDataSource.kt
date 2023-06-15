@@ -1,12 +1,14 @@
 package com.narvatov.datingapp.data.remotedb.datasource
 
+import com.google.firebase.firestore.ktx.snapshots
 import com.narvatov.datingapp.data.remotedb.Schema
 import com.narvatov.datingapp.data.remotedb.awaitUnit
-import com.narvatov.datingapp.data.remotedb.requestString
+import com.narvatov.datingapp.data.remotedb.mapUser
 import com.narvatov.datingapp.data.remotedb.throwNoSuchUserException
 import com.narvatov.datingapp.model.local.user.User
 import com.narvatov.datingapp.model.local.user.UserAuth
 import com.narvatov.datingapp.model.remote.NewUserEntity
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
 import org.koin.core.annotation.Single
 
@@ -25,12 +27,9 @@ class UserRemoteDataSource : RemoteDataSource() {
 
         data.documents.associate { rawUser ->
             val id = rawUser.id
-            val email = rawUser.requestString(Schema.USER_EMAIL)
-            val name = rawUser.requestString(Schema.USER_NAME)
-            val password = rawUser.requestString(Schema.USER_PASSWORD)
-            val photoBase64 = rawUser.requestString(Schema.USER_PHOTO_BASE_64)
+            val user = rawUser.mapUser()
 
-            id to User(id, email, password, name, photoBase64)
+            id to user
         }.apply {
             allUsers = this
         }
@@ -49,6 +48,11 @@ class UserRemoteDataSource : RemoteDataSource() {
 
         return@IOOperation user ?: throwNoSuchUserException(context)
     }
+
+    fun getUserFlow(userId: String) = collection
+        .document(userId)
+        .snapshots()
+        .map { it.mapUser() }
 
     suspend fun saveNewUser(newUserEntity: NewUserEntity) = IOOperation {
         collection.add(newUserEntity).awaitUnit()

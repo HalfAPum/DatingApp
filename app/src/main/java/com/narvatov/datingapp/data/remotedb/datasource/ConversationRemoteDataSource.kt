@@ -4,7 +4,7 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.snapshots
 import com.narvatov.datingapp.data.remotedb.Schema
 import com.narvatov.datingapp.data.remotedb.awaitUnit
-import com.narvatov.datingapp.data.remotedb.mapMessage
+import com.narvatov.datingapp.data.remotedb.mapConversations
 import com.narvatov.datingapp.data.remotedb.throwNoConversationId
 import com.narvatov.datingapp.model.local.message.Conversation
 import com.narvatov.datingapp.model.remote.ConversationEntity
@@ -40,7 +40,7 @@ class ConversationRemoteDataSource(
     private fun Query.conversationFlow() = this
         .snapshots()
         .map { it.documents }
-        .map { it.mapMessage(userId) }
+        .map { it.mapConversations(userId) }
 
     suspend fun getConversationId(friendId: String) = IOOperation {
         val userAuthorFriendConversation = collection

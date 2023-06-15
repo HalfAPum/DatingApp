@@ -31,4 +31,6 @@
     <string name="you">"You: "</string>
     <string name="conversation_between_this_users_doesn_t_exist">Conversation between this users doesn\'t exist</string>
     <string name="connect">Connect</string>
+    <string name="online">Online</string>
+    <string name="last_seen_recently">Last seen recently</string>
 </resources>

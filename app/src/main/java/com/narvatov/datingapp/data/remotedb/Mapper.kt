@@ -3,12 +3,14 @@ package com.narvatov.datingapp.data.remotedb
 import com.google.firebase.firestore.DocumentSnapshot
 import com.narvatov.datingapp.data.remotedb.datasource.ChatRemoteDataSource
 import com.narvatov.datingapp.data.remotedb.datasource.ConversationRemoteDataSource
+import com.narvatov.datingapp.data.remotedb.datasource.UserRemoteDataSource
 import com.narvatov.datingapp.model.local.message.ChatMessage
 import com.narvatov.datingapp.model.local.message.Conversation
+import com.narvatov.datingapp.model.local.user.User
 import java.util.Date
 
 context (ConversationRemoteDataSource)
-fun List<DocumentSnapshot>.mapMessage(userId: String): List<Conversation> {
+fun List<DocumentSnapshot>.mapConversations(userId: String): List<Conversation> {
     return map { rawMessage ->
         val friendId: String
         val friendPhotoBase64: String
@@ -38,7 +40,7 @@ fun List<DocumentSnapshot>.mapMessage(userId: String): List<Conversation> {
 }
 
 context (ChatRemoteDataSource)
-fun List<DocumentSnapshot>.mapMessage(userId: String): List<ChatMessage> {
+fun List<DocumentSnapshot>.mapMessages(userId: String): List<ChatMessage> {
     return map { rawMessage ->
         val text = rawMessage.requestString(Schema.CHAT_MESSAGE)
         val senderId = rawMessage.requestString(Schema.CHAT_SENDER_ID)
@@ -48,3 +50,17 @@ fun List<DocumentSnapshot>.mapMessage(userId: String): List<ChatMessage> {
         ChatMessage.getChatMessage(userId, senderId, text, sendDate)
     }
 }
+
+context (UserRemoteDataSource)
+fun DocumentSnapshot.mapUser(): User {
+    val email = requestString(Schema.USER_EMAIL)
+    val name = requestString(Schema.USER_NAME)
+    val password = requestString(Schema.USER_PASSWORD)
+    val photoBase64 = requestString(Schema.USER_PHOTO_BASE_64)
+    val online = requestBoolean(Schema.USER_AVAILABLE)
+
+    return User(id, email, password, name, photoBase64, online)
+}
+
+context (UserRemoteDataSource)
+fun List<DocumentSnapshot>.mapUsers() = map { it.mapUser() }

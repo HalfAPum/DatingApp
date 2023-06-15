@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -44,6 +45,7 @@ import com.narvatov.datingapp.R
 import com.narvatov.datingapp.model.local.message.FriendChatMessage
 import com.narvatov.datingapp.model.local.message.UserChatMessage
 import com.narvatov.datingapp.ui.ListSpacer
+import com.narvatov.datingapp.ui.WeightedSpacer
 import com.narvatov.datingapp.ui.screen.messages.chat.message.FriendMessage
 import com.narvatov.datingapp.ui.screen.messages.chat.message.UserMessage
 import com.narvatov.datingapp.ui.theme.PrimaryColor
@@ -52,16 +54,19 @@ import com.narvatov.datingapp.ui.viewmodel.messages.chat.ChatViewModel
 
 @Composable
 fun Chat(viewModel: ChatViewModel) {
-    val friendFlow = viewModel.friendStageFlow.collectAsState()
+    val friendFlow by viewModel.friendFlow.collectAsState(null)
     val chatMessages by viewModel.chatMessageFlow.collectAsState(emptyList())
 
-    if (friendFlow.value != null) {
-        val friend = friendFlow.value!!
+    if (friendFlow != null) {
+        val friend = friendFlow!!
 
         Column(modifier = Modifier.fillMaxSize()) {
             Box(modifier = Modifier.background(Color.LightGray)) {
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 10.dp)
+                        .height(50.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
@@ -74,11 +79,20 @@ fun Chat(viewModel: ChatViewModel) {
                             .clip(CircleShape),
                     )
 
-                    Text(
-                        text = friend.name,
-                        style = Typography.h6,
-                        modifier = Modifier.padding(start = 10.dp)
-                    )
+                    Column(modifier = Modifier.padding(start = 10.dp)) {
+                        Text(
+                            text = friend.name,
+                            style = Typography.h6,
+                        )
+
+                        WeightedSpacer()
+
+                        Text(
+                            text = if (friend.online) stringResource(R.string.online)
+                                else stringResource(R.string.last_seen_recently),
+                            style = Typography.body1,
+                        )
+                    }
                 }
             }
 

@@ -9,12 +9,13 @@ data class User(
     val password: String,
     val name: String,
     val photoBase64: String,
+    val online: Boolean,
 ) {
 
     val photoBitmap: Bitmap by lazy { photoBase64.toBitmap }
 
     companion object {
-        val emptyUser = User("","", "", "", "")
+        val emptyUser = User("","", "", "", "", false)
     }
 
 }
