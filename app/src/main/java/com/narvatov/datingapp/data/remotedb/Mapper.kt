@@ -35,7 +35,19 @@ fun List<DocumentSnapshot>.mapConversations(userId: String): List<Conversation> 
         val timestamp = rawMessage.requestString(Schema.CONVERSATION_LAST_MESSAGE_TIMESTAMP)
         val sendDate = Date(timestamp.toLong())
 
-        Conversation(friendId, friendPhotoBase64, friendName, lastText, senderId == userId, sendDate)
+        val dumbFriend = User(
+            id = friendId,
+            email = "Stub",
+            password = "Stub",
+            name = friendName,
+            photoBase64 = friendPhotoBase64,
+            online = false,
+            fcmToken = "Stub",
+        )
+
+        val chatMessage = ChatMessage.getChatMessage(userId, senderId, lastText, sendDate)
+
+        Conversation(dumbFriend, chatMessage)
     }
 }
 

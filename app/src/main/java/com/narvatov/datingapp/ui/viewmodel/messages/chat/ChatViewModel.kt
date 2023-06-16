@@ -30,7 +30,7 @@ class ChatViewModel(
     fun sendMessage(message: String) = launchCatching {
         if (message.isBlank()) return@launchCatching
 
-        chatRepository.sendMessage(message, friendFlow.first())
+        chatRepository.sendMessage(friendFlow.first(), message)
     }
 
 }

@@ -14,3 +14,11 @@ fun throwNoUserId(context: Context): Nothing = throw IllegalArgumentException(
 fun throwNoConversationId(context: Context): Nothing = throw IllegalArgumentException(
     context.getString(R.string.conversation_between_this_users_doesn_t_exist)
 )
+
+fun throwNoUserPassedToProfileScreen(context: Context): Nothing = throw IllegalArgumentException(
+    context.getString(R.string.nullable_friend_profile_parameter)
+)
+
+fun throwEmptyUserPassedToProfileScreen(context: Context): Nothing = throw IllegalArgumentException(
+    context.getString(R.string.empty_friend_profile_parameter)
+)

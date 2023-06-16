@@ -3,26 +3,19 @@ package com.narvatov.datingapp.ui.navigation
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
-import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.bottomSheetVisibilityEvents
-import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.hidePhotoBottomSheet
-import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.navigationEvents
 import com.narvatov.datingapp.ui.screen.connect.Connect
 import com.narvatov.datingapp.ui.screen.messages.Messages
 import com.narvatov.datingapp.ui.screen.messages.chat.Chat
-import com.narvatov.datingapp.ui.screen.profile.Profile
+import com.narvatov.datingapp.ui.screen.profile.FriendProfile
+import com.narvatov.datingapp.ui.screen.profile.UserProfile
 import com.narvatov.datingapp.ui.screen.sign.SignIn
 import com.narvatov.datingapp.ui.screen.sign.SignUp
 import com.narvatov.datingapp.ui.viewmodel.PhotoViewModel
 import com.narvatov.datingapp.ui.viewmodel.messages.chat.ChatViewModel
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -31,56 +24,20 @@ fun NavHostContent(
     navController: NavHostController,
     photoViewModel: PhotoViewModel,
     innerPadding: PaddingValues
-) = with(navController) {
-    val scope = rememberCoroutineScope()
-
-    val isBottomSheetVisible by bottomSheetVisibilityEvents.collectAsState(false)
-
+) {
     NavHost(
         navController = navController,
         startDestination = SignIn,
         modifier = Modifier.padding(innerPadding),
     ) {
-        scope.launch {
-            navigationEvents.collectLatest { destination ->
-                if (isBottomSheetVisible) {
-                    hidePhotoBottomSheet()
+        composableNavigationHandler(navController)
 
-                    return@collectLatest
-                }
+        composable(SignIn) {
+            SignIn()
+        }
 
-                when(destination) {
-                    is NavigateWithPopInclusive -> {
-                        navigate(destination.navigateDestination) {
-                            popUpTo(destination.popToInclusive) {
-                                inclusive = true
-                            }
-                        }
-                    }
-                    is BackWithParam -> {
-                        popBackStack(
-                            destination = destination.back,
-                            inclusive = destination.inclusive,
-                        )
-                    }
-                    Back -> popBackStack()
-                    else -> {
-                        val poppedSuccessfully = popBackStack(
-                            destination = destination,
-                            inclusive = false,
-                        )
-
-                        if (poppedSuccessfully) return@collectLatest
-
-                        if (destination is NavigateWithParam) {
-                            navigate(destination.destination, destination.param)
-                        } else {
-                            navigate(destination)
-                        }
-                    }
-                }
-
-            }
+        composable(SignUp) {
+            SignUp(photoViewModel = photoViewModel)
         }
 
         bottomNavigation {
@@ -92,17 +49,13 @@ fun NavHostContent(
                 Connect()
             }
 
-            composable(BottomNavigationDestination.Profile) {
-                Profile()
+            composable(BottomNavigationDestination.UserProfile) {
+                UserProfile()
             }
         }
 
-        composable(SignIn) {
-            SignIn()
-        }
-
-        composable(SignUp) {
-            SignUp(photoViewModel = photoViewModel)
+        composable(FriendProfile) {
+            FriendProfile(FriendProfile.friend)
         }
 
         composable(

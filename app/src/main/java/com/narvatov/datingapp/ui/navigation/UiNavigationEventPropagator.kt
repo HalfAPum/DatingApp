@@ -1,5 +1,6 @@
 package com.narvatov.datingapp.ui.navigation
 
+import com.narvatov.datingapp.model.local.user.User
 import kotlinx.coroutines.flow.MutableSharedFlow
 
 object UiNavigationEventPropagator {
@@ -14,6 +15,11 @@ object UiNavigationEventPropagator {
 
     fun navigate(destination: Destination) {
         navigationEvents.navigate(destination)
+    }
+
+    fun navigate(destination: FriendProfile, friend: User) {
+        destination.friend = friend
+        navigate(destination)
     }
 
     fun navigate(destination: Destination, navigationParam: Any) {

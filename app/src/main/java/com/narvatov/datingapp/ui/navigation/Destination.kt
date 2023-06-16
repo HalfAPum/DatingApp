@@ -7,6 +7,7 @@ import androidx.compose.material.icons.rounded.ConnectWithoutContact
 import androidx.compose.material.icons.rounded.Message
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.narvatov.datingapp.R
+import com.narvatov.datingapp.model.local.user.User
 
 interface Destination {
 
@@ -62,17 +63,29 @@ sealed class BottomNavigationDestination(
         text = R.string.connect,
     )
 
-    object Profile : BottomNavigationDestination(
+    /**
+     * [BottomNavigationDestination.UserProfile] represents current users profile.
+     */
+    object UserProfile : BottomNavigationDestination(
         icon = Icons.Rounded.AccountCircle,
         text = R.string.profile,
     )
 
 }
 
+/**
+ * [FriendProfile] represents other users profiles.
+ */
+object FriendProfile : Destination {
+
+    var friend: User? = null
+
+}
+
 val bottomNavigationDestinations = listOf(
     BottomNavigationDestination.Messages,
     BottomNavigationDestination.Connect,
-    BottomNavigationDestination.Profile,
+    BottomNavigationDestination.UserProfile,
 )
 
 sealed class DialogDestination(

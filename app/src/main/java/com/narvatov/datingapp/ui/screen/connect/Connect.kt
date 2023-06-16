@@ -13,11 +13,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.narvatov.datingapp.R
 import com.narvatov.datingapp.ui.theme.Typography
 import com.narvatov.datingapp.ui.viewmodel.connect.ConnectViewModel
 import org.koin.androidx.compose.getViewModel
@@ -36,9 +33,9 @@ fun Connect(
                 .clickable { viewModel.createConversation(user) }
             ) {
                 Image(
-                    bitmap = user.photoBitmap.asImageBitmap(),
+                    bitmap = user.photoBitmap,
                     contentScale = ContentScale.Crop,
-                    contentDescription = user.name + stringResource(R.string.space_photo),
+                    contentDescription = user.photoDescription(),
                     modifier = Modifier.size(100.dp),
                 )
 

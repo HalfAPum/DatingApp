@@ -1,18 +1,8 @@
 package com.narvatov.datingapp.model.local.message
 
-import android.graphics.Bitmap
-import com.narvatov.datingapp.utils.toBitmap
-import java.util.Date
+import com.narvatov.datingapp.model.local.user.User
 
 data class Conversation(
-    val friendId: String,
-    val photoBase64: String,
-    val friendName: String,
-    val lastText: String,
-    val isUserSend: Boolean,
-    override val sendDate: Date,
-) : CommonMessage {
-
-    val photoBitmap: Bitmap by lazy { photoBase64.toBitmap }
-
-}
+    val friend: User,
+    val chatMessage: ChatMessage,
+) : CommonMessage by chatMessage

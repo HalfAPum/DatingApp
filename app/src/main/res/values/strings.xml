@@ -25,7 +25,7 @@
     <string name="select_image">Select Image</string>
     <string name="please_pick_photo_for_your_profile">Please pick photo for your profile</string>
     <string name="photo_service_is_temporarily_unavailable">Photo service is temporarily unavailable</string>
-    <string name="space_photo">" photo"</string>
+    <string name="photo">photo</string>
     <string name="your_message">Your message</string>
     <string name="send_message">Send message</string>
     <string name="you">"You: "</string>
@@ -33,4 +33,6 @@
     <string name="connect">Connect</string>
     <string name="online">Online</string>
     <string name="last_seen_recently">Last seen recently</string>
+    <string name="nullable_friend_profile_parameter">You passed no user to profile screen. You may used wrong navigation method or your friend was nullable before you even did it.</string>
+    <string name="empty_friend_profile_parameter">You passed empty user to profile screen. Why your friend is nullable instance?</string>
 </resources>

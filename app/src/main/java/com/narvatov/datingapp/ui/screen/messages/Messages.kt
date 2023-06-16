@@ -17,11 +17,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.narvatov.datingapp.R
+import com.narvatov.datingapp.model.local.message.UserChatMessage
 import com.narvatov.datingapp.ui.WeightedSpacer
 import com.narvatov.datingapp.ui.navigation.Chat
 import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.navigate
@@ -39,30 +39,30 @@ fun Messages(
         items(conversations) { conversation ->
             Row(Modifier
                 .padding(vertical = 10.dp)
-                .clickable { navigate(Chat, conversation.friendId) }
+                .clickable { navigate(Chat, conversation.friend.id) }
                 .padding(horizontal = 20.dp)
                 .height(70.dp)
                 .padding(vertical = 10.dp)
                 .fillMaxWidth()
             ) {
                 Image(
-                    bitmap = conversation.photoBitmap.asImageBitmap(),
+                    bitmap = conversation.friend.photoBitmap,
                     contentScale = ContentScale.Crop,
-                    contentDescription = conversation.friendName + stringResource(R.string.space_photo),
+                    contentDescription = conversation.friend.photoDescription(),
                     modifier = Modifier.size(50.dp).clip(CircleShape),
                 )
 
                 Column(modifier = Modifier.padding(start = 10.dp)) {
                     Text(
-                        text = conversation.friendName,
+                        text = conversation.friend.name,
                         style = Typography.h6,
                     )
 
                     WeightedSpacer()
 
                     Text(
-                        text = if (conversation.isUserSend) stringResource(R.string.you) + conversation.lastText
-                            else conversation.lastText,
+                        text = if (conversation.chatMessage is UserChatMessage) stringResource(R.string.you) + conversation.chatMessage.text
+                            else conversation.chatMessage.text,
                         style = Typography.body1
                     )
                 }

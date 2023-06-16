@@ -43,7 +43,7 @@ class SignUpViewModel(
                 println("FUCK ME NEW USER ${NewUser(email, password, firstName, lastName, photoBitmap.toBase64)}")
                 userRepository.signUp(NewUser(email, password, firstName, lastName, photoBitmap.toBase64))
 
-                navigate(BottomNavigationDestination.Profile, popToInclusive = SignIn)
+                navigate(BottomNavigationDestination.UserProfile, popToInclusive = SignIn)
             }
         }
     }
