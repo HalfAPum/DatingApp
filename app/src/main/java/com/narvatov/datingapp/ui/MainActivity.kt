@@ -6,21 +6,18 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.material.BottomSheetScaffold
-import androidx.compose.material.BottomSheetValue
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.rememberBottomSheetScaffoldState
-import androidx.compose.material.rememberBottomSheetState
+import androidx.compose.material.ModalBottomSheetLayout
+import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowInsetsCompat.Type.ime
 import androidx.core.view.WindowInsetsCompat.toWindowInsetsCompat
@@ -37,6 +34,7 @@ import com.narvatov.datingapp.ui.theme.Shapes
 import com.narvatov.datingapp.ui.viewmodel.PhotoViewModel
 import com.narvatov.datingapp.ui.viewmodel.UserAvailabilityViewModel
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
@@ -56,54 +54,45 @@ class MainActivity : ComponentActivity() {
 
                 val shouldBottomBarBeVisible = navBackStackEntry?.destination?.route?.showBottomBar ?: false
 
+                bottomBarState.value = shouldBottomBarBeVisible
+
                 window.decorView.setOnApplyWindowInsetsListener { view, insets ->
                     val insetsCompat = toWindowInsetsCompat(insets, view)
                     bottomBarState.value = shouldBottomBarBeVisible && insetsCompat.isVisible(ime()).not()
                     view.onApplyWindowInsets(insets)
                 }
 
-                bottomBarState.value = shouldBottomBarBeVisible
-
-                val sheetState = rememberBottomSheetState(
-                    initialValue = BottomSheetValue.Collapsed
+                val coroutineScope = rememberCoroutineScope()
+                val modalSheetState = rememberModalBottomSheetState(
+                    initialValue = ModalBottomSheetValue.Hidden,
+                    confirmStateChange = { it != ModalBottomSheetValue.HalfExpanded },
+                    skipHalfExpanded = true
                 )
+
+                BackHandler(modalSheetState.isVisible) {
+                    coroutineScope.launch { modalSheetState.hide() }
+                }
 
                 LaunchedEffect("bottomSheetVisibilityEvents") {
                     bottomSheetVisibilityEvents.collectLatest { isBottomSheetVisible ->
                         if (isBottomSheetVisible) {
-                            sheetState.expand()
+                            modalSheetState.animateTo(ModalBottomSheetValue.Expanded)
                         } else {
-                            sheetState.collapse()
+                            modalSheetState.hide()
                         }
                     }
                 }
 
-                val scaffoldState = rememberBottomSheetScaffoldState(
-                    bottomSheetState = sheetState
-                )
-
-                val isBottomSheetVisible by bottomSheetVisibilityEvents.collectAsState(false)
-
-                BottomSheetScaffold(
+                ModalBottomSheetLayout(
+                    sheetState = modalSheetState,
                     sheetShape = Shapes.large.copy(bottomStart = CornerSize(0.dp), bottomEnd = CornerSize(0.dp)),
-                    scaffoldState = scaffoldState,
-                    sheetContent = { PhotoPickBottomSheet() },
-                    sheetPeekHeight = 0.dp
+                    sheetContent = { PhotoPickBottomSheet() }
                 ) {
                     Scaffold(
                         navController = navController,
                         bottomBar = { BottomBar(navController, bottomBarState.value) },
                         content = { _, innerPadding ->
-                            Box {
-                                NavHostContent(navController, photoViewModel, innerPadding)
-
-                                if (isBottomSheetVisible) {
-                                    Box(modifier = Modifier
-                                        .fillMaxSize()
-                                        .noRippleClickable { hidePhotoBottomSheet() }
-                                    )
-                                }
-                            }
+                            NavHostContent(navController, photoViewModel, innerPadding)
                         }
                     )
                 }
@@ -122,6 +111,7 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        //TODO implement proper handling instead of this bullshit
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_CANCELED || data == null) return
 

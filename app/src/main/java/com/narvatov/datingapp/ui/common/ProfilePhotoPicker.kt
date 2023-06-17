@@ -1,7 +1,6 @@
 package com.narvatov.datingapp.ui.common
 
 import android.graphics.Bitmap
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -14,8 +13,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.PhotoCamera
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,7 +23,6 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.narvatov.datingapp.R
-import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator
 import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.showPhotoBottomSheet
 import com.narvatov.datingapp.ui.theme.OnPrimaryColor
 import com.narvatov.datingapp.ui.theme.PrimaryColor
@@ -37,12 +33,6 @@ fun ProfilePhotoPicker(
     modifier: Modifier = Modifier,
     photoBitmap: Bitmap? = null,
 ) {
-    val isBottomSheetVisible by UiNavigationEventPropagator.bottomSheetVisibilityEvents.collectAsState(false)
-
-    BackHandler(isBottomSheetVisible) {
-        UiNavigationEventPropagator.hidePhotoBottomSheet()
-    }
-
     val focusManager = LocalFocusManager.current
     Box(modifier = modifier.size(128.dp)) {
         Box(modifier = Modifier
