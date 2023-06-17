@@ -1,8 +1,7 @@
 package com.narvatov.datingapp.ui.common
 
-import android.app.Activity
-import android.content.Intent
-import android.provider.MediaStore
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -18,14 +17,24 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.narvatov.datingapp.R
-import com.narvatov.datingapp.ui.MainActivity.Companion.CAMERA_IMAGE_CODE
-import com.narvatov.datingapp.ui.MainActivity.Companion.GALLERY_IMAGE_CODE
 import com.narvatov.datingapp.ui.theme.Typography
-
+import com.narvatov.datingapp.ui.viewmodel.PhotoViewModel
+import com.narvatov.datingapp.utils.CameraIntent
+import com.narvatov.datingapp.utils.GalleryIntent
 
 @Composable
-fun PhotoPickBottomSheet() {
-    val activity = LocalContext.current as Activity
+fun PhotoPickBottomSheet(viewModel: PhotoViewModel) {
+    val selectPhotoLauncher = rememberLauncherForActivityResult(
+        contract = StartActivityForResult(),
+        onResult = viewModel::onPhotoSelected,
+    )
+
+    val takePhotoLauncher = rememberLauncherForActivityResult(
+        contract = StartActivityForResult(),
+        onResult = viewModel::onPhotoTook,
+    )
+
+    val context = LocalContext.current
 
     Column(modifier = Modifier.fillMaxWidth().background(color = Color.LightGray)) {
         Spacer(Modifier.height(20.dp))
@@ -35,22 +44,7 @@ fun PhotoPickBottomSheet() {
             style = Typography.h6,
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable {
-                    val getIntent = Intent(Intent.ACTION_GET_CONTENT)
-                    getIntent.type = "image/*"
-
-                    val pickIntent =
-                        Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                    pickIntent.type = "image/*"
-
-                    val chooserIntent = Intent.createChooser(
-                        getIntent,
-                        activity.getString(R.string.select_image)
-                    )
-                    chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(pickIntent))
-
-                    activity.startActivityForResult(chooserIntent, GALLERY_IMAGE_CODE)
-                }
+                .clickable { selectPhotoLauncher.launch(GalleryIntent(context)) }
                 .padding(vertical = 10.dp)
                 .padding(start = 20.dp)
         )
@@ -62,10 +56,7 @@ fun PhotoPickBottomSheet() {
             style = Typography.h6,
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable {
-                    val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                    activity.startActivityForResult(cameraIntent, CAMERA_IMAGE_CODE)
-                }
+                .clickable { takePhotoLauncher.launch(CameraIntent()) }
                 .padding(vertical = 10.dp)
                 .padding(start = 20.dp)
         )

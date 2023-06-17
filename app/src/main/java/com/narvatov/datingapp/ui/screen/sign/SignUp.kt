@@ -39,7 +39,7 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun SignUp(
     viewModel: SignUpViewModel = getViewModel(),
-    photoViewModel: PhotoViewModel,
+    photoViewModel: PhotoViewModel = getViewModel(),
 ) {
     val scrollState = rememberScrollState()
 

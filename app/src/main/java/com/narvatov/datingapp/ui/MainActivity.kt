@@ -1,10 +1,6 @@
 package com.narvatov.datingapp.ui
 
-import android.app.Activity
-import android.content.Intent
-import android.graphics.Bitmap
 import android.os.Bundle
-import android.provider.MediaStore
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
@@ -21,30 +17,30 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowInsetsCompat.Type.ime
 import androidx.core.view.WindowInsetsCompat.toWindowInsetsCompat
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.narvatov.datingapp.ui.common.PhotoPickBottomSheet
+import com.narvatov.datingapp.ui.delegate.activity.availability.UserAvailabilityDelegate
 import com.narvatov.datingapp.ui.navigation.BottomBar
 import com.narvatov.datingapp.ui.navigation.NavHostContent
 import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.bottomSheetVisibilityEvents
-import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.hidePhotoBottomSheet
 import com.narvatov.datingapp.ui.navigation.showBottomBar
 import com.narvatov.datingapp.ui.theme.DatingAppTheme
 import com.narvatov.datingapp.ui.theme.Shapes
-import com.narvatov.datingapp.ui.viewmodel.PhotoViewModel
-import com.narvatov.datingapp.ui.viewmodel.UserAvailabilityViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 class MainActivity : ComponentActivity() {
 
-    private val photoViewModel by viewModel<PhotoViewModel>()
-    private val userAvailabilityViewModel by viewModel<UserAvailabilityViewModel>()
+    private val userAvailabilityDelegate by UserAvailabilityDelegate()
 
     @OptIn(ExperimentalMaterialApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        userAvailabilityDelegate.start()
 
         setContent {
             DatingAppTheme {
@@ -83,56 +79,23 @@ class MainActivity : ComponentActivity() {
                     }
                 }
 
+                val activityViewModelStoreOwner: ViewModelStoreOwner = this
+
                 ModalBottomSheetLayout(
                     sheetState = modalSheetState,
                     sheetShape = Shapes.large.copy(bottomStart = CornerSize(0.dp), bottomEnd = CornerSize(0.dp)),
-                    sheetContent = { PhotoPickBottomSheet() }
+                    sheetContent = { PhotoPickBottomSheet(getViewModel(owner = activityViewModelStoreOwner)) }
                 ) {
                     Scaffold(
                         navController = navController,
                         bottomBar = { BottomBar(navController, bottomBarState.value) },
                         content = { _, innerPadding ->
-                            NavHostContent(navController, photoViewModel, innerPadding)
+                            NavHostContent(navController, activityViewModelStoreOwner, innerPadding)
                         }
                     )
                 }
             }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        userAvailabilityViewModel.isUserAvailable = true
-    }
-
-    override fun onPause() {
-        super.onPause()
-        userAvailabilityViewModel.isUserAvailable = false
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        //TODO implement proper handling instead of this bullshit
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_CANCELED || data == null) return
-
-        val bitmap = when(requestCode) {
-            CAMERA_IMAGE_CODE -> {
-                data.extras?.get("data") as? Bitmap ?: return
-            }
-            GALLERY_IMAGE_CODE -> {
-                MediaStore.Images.Media.getBitmap(this.contentResolver, data.data)
-            }
-            else -> return
-        }
-
-        photoViewModel.onPhotoChosen(bitmap)
-
-        hidePhotoBottomSheet()
-    }
-
-    companion object {
-        const val CAMERA_IMAGE_CODE = 777
-        const val GALLERY_IMAGE_CODE = 666
     }
 
 }

@@ -7,6 +7,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
@@ -17,7 +18,6 @@ import com.narvatov.datingapp.ui.screen.profile.FriendProfile
 import com.narvatov.datingapp.ui.screen.profile.UserProfile
 import com.narvatov.datingapp.ui.screen.sign.SignIn
 import com.narvatov.datingapp.ui.screen.sign.SignUp
-import com.narvatov.datingapp.ui.viewmodel.PhotoViewModel
 import com.narvatov.datingapp.ui.viewmodel.messages.chat.ChatViewModel
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -25,8 +25,8 @@ import org.koin.core.parameter.parametersOf
 @Composable
 fun NavHostContent(
     navController: NavHostController,
-    photoViewModel: PhotoViewModel,
-    innerPadding: PaddingValues
+    activityViewModelStoreOwner: ViewModelStoreOwner,
+    innerPadding: PaddingValues,
 ) {
     val scope = rememberCoroutineScope()
 
@@ -44,7 +44,7 @@ fun NavHostContent(
         }
 
         composable(SignUp) {
-            SignUp(photoViewModel = photoViewModel)
+            SignUp(photoViewModel = getViewModel(owner = activityViewModelStoreOwner))
         }
 
         bottomNavigation {
