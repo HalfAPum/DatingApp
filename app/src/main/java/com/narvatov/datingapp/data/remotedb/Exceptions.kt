@@ -22,3 +22,7 @@ fun throwNoUserPassedToProfileScreen(context: Context): Nothing = throw IllegalA
 fun throwEmptyUserPassedToProfileScreen(context: Context): Nothing = throw IllegalArgumentException(
     context.getString(R.string.empty_friend_profile_parameter)
 )
+
+fun throwEmptyFCMToken(context: Context): Nothing = throw IllegalArgumentException(
+    context.getString(R.string.no_fcmtoken_exception)
+)

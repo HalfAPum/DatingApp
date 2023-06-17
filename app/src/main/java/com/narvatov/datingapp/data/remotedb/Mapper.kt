@@ -69,8 +69,8 @@ fun DocumentSnapshot.mapUser(): User {
     val name = requestString(Schema.USER_NAME)
     val password = requestString(Schema.USER_PASSWORD)
     val photoBase64 = requestString(Schema.USER_PHOTO_BASE_64)
-    val online = requestBoolean(Schema.USER_AVAILABLE)
-    val fcmToken = requestString(Schema.USER_FCM_TOKEN)
+    val online = getBoolean(Schema.USER_AVAILABLE) ?: false
+    val fcmToken = getString(Schema.USER_FCM_TOKEN)
 
     return User(id, email, password, name, photoBase64, online, fcmToken)
 }

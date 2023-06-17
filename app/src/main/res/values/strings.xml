@@ -35,4 +35,7 @@
     <string name="last_seen_recently">Last seen recently</string>
     <string name="nullable_friend_profile_parameter">You passed no user to profile screen. You may used wrong navigation method or your friend was nullable before you even did it.</string>
     <string name="empty_friend_profile_parameter">You passed empty user to profile screen. Why your friend is nullable instance?</string>
+    <string name="logout">Logout</string>
+    <string name="delete_account">Delete account</string>
+    <string name="no_fcmtoken_exception">User can\'t have empty FCM token something must have gone wrong.</string>
 </resources>

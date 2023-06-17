@@ -20,12 +20,11 @@ class UserRepository(
     suspend fun signIn(userAuth: UserAuth) = IOOperation {
         val signedUser = userRemoteDataSource.getUser(userAuth)
 
-        userSessionRepository.user = signedUser
-        userSessionRepository.updateUserAvailability(true)
+        val fcmToken = userRemoteDataSource.updateUserFCM(signedUser.id)
+
+        userSessionRepository.processSignedUser(signedUser.copy(fcmToken = fcmToken))
 
         preferencesDataStore.saveUserPreferences(signedUser.toUserAuth())
-
-        userRemoteDataSource.updateUserFCM(signedUser.id, userSessionRepository.user)
     }
 
     suspend fun signUp(newUser: NewUser) = IOOperation {
@@ -41,18 +40,5 @@ class UserRepository(
     suspend fun getUser(userId: String) = getAllUsers().getOrDefault(userId, User.emptyUser)
 
     fun getUserFlow(userId: String) = userRemoteDataSource.getUserFlow(userId)
-
-    suspend fun deleteAccount() = IOOperation {
-
-        logout()
-    }
-
-    suspend fun logout() = IOOperation {
-        userSessionRepository.updateUserAvailability(false)
-
-        userRemoteDataSource.clearAllUsers()
-
-        preferencesDataStore.clearUserPreferences()
-    }
 
 }

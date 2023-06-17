@@ -1,6 +1,7 @@
 package com.narvatov.datingapp.data.repository
 
 import com.narvatov.datingapp.data.api.FCMApi
+import com.narvatov.datingapp.data.remotedb.throwEmptyFCMToken
 import com.narvatov.datingapp.data.repository.user.UserSessionRepository
 import com.narvatov.datingapp.model.local.user.User
 import com.narvatov.datingapp.model.remote.NotificationData
@@ -14,14 +15,16 @@ class NotificationRepository(
 ) : Repository() {
 
     suspend fun sendNotification(friend: User, message: String) = IOOperation {
+        if (friend.fcmToken == null) return@IOOperation
+
         val sendNotification = SendNotification(
             NotificationData(
                 userSessionRepository.user.id,
                 userSessionRepository.user.name,
-                userSessionRepository.user.fcmToken,
+                userSessionRepository.user.fcmToken ?: throwEmptyFCMToken(context),
                 message
             ),
-            tokens = listOf(friend.fcmToken)
+            tokens = listOf(friend.fcmToken!!)
         )
 
         fcmApi.sendNotification(sendNotification)

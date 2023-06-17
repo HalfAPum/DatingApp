@@ -1,5 +1,6 @@
 package com.narvatov.datingapp.data.remotedb.datasource
 
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.snapshots
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
@@ -56,12 +57,20 @@ class UserRemoteDataSource : RemoteDataSource() {
         .snapshots()
         .map { it.mapUser() }
 
-    suspend fun updateUserFCM(userId: String, user: User) = IOOperation {
+    suspend fun updateUserFCM(userId: String): String = IOOperation {
         val token = Firebase.messaging.token.await()
 
         collection.document(userId).update(Schema.USER_FCM_TOKEN, token).awaitUnit()
 
-        user.fcmToken = token
+        token
+    }
+
+    suspend fun removeUserFCM(userId: String) = IOOperation {
+        collection.document(userId).update(Schema.USER_FCM_TOKEN, FieldValue.delete()).awaitUnit()
+    }
+
+    suspend fun deleteUser(userId: String) = IOOperation {
+        collection.document(userId).delete().awaitUnit()
     }
 
     suspend fun saveNewUser(newUserEntity: NewUserEntity) = IOOperation {

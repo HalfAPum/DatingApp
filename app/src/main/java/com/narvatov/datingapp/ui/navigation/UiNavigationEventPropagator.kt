@@ -17,6 +17,10 @@ object UiNavigationEventPropagator {
         navigationEvents.navigate(destination)
     }
 
+    fun navigate(destination: Destination, clearBackStack: Boolean) {
+        navigationEvents.navigate(ClearBackStackDestination(destination, clearBackStack))
+    }
+
     fun navigate(destination: FriendProfile, friend: User) {
         destination.friend = friend
         navigate(destination)

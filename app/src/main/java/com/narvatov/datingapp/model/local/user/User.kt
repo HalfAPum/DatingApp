@@ -3,10 +3,9 @@ package com.narvatov.datingapp.model.local.user
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.stringResource
 import com.narvatov.datingapp.R
-import com.narvatov.datingapp.utils.toBitmap
+import com.narvatov.datingapp.utils.toImageBitmap
 
 data class User(
     val id: String,
@@ -15,12 +14,12 @@ data class User(
     val name: String,
     val photoBase64: String,
     val online: Boolean,
-    var fcmToken: String,
+    var fcmToken: String?,
 ) {
 
     val offline = online.not()
 
-    val photoBitmap: ImageBitmap by lazy { photoBase64.toBitmap.asImageBitmap() }
+    val photoBitmap: ImageBitmap by lazy { photoBase64.toImageBitmap }
 
     @Composable
     @ReadOnlyComposable

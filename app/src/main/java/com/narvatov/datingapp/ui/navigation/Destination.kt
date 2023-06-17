@@ -47,6 +47,11 @@ class BackWithParam(
     val inclusive: Boolean
 ) : Destination
 
+class ClearBackStackDestination(
+    val destination: Destination,
+    val clearBackStack: Boolean,
+) : Destination
+
 sealed class BottomNavigationDestination(
     val icon: ImageVector,
     @StringRes

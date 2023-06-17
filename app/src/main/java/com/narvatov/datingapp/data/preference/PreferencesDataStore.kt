@@ -36,7 +36,9 @@ class PreferencesDataStore(
     }
 
     suspend fun clearUserPreferences() {
-        saveUserPreferences(UserAuth.emptyUser)
+        context.userPreferencesDataStore.edit { preferences ->
+            preferences.clear()
+        }
     }
 
     companion object {

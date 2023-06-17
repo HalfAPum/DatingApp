@@ -12,10 +12,6 @@ fun DocumentSnapshot.requestString(field: String): String {
     return getString(field) ?: throw NoSuchFieldError("Field $field is EMPTY")
 }
 
-fun DocumentSnapshot.requestBoolean(field: String): Boolean {
-    return getBoolean(field) ?: throw NoSuchFieldError("Field $field is EMPTY")
-}
-
 suspend fun <T> Task<T>.awaitUnit() {
     await()
 }

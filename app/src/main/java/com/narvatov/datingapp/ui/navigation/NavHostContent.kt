@@ -3,6 +3,9 @@ package com.narvatov.datingapp.ui.navigation
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -25,12 +28,16 @@ fun NavHostContent(
     photoViewModel: PhotoViewModel,
     innerPadding: PaddingValues
 ) {
+    val scope = rememberCoroutineScope()
+
+    val isBottomSheetVisible by UiNavigationEventPropagator.bottomSheetVisibilityEvents.collectAsState(false)
+
     NavHost(
         navController = navController,
         startDestination = SignIn,
         modifier = Modifier.padding(innerPadding),
     ) {
-        composableNavigationHandler(navController)
+        composableNavigationHandler(scope, isBottomSheetVisible, navController)
 
         composable(SignIn) {
             SignIn()

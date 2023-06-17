@@ -1,18 +1,16 @@
 package com.narvatov.datingapp.ui.navigation
 
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.NavHostController
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-fun composableNavigationHandler(navHostController: NavHostController) = with(navHostController) {
-    val scope = rememberCoroutineScope()
-
-    val isBottomSheetVisible by UiNavigationEventPropagator.bottomSheetVisibilityEvents.collectAsState(false)
-
-    scope.launch {
+fun composableNavigationHandler(
+    coroutineScope: CoroutineScope,
+    isBottomSheetVisible: Boolean,
+    navHostController: NavHostController
+) = with(navHostController) {
+    coroutineScope.launch {
         UiNavigationEventPropagator.navigationEvents.collectLatest { destination ->
             if (isBottomSheetVisible) {
                 UiNavigationEventPropagator.hidePhotoBottomSheet()
@@ -35,6 +33,11 @@ fun composableNavigationHandler(navHostController: NavHostController) = with(nav
                     )
                 }
                 Back -> popBackStack()
+                is ClearBackStackDestination -> {
+                    navigate(destination.destination) {
+                        popUpTo(0)
+                    }
+                }
                 else -> {
                     val poppedSuccessfully = popBackStack(
                         destination = destination,

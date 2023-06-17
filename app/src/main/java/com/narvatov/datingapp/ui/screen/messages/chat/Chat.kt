@@ -45,6 +45,8 @@ import com.narvatov.datingapp.model.local.message.FriendChatMessage
 import com.narvatov.datingapp.model.local.message.UserChatMessage
 import com.narvatov.datingapp.ui.ListSpacer
 import com.narvatov.datingapp.ui.WeightedSpacer
+import com.narvatov.datingapp.ui.navigation.FriendProfile
+import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.navigate
 import com.narvatov.datingapp.ui.screen.messages.chat.message.FriendMessage
 import com.narvatov.datingapp.ui.screen.messages.chat.message.UserMessage
 import com.narvatov.datingapp.ui.theme.PrimaryColor
@@ -60,7 +62,12 @@ fun Chat(viewModel: ChatViewModel) {
         val friend = friendFlow!!
 
         Column(modifier = Modifier.fillMaxSize()) {
-            Box(modifier = Modifier.background(Color.LightGray)) {
+            Box(modifier = Modifier
+                .background(Color.LightGray)
+                .clickable {
+                    navigate(FriendProfile, friend)
+                }
+            ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
