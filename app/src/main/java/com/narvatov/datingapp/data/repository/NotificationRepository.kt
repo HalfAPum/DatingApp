@@ -21,7 +21,7 @@ class NotificationRepository(
             NotificationData(
                 userSessionRepository.user.id,
                 userSessionRepository.user.name,
-                userSessionRepository.user.fcmToken ?: throwEmptyFCMToken(context),
+                userSessionRepository.user.fcmToken ?: throwEmptyFCMToken(),
                 message
             ),
             tokens = listOf(friend.fcmToken!!)

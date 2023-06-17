@@ -2,31 +2,20 @@ package com.narvatov.datingapp.ui.viewmodel.sign
 
 import com.halfapum.general.coroutines.launchCatching
 import com.narvatov.datingapp.R
-import com.narvatov.datingapp.data.preference.PreferencesDataStore
-import com.narvatov.datingapp.data.repository.user.UserRepository
+import com.narvatov.datingapp.data.repository.sign.SignRepository
 import com.narvatov.datingapp.model.local.user.UserAuth
 import com.narvatov.datingapp.ui.navigation.BottomNavigationDestination
-import com.narvatov.datingapp.ui.navigation.SignIn
 import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.navigate
 import com.narvatov.datingapp.ui.viewmodel.ErrorViewModel
 import org.koin.android.annotation.KoinViewModel
 
 @KoinViewModel
-class SignInViewModel(
-    private val preferencesDataStore: PreferencesDataStore,
-    private val userRepository: UserRepository,
-) : ErrorViewModel() {
+class SignInViewModel(private val signRepository: SignRepository): ErrorViewModel() {
 
     init {
-//        signInSavedUser()
-    }
-
-    private fun signInSavedUser() = launchCatching {
-        val userAuth = preferencesDataStore.getUserPreferences()
-
-        if (userAuth.isEmpty) return@launchCatching
-
-        signIn(userAuth.email, userAuth.password)
+        launchCatching {
+            signRepository.signInSavedUser()
+        }
     }
 
     fun signIn(email: String, password: String) = launchPrintingError {
@@ -38,9 +27,9 @@ class SignInViewModel(
                 _errorSharedFlow.emit(context.getString(R.string.password_8_symbols_warn))
             }
             else -> {
-                userRepository.signIn(UserAuth(email, password))
+                signRepository.signIn(UserAuth(email, password))
 
-                navigate(BottomNavigationDestination.Messages, popToInclusive = SignIn)
+                navigate(BottomNavigationDestination.Messages, clearBackStack = true)
             }
         }
     }

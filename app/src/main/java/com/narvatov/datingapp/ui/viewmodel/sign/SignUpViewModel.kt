@@ -2,19 +2,16 @@ package com.narvatov.datingapp.ui.viewmodel.sign
 
 import android.graphics.Bitmap
 import com.narvatov.datingapp.R
-import com.narvatov.datingapp.data.repository.user.UserRepository
+import com.narvatov.datingapp.data.repository.sign.SignRepository
 import com.narvatov.datingapp.model.local.user.NewUser
 import com.narvatov.datingapp.ui.navigation.BottomNavigationDestination
-import com.narvatov.datingapp.ui.navigation.SignIn
 import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.navigate
 import com.narvatov.datingapp.ui.viewmodel.ErrorViewModel
 import com.narvatov.datingapp.utils.toBase64
 import org.koin.android.annotation.KoinViewModel
 
 @KoinViewModel
-class SignUpViewModel(
-    private val userRepository: UserRepository,
-) : ErrorViewModel() {
+class SignUpViewModel(private val signRepository: SignRepository): ErrorViewModel() {
 
     fun signUp(
         email: String,
@@ -40,10 +37,9 @@ class SignUpViewModel(
                 _errorSharedFlow.emit(context.getString(R.string.please_pick_photo_for_your_profile))
             }
             else -> {
-                println("FUCK ME NEW USER ${NewUser(email, password, firstName, lastName, photoBitmap.toBase64)}")
-                userRepository.signUp(NewUser(email, password, firstName, lastName, photoBitmap.toBase64))
+                signRepository.signUp(NewUser(email, password, firstName, lastName, photoBitmap.toBase64))
 
-                navigate(BottomNavigationDestination.UserProfile, popToInclusive = SignIn)
+                navigate(BottomNavigationDestination.UserProfile, clearBackStack = true)
             }
         }
     }

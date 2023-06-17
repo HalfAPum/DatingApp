@@ -1,28 +1,44 @@
 package com.narvatov.datingapp.data.remotedb
 
-import android.content.Context
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import com.narvatov.datingapp.R
+import com.narvatov.datingapp.data.delegate.context.IContextDelegate
 
-fun throwNoSuchUserException(context: Context): Nothing = throw NoSuchElementException(
+context (IContextDelegate)
+fun throwNoSuchUserException(): Nothing = throw NoSuchElementException(
     context.getString(R.string.invalid_credentials)
 )
 
-fun throwNoUserId(context: Context): Nothing = throw IllegalArgumentException(
-    context.getString(R.string.no_user_id_was_provided)
+context (IContextDelegate)
+fun throwUserAlreadyExists(): Nothing = throw CloneNotSupportedException(
+    context.getString(R.string.user_with_such_email_already_exists)
 )
 
-fun throwNoConversationId(context: Context): Nothing = throw IllegalArgumentException(
+context (IContextDelegate)
+fun throwNoConversationId(): Nothing = throw IllegalArgumentException(
     context.getString(R.string.conversation_between_this_users_doesn_t_exist)
 )
 
-fun throwNoUserPassedToProfileScreen(context: Context): Nothing = throw IllegalArgumentException(
-    context.getString(R.string.nullable_friend_profile_parameter)
-)
+@Composable
+fun throwNoUserPassedToProfileScreen(): Nothing {
+    val context = LocalContext.current
 
-fun throwEmptyUserPassedToProfileScreen(context: Context): Nothing = throw IllegalArgumentException(
-    context.getString(R.string.empty_friend_profile_parameter)
-)
+    throw IllegalArgumentException(
+        context.getString(R.string.nullable_friend_profile_parameter)
+    )
+}
 
-fun throwEmptyFCMToken(context: Context): Nothing = throw IllegalArgumentException(
+@Composable
+fun throwEmptyUserPassedToProfileScreen(): Nothing {
+    val context = LocalContext.current
+
+    throw IllegalArgumentException(
+        context.getString(R.string.empty_friend_profile_parameter)
+    )
+}
+
+context (IContextDelegate)
+fun throwEmptyFCMToken(): Nothing = throw IllegalArgumentException(
     context.getString(R.string.no_fcmtoken_exception)
 )

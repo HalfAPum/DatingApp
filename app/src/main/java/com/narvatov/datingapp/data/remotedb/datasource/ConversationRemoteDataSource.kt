@@ -59,7 +59,7 @@ class ConversationRemoteDataSource(
 
         userAuthorFriendConversation
             ?: friendAuthorUserConversation
-            ?: throwNoConversationId(context)
+            ?: throwNoConversationId()
     }
 
     suspend fun addConversation(conversationEntity: ConversationEntity) = IOOperation {

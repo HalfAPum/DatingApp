@@ -42,14 +42,10 @@ class UserRemoteDataSource : RemoteDataSource() {
         allUsers = emptyMap()
     }
 
-    suspend fun getUser(userAuth: UserAuth) = IOOperation {
-        val user = if (userAuth.id == null) {
-            getAllUsers().values.firstOrNull { it.email == userAuth.email }
-        } else {
-            getAllUsers()[userAuth.id]
-        }
+    suspend fun getSignedUser(userAuth: UserAuth) = IOOperation {
+        val user = getAllUsers().values.firstOrNull { it.email == userAuth.email }
 
-        return@IOOperation user ?: throwNoSuchUserException(context)
+        return@IOOperation user ?: throwNoSuchUserException()
     }
 
     fun getUserFlow(userId: String) = collection
