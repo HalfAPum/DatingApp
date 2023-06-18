@@ -1,6 +1,8 @@
 package com.narvatov.datingapp.data.remotedb.datasource
 
+import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.snapshots
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
@@ -53,6 +55,28 @@ class UserRemoteDataSource : RemoteDataSource() {
         .snapshots()
         .map { it.mapUser() }
 
+    suspend fun get10NewFriends(user: User) = IOOperation {
+        collection
+            .skipMatchedFriends(user)
+            .limit(10)
+            .get()
+            .await()
+            .documents
+            .map { it.mapUser() }
+    }
+
+    private fun Query.skipMatchedFriends(user: User) = whereNotIn(
+        FieldPath.documentId(),
+        user.fullUserData.keys.toMutableList().apply { add(user.id) }
+    )
+
+    suspend fun updateMatch(userId: String, friendId: String) = IOOperation {
+        collection.document(userId).update(friendId, true).awaitUnit()
+
+        collection.document(friendId).update(userId, true).awaitUnit()
+    }
+
+
     suspend fun updateUserFCM(userId: String): String = IOOperation {
         val token = Firebase.messaging.token.await()
 
@@ -61,6 +85,7 @@ class UserRemoteDataSource : RemoteDataSource() {
         token
     }
 
+    //TODO concat with user availability
     suspend fun removeUserFCM(userId: String) = IOOperation {
         collection.document(userId).update(Schema.USER_FCM_TOKEN, FieldValue.delete()).awaitUnit()
     }

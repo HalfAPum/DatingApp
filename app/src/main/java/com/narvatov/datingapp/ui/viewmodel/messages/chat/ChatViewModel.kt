@@ -3,8 +3,8 @@ package com.narvatov.datingapp.ui.viewmodel.messages.chat
 import androidx.lifecycle.ViewModel
 import com.halfapum.general.coroutines.Dispatcher
 import com.halfapum.general.coroutines.launchCatching
+import com.narvatov.datingapp.data.remotedb.datasource.UserRemoteDataSource
 import com.narvatov.datingapp.data.repository.messages.chat.ChatRepository
-import com.narvatov.datingapp.data.repository.user.UserRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOn
 import org.koin.android.annotation.KoinViewModel
@@ -14,7 +14,7 @@ import org.koin.java.KoinJavaComponent.inject
 @KoinViewModel
 class ChatViewModel(
     friendId: String,
-    userRepository: UserRepository,
+    userRemoteDataSource: UserRemoteDataSource,
     dispatcher: Dispatcher,
 ) : ViewModel() {
 
@@ -25,7 +25,7 @@ class ChatViewModel(
 
     val chatMessageFlow = chatRepository.chatMessageFlow.flowOn(dispatcher.IO)
 
-    val friendFlow = userRepository.getUserFlow(friendId)
+    val friendFlow = userRemoteDataSource.getUserFlow(friendId)
 
     fun sendMessage(message: String) = launchCatching {
         if (message.isBlank()) return@launchCatching

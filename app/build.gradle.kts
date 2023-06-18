@@ -101,6 +101,9 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.5.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
 
+    //Tinder swipes
+    implementation("com.alexstyl.swipeablecard:swipeablecard:0.1.0")
+
     //Test dependencies
 
     // Koin Test

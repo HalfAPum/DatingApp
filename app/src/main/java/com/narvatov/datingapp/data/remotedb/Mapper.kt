@@ -72,7 +72,7 @@ fun DocumentSnapshot.mapUser(): User {
     val online = getBoolean(Schema.USER_AVAILABLE) ?: false
     val fcmToken = getString(Schema.USER_FCM_TOKEN)
 
-    return User(id, email, password, name, photoBase64, online, fcmToken)
+    return User(id, email, password, name, photoBase64, online, fcmToken, data?.toMutableMap() ?: HashMap())
 }
 
 context (UserRemoteDataSource)
