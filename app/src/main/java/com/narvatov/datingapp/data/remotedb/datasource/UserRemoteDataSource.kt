@@ -1,8 +1,6 @@
 package com.narvatov.datingapp.data.remotedb.datasource
 
-import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.snapshots
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
@@ -55,20 +53,16 @@ class UserRemoteDataSource : RemoteDataSource() {
         .snapshots()
         .map { it.mapUser() }
 
-    suspend fun get10NewFriends(user: User) = IOOperation {
+    suspend fun getNewFriends(user: User, limit: Long) = IOOperation {
         collection
-            .skipMatchedFriends(user)
-            .limit(10)
+            .limit(limit)
             .get()
             .await()
             .documents
-            .map { it.mapUser() }
+            .map {
+                println("FUCK GET NEW FRIENDS WTF ${it.id}")
+                it.mapUser() }
     }
-
-    private fun Query.skipMatchedFriends(user: User) = whereNotIn(
-        FieldPath.documentId(),
-        user.fullUserData.keys.toMutableList().apply { add(user.id) }
-    )
 
     suspend fun updateMatch(userId: String, friendId: String) = IOOperation {
         collection.document(userId).update(friendId, true).awaitUnit()
@@ -104,4 +98,7 @@ class UserRemoteDataSource : RemoteDataSource() {
         collection.document(userId).update(Schema.USER_AVAILABLE, available).awaitUnit()
     }
 
+    companion object {
+        private const val FIREBASE_NOT_IN_ARRAY_LIMIT = 10
+    }
 }

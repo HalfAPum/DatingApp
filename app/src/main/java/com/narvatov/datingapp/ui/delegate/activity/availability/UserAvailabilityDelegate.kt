@@ -16,6 +16,14 @@ class UserAvailabilityDelegate : IUserAvailabilityDelegate, DefaultLifecycleObse
         //Stub
     }
 
+    operator fun getValue(componentActivity: ComponentActivity, property: KProperty<*>): IUserAvailabilityDelegate {
+        val userAvailabilityDelegate = UserAvailabilityDelegate(componentActivity)
+
+        componentActivity.lifecycle.addObserver(userAvailabilityDelegate)
+
+        return userAvailabilityDelegate
+    }
+
     constructor(_componentActivity: ComponentActivity) {
         componentActivity = _componentActivity
     }
@@ -28,14 +36,6 @@ class UserAvailabilityDelegate : IUserAvailabilityDelegate, DefaultLifecycleObse
 
     override fun onPause(owner: LifecycleOwner) {
         viewModel.value.isUserAvailable = false
-    }
-
-    operator fun getValue(componentActivity: ComponentActivity, property: KProperty<*>): IUserAvailabilityDelegate {
-        val userAvailabilityDelegate = UserAvailabilityDelegate(componentActivity)
-
-        componentActivity.lifecycle.addObserver(userAvailabilityDelegate)
-
-        return userAvailabilityDelegate
     }
 
 }

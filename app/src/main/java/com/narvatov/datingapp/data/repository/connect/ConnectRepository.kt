@@ -14,7 +14,7 @@ class ConnectRepository(
     private val userSessionRepository: UserSessionRepository,
 ) {
 
-    suspend fun get10NewFriends() = userRemoteDataSource.get10NewFriends(userSessionRepository.user)
+    suspend fun getNewFriends(limit: Long) = userRemoteDataSource.getNewFriends(userSessionRepository.user, limit)
 
     suspend fun createConversation(friend: User) {
         val conversationEntity = newConversationEntity(

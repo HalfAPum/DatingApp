@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.narvatov.datingapp.ui.common.PhotoPickBottomSheet
+import com.narvatov.datingapp.ui.delegate.activity.admob.AdMobDelegate
 import com.narvatov.datingapp.ui.delegate.activity.availability.UserAvailabilityDelegate
 import com.narvatov.datingapp.ui.navigation.BottomBar
 import com.narvatov.datingapp.ui.navigation.NavHostContent
@@ -35,12 +36,14 @@ import org.koin.androidx.viewmodel.ext.android.getViewModel
 class MainActivity : ComponentActivity() {
 
     private val userAvailabilityDelegate by UserAvailabilityDelegate()
+    private val adMobDelegate by AdMobDelegate()
 
     @OptIn(ExperimentalMaterialApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        userAvailabilityDelegate.start()
+        userAvailabilityDelegate.initialize()
+        adMobDelegate.initialize()
 
         setContent {
             DatingAppTheme {

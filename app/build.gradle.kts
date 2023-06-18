@@ -104,6 +104,9 @@ dependencies {
     //Tinder swipes
     implementation("com.alexstyl.swipeablecard:swipeablecard:0.1.0")
 
+    //Ads
+    implementation("com.google.android.gms:play-services-ads:22.1.0")
+
     //Test dependencies
 
     // Koin Test
