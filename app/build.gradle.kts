@@ -107,6 +107,9 @@ dependencies {
     //Ads
     implementation("com.google.android.gms:play-services-ads:22.1.0")
 
+    //Matches backend
+    implementation("com.github.parse-community:Parse-SDK-Android:4.2.0")
+
     //Test dependencies
 
     // Koin Test

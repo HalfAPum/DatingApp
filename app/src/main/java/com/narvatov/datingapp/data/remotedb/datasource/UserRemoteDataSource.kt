@@ -1,6 +1,7 @@
 package com.narvatov.datingapp.data.remotedb.datasource
 
 import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.snapshots
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
@@ -16,7 +17,7 @@ import kotlinx.coroutines.tasks.await
 import org.koin.core.annotation.Single
 
 @Single
-class UserRemoteDataSource : RemoteDataSource() {
+class UserRemoteDataSource : FireStoreRemoteDataSource() {
 
     override val collectionName = Schema.USER_TABLE
 
@@ -54,7 +55,10 @@ class UserRemoteDataSource : RemoteDataSource() {
         .map { it.mapUser() }
 
     suspend fun getNewFriends(user: User, limit: Long) = IOOperation {
+        db.collectionGroup("matches")
+
         collection
+            .skipMatchedFriends(user)
             .limit(limit)
             .get()
             .await()
@@ -64,12 +68,10 @@ class UserRemoteDataSource : RemoteDataSource() {
                 it.mapUser() }
     }
 
-    suspend fun updateMatch(userId: String, friendId: String) = IOOperation {
-        collection.document(userId).update(friendId, true).awaitUnit()
-
-        collection.document(friendId).update(userId, true).awaitUnit()
-    }
-
+    private fun Query.skipMatchedFriends(user: User) = whereNotEqualTo(
+        user.id,
+        false
+    ).endBefore(true)
 
     suspend fun updateUserFCM(userId: String): String = IOOperation {
         val token = Firebase.messaging.token.await()
@@ -79,7 +81,6 @@ class UserRemoteDataSource : RemoteDataSource() {
         token
     }
 
-    //TODO concat with user availability
     suspend fun removeUserFCM(userId: String) = IOOperation {
         collection.document(userId).update(Schema.USER_FCM_TOKEN, FieldValue.delete()).awaitUnit()
     }
@@ -89,7 +90,7 @@ class UserRemoteDataSource : RemoteDataSource() {
     }
 
     suspend fun saveNewUser(newUserEntity: NewUserEntity) = IOOperation {
-        collection.add(newUserEntity).awaitUnit()
+        collection.add(newUserEntity).await().id
     }
 
     suspend fun updateUserAvailability(userId: String, available: Boolean) = IOOperation {
@@ -98,7 +99,4 @@ class UserRemoteDataSource : RemoteDataSource() {
         collection.document(userId).update(Schema.USER_AVAILABLE, available).awaitUnit()
     }
 
-    companion object {
-        private const val FIREBASE_NOT_IN_ARRAY_LIMIT = 10
-    }
 }

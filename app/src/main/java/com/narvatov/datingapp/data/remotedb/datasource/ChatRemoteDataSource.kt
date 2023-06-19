@@ -14,7 +14,7 @@ import java.util.LinkedList
 class ChatRemoteDataSource(
     private val userId: String,
     private val friendId: String,
-) : RemoteDataSource() {
+) : FireStoreRemoteDataSource() {
 
     override val collectionName = Schema.CHAT_TABLE
 

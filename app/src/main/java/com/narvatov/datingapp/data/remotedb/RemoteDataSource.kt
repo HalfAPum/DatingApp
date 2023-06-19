@@ -1,8 +1,5 @@
-package com.narvatov.datingapp.data.remotedb.datasource
+package com.narvatov.datingapp.data.remotedb
 
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import com.narvatov.datingapp.data.delegate.context.ContextDelegate
 import com.narvatov.datingapp.data.delegate.context.IContextDelegate
 import com.narvatov.datingapp.data.delegate.coroutine.CoroutineDelegate
@@ -11,13 +8,4 @@ import com.narvatov.datingapp.data.delegate.dispatcher.DispatcherDelegate
 import com.narvatov.datingapp.data.delegate.dispatcher.IDispatcherDelegate
 
 abstract class RemoteDataSource : IDispatcherDelegate by DispatcherDelegate, IContextDelegate by ContextDelegate,
-    ICoroutineDelegate by CoroutineDelegate {
-
-    private val db = Firebase.firestore
-
-    abstract val collectionName: String
-
-    protected val collection: CollectionReference
-        get() = db.collection(collectionName)
-
-}
+    ICoroutineDelegate by CoroutineDelegate

@@ -1,6 +1,7 @@
 package com.narvatov.datingapp.data.repository.sign
 
 import com.narvatov.datingapp.data.preference.PreferencesDataStore
+import com.narvatov.datingapp.data.remotedb.back4app.MatchRemoteDataSource
 import com.narvatov.datingapp.data.remotedb.datasource.UserRemoteDataSource
 import com.narvatov.datingapp.data.remotedb.throwUserAlreadyExists
 import com.narvatov.datingapp.data.repository.Repository
@@ -13,6 +14,7 @@ import org.koin.core.annotation.Factory
 
 @Factory
 class SignRepository(
+    private val matchRemoteDataSource: MatchRemoteDataSource,
     private val preferencesDataStore: PreferencesDataStore,
     private val userRemoteDataSource: UserRemoteDataSource,
     private val userSessionRepository: UserSessionRepository,
@@ -37,7 +39,9 @@ class SignRepository(
     suspend fun signUp(newUser: NewUser) = IOOperation {
         if (checkUserExists(newUser)) throwUserAlreadyExists()
 
-        userRemoteDataSource.saveNewUser(newUser.toNewUserEntity())
+        val userId = userRemoteDataSource.saveNewUser(newUser.toNewUserEntity())
+
+        matchRemoteDataSource.saveNewUser(userId)
 
         userRemoteDataSource.clearAllUsers()
 

@@ -2,6 +2,7 @@ package com.narvatov.datingapp.data.remotedb
 
 object Schema {
     const val USER_TABLE = "user"
+    const val USER_ID = "user_id"
     const val USER_NAME = "name"
     const val USER_EMAIL = "email"
     const val USER_PASSWORD = "password"
@@ -25,4 +26,6 @@ object Schema {
     const val CONVERSATION_LAST_MESSAGE = "last_message"
     const val CONVERSATION_LAST_MESSAGE_TIMESTAMP = "last_message_timestamp"
     const val CONVERSATION_LAST_MESSAGE_SENDER_ID = "last_message_sender_id"
+
+//    const val MATCH
 }

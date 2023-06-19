@@ -1,5 +1,6 @@
 package com.narvatov.datingapp.data.repository.connect
 
+import com.narvatov.datingapp.data.remotedb.back4app.MatchRemoteDataSource
 import com.narvatov.datingapp.data.remotedb.datasource.ConversationRemoteDataSource
 import com.narvatov.datingapp.data.remotedb.datasource.UserRemoteDataSource
 import com.narvatov.datingapp.data.repository.user.UserSessionRepository
@@ -9,6 +10,7 @@ import org.koin.core.annotation.Factory
 
 @Factory
 class ConnectRepository(
+    private val matchRemoteDataSource: MatchRemoteDataSource,
     private val userRemoteDataSource: UserRemoteDataSource,
     private val conversationRemoteDataSource: ConversationRemoteDataSource,
     private val userSessionRepository: UserSessionRepository,
@@ -26,7 +28,7 @@ class ConnectRepository(
     }
 
     suspend fun markFriendMatched(friend: User) {
-        userRemoteDataSource.updateMatch(userSessionRepository.user.id, friend.id)
+//        userRemoteDataSource.updateMatch(userSessionRepository.user.id, friend.id)
 
         userSessionRepository.user.fullUserData[friend.id] = true
     }
