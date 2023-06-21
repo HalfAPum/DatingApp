@@ -35,6 +35,7 @@ class PhotoViewModel : ViewModel(), IContextDelegate by ContextDelegate {
         finishPhotoPick(bitmap)
     }
 
+    //todo remove photo from meomory after sign up is finished
     private fun finishPhotoPick(bitmap: Bitmap) = launchCatching {
         _photoBitmapStateFlow.emit(bitmap)
 

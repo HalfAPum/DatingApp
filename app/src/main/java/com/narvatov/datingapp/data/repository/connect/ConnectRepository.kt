@@ -24,7 +24,7 @@ class ConnectRepository(
                 userId = userSessionRepository.user.id,
                 limit = limit,
             )
-        ).map { it.id }
+        ).map { it.id }.reversed()
     )
 
     suspend fun createConversation(friend: User) {

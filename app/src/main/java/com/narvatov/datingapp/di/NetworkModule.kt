@@ -19,6 +19,7 @@ val networkModule = module {
         }
     }
 
+    //todo settimeout
     fun provideOkHttpClient(
         interceptor: HttpLoggingInterceptor
     ) = OkHttpClient.Builder()
