@@ -5,6 +5,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.narvatov.datingapp.model.local.admob.AdMobEvent
@@ -34,6 +35,9 @@ class AdMobDelegate : IAdMobDelegate, InterstitialAdLoadCallback {
     constructor(_componentActivity: ComponentActivity) {
         componentActivity = _componentActivity
 
+        val configuration = RequestConfiguration.Builder().setTestDeviceIds(listOf("08243BD37C734A3C9EFA921280236FAB")).build()
+
+        MobileAds.setRequestConfiguration(configuration)
         MobileAds.initialize(componentActivity) {
             Timber.tag(TAG).d("MobileAbs initialization. Status: ${it.adapterStatusMap}")
         }

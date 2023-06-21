@@ -1,7 +1,7 @@
-package com.narvatov.datingapp.data.remotedb.datasource
+package com.narvatov.datingapp.data.remotedb.firestore
 
+import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.snapshots
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
@@ -54,24 +54,14 @@ class UserRemoteDataSource : FireStoreRemoteDataSource() {
         .snapshots()
         .map { it.mapUser() }
 
-    suspend fun getNewFriends(user: User, limit: Long) = IOOperation {
-        db.collectionGroup("matches")
-
+    suspend fun getUsersByIds(userIds: List<String>) = IOOperation {
         collection
-            .skipMatchedFriends(user)
-            .limit(limit)
+            .whereIn(FieldPath.documentId(), userIds)
             .get()
             .await()
             .documents
-            .map {
-                println("FUCK GET NEW FRIENDS WTF ${it.id}")
-                it.mapUser() }
+            .map { it.mapUser() }
     }
-
-    private fun Query.skipMatchedFriends(user: User) = whereNotEqualTo(
-        user.id,
-        false
-    ).endBefore(true)
 
     suspend fun updateUserFCM(userId: String): String = IOOperation {
         val token = Firebase.messaging.token.await()

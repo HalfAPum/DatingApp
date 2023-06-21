@@ -3,7 +3,7 @@ package com.narvatov.datingapp.ui.viewmodel.messages.chat
 import androidx.lifecycle.ViewModel
 import com.halfapum.general.coroutines.Dispatcher
 import com.halfapum.general.coroutines.launchCatching
-import com.narvatov.datingapp.data.remotedb.datasource.UserRemoteDataSource
+import com.narvatov.datingapp.data.remotedb.firestore.UserRemoteDataSource
 import com.narvatov.datingapp.data.repository.messages.chat.ChatRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOn

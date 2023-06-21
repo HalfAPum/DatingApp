@@ -1,4 +1,4 @@
-package com.narvatov.datingapp.data.api
+package com.narvatov.datingapp.data.api.fcm
 
 import com.narvatov.datingapp.model.remote.SendNotification
 import retrofit2.http.Body

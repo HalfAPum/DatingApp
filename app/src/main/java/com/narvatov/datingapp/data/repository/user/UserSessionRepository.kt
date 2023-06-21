@@ -1,6 +1,6 @@
 package com.narvatov.datingapp.data.repository.user
 
-import com.narvatov.datingapp.data.remotedb.datasource.UserRemoteDataSource
+import com.narvatov.datingapp.data.remotedb.firestore.UserRemoteDataSource
 import com.narvatov.datingapp.data.repository.Repository
 import com.narvatov.datingapp.model.local.user.User
 import kotlinx.coroutines.flow.MutableStateFlow

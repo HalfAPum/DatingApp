@@ -1,9 +1,9 @@
 package com.narvatov.datingapp.data.remotedb
 
 import com.google.firebase.firestore.DocumentSnapshot
-import com.narvatov.datingapp.data.remotedb.datasource.ChatRemoteDataSource
-import com.narvatov.datingapp.data.remotedb.datasource.ConversationRemoteDataSource
-import com.narvatov.datingapp.data.remotedb.datasource.UserRemoteDataSource
+import com.narvatov.datingapp.data.remotedb.firestore.ChatRemoteDataSource
+import com.narvatov.datingapp.data.remotedb.firestore.ConversationRemoteDataSource
+import com.narvatov.datingapp.data.remotedb.firestore.UserRemoteDataSource
 import com.narvatov.datingapp.model.local.message.ChatMessage
 import com.narvatov.datingapp.model.local.message.Conversation
 import com.narvatov.datingapp.model.local.user.User
@@ -72,8 +72,5 @@ fun DocumentSnapshot.mapUser(): User {
     val online = getBoolean(Schema.USER_AVAILABLE) ?: false
     val fcmToken = getString(Schema.USER_FCM_TOKEN)
 
-    return User(id, email, password, name, photoBase64, online, fcmToken, data?.toMutableMap() ?: HashMap())
+    return User(id, email, password, name, photoBase64, online, fcmToken)
 }
-
-context (UserRemoteDataSource)
-fun List<DocumentSnapshot>.mapUsers() = map { it.mapUser() }

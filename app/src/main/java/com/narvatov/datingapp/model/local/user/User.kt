@@ -15,7 +15,6 @@ data class User(
     val photoBase64: String,
     val online: Boolean,
     var fcmToken: String?,
-    val fullUserData: MutableMap<String, Any> = HashMap()
 ) {
 
     val offline = online.not()

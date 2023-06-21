@@ -21,8 +21,8 @@ class ConnectViewModel(private val connectRepository: ConnectRepository): ViewMo
         launchCatching { loadNewFriends(INITIAL_LOAD_SIZE) }
     }
 
-    private suspend fun loadNewFriends(limit: Long) {
-        val friends = connectRepository.getNewFriends(limit)
+    private suspend fun loadNewFriends(limit: Int) {
+        val friends = connectRepository.getNonMatchedFriends(limit)
 
         _newFriendStateFlow.emit(friends)
 
@@ -58,7 +58,7 @@ class ConnectViewModel(private val connectRepository: ConnectRepository): ViewMo
     }
 
     companion object {
-        private const val INITIAL_LOAD_SIZE = 4L
-        private const val CONTINUOUS_LOAD_SIZE = 3L
+        private const val INITIAL_LOAD_SIZE = 4
+        private const val CONTINUOUS_LOAD_SIZE = 3
     }
 }

@@ -27,5 +27,7 @@ object Schema {
     const val CONVERSATION_LAST_MESSAGE_TIMESTAMP = "last_message_timestamp"
     const val CONVERSATION_LAST_MESSAGE_SENDER_ID = "last_message_sender_id"
 
-//    const val MATCH
+    const val MATCH_TABLE = "match"
+    const val MATCH_INITIATOR_ID = "initiator_id"
+    const val MATCH_RESPONDER_ID = "responder_id"
 }

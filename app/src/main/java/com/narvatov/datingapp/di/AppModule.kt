@@ -1,8 +1,8 @@
 package com.narvatov.datingapp.di
 
 import com.halfapum.general.coroutines.Dispatcher
-import com.narvatov.datingapp.data.remotedb.datasource.ChatRemoteDataSource
-import com.narvatov.datingapp.data.remotedb.datasource.ConversationRemoteDataSource
+import com.narvatov.datingapp.data.remotedb.firestore.ChatRemoteDataSource
+import com.narvatov.datingapp.data.remotedb.firestore.ConversationRemoteDataSource
 import com.narvatov.datingapp.data.repository.messages.chat.ChatRepository
 import com.narvatov.datingapp.data.repository.user.UserSessionRepository
 import org.koin.core.parameter.parametersOf

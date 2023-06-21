@@ -1,22 +1,31 @@
 package com.narvatov.datingapp.data.repository.connect
 
-import com.narvatov.datingapp.data.remotedb.back4app.MatchRemoteDataSource
-import com.narvatov.datingapp.data.remotedb.datasource.ConversationRemoteDataSource
-import com.narvatov.datingapp.data.remotedb.datasource.UserRemoteDataSource
+import com.narvatov.datingapp.data.api.match.MatchApi
+import com.narvatov.datingapp.data.remotedb.firestore.ConversationRemoteDataSource
+import com.narvatov.datingapp.data.remotedb.firestore.UserRemoteDataSource
 import com.narvatov.datingapp.data.repository.user.UserSessionRepository
 import com.narvatov.datingapp.model.local.user.User
+import com.narvatov.datingapp.model.remote.AddMatchRequest
 import com.narvatov.datingapp.model.remote.ConversationEntity.Companion.newConversationEntity
+import com.narvatov.datingapp.model.remote.NonMatchedFriendsRequest
 import org.koin.core.annotation.Factory
 
 @Factory
 class ConnectRepository(
-    private val matchRemoteDataSource: MatchRemoteDataSource,
     private val userRemoteDataSource: UserRemoteDataSource,
     private val conversationRemoteDataSource: ConversationRemoteDataSource,
     private val userSessionRepository: UserSessionRepository,
+    private val matchApi: MatchApi,
 ) {
 
-    suspend fun getNewFriends(limit: Long) = userRemoteDataSource.getNewFriends(userSessionRepository.user, limit)
+    suspend fun getNonMatchedFriends(limit: Int) = userRemoteDataSource.getUsersByIds(
+        matchApi.getNonMatchedFriends(
+            NonMatchedFriendsRequest(
+                userId = userSessionRepository.user.id,
+                limit = limit,
+            )
+        ).map { it.id }
+    )
 
     suspend fun createConversation(friend: User) {
         val conversationEntity = newConversationEntity(
@@ -28,9 +37,7 @@ class ConnectRepository(
     }
 
     suspend fun markFriendMatched(friend: User) {
-//        userRemoteDataSource.updateMatch(userSessionRepository.user.id, friend.id)
-
-        userSessionRepository.user.fullUserData[friend.id] = true
+        matchApi.addMatch(AddMatchRequest(userSessionRepository.user.id, friend.id))
     }
 
 }

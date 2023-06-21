@@ -1,8 +1,8 @@
 package com.narvatov.datingapp.data.repository.sign
 
+import com.narvatov.datingapp.data.api.user.UserApi
 import com.narvatov.datingapp.data.preference.PreferencesDataStore
-import com.narvatov.datingapp.data.remotedb.back4app.MatchRemoteDataSource
-import com.narvatov.datingapp.data.remotedb.datasource.UserRemoteDataSource
+import com.narvatov.datingapp.data.remotedb.firestore.UserRemoteDataSource
 import com.narvatov.datingapp.data.remotedb.throwUserAlreadyExists
 import com.narvatov.datingapp.data.repository.Repository
 import com.narvatov.datingapp.data.repository.user.UserSessionRepository
@@ -10,14 +10,15 @@ import com.narvatov.datingapp.model.local.user.NewUser
 import com.narvatov.datingapp.model.local.user.UserAuth
 import com.narvatov.datingapp.model.local.user.UserAuth.Companion.toUserAuth
 import com.narvatov.datingapp.model.remote.NewUserEntity.Companion.toNewUserEntity
+import com.narvatov.datingapp.model.remote.SignUpRequest
 import org.koin.core.annotation.Factory
 
 @Factory
 class SignRepository(
-    private val matchRemoteDataSource: MatchRemoteDataSource,
     private val preferencesDataStore: PreferencesDataStore,
     private val userRemoteDataSource: UserRemoteDataSource,
     private val userSessionRepository: UserSessionRepository,
+    private val userApi: UserApi,
 ) : Repository() {
 
     suspend fun signIn(userAuth: UserAuth) = IOOperation {
@@ -41,7 +42,7 @@ class SignRepository(
 
         val userId = userRemoteDataSource.saveNewUser(newUser.toNewUserEntity())
 
-        matchRemoteDataSource.saveNewUser(userId)
+        userApi.signUp(SignUpRequest(id = userId))
 
         userRemoteDataSource.clearAllUsers()
 

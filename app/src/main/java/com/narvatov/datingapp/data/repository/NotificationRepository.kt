@@ -1,6 +1,6 @@
 package com.narvatov.datingapp.data.repository
 
-import com.narvatov.datingapp.data.api.FCMApi
+import com.narvatov.datingapp.data.api.fcm.FCMApi
 import com.narvatov.datingapp.data.remotedb.throwEmptyFCMToken
 import com.narvatov.datingapp.data.repository.user.UserSessionRepository
 import com.narvatov.datingapp.model.local.user.User

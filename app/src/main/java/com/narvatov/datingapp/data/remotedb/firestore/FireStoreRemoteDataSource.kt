@@ -1,4 +1,4 @@
-package com.narvatov.datingapp.data.remotedb.datasource
+package com.narvatov.datingapp.data.remotedb.firestore
 
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.ktx.firestore

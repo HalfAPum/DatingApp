@@ -1,11 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Matches backend constants -->
-    <!-- //TODO FUCK DON"T USE HTTP USE HTTPS FUCK FIX LATER -->
-    <string name="back4app_server_url">http://parseapi.back4app.com</string>
-    <string name="back4app_app_id" tools:ignore="Typos">BblgndWqLeGuhJLuP1FCK7FkgJvKLtKPvle8jtkf</string>
-    <string name="back4app_client_key">K8pMIIem6S8OpjQgISnvTB487870hiMfIEMg8IOJ</string>
-
-    <!-- Translations -->
+<resources>
     <string name="app_name">Dating App</string>
     <string name="welcome">Welcome!</string>
     <string name="email">Email</string>
