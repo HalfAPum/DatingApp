@@ -1,7 +1,7 @@
 package com.narvatov.datingapp.data.repository.profile
 
 import com.narvatov.datingapp.data.api.user.UserApi
-import com.narvatov.datingapp.data.preference.PreferencesDataStore
+import com.narvatov.datingapp.data.preference.UserPreferencesDataStore
 import com.narvatov.datingapp.data.remotedb.firestore.UserRemoteDataSource
 import com.narvatov.datingapp.data.repository.Repository
 import com.narvatov.datingapp.data.repository.user.UserSessionRepository
@@ -12,7 +12,7 @@ import org.koin.core.annotation.Factory
 class UserProfileRepository(
     private val userSessionRepository: UserSessionRepository,
     private val userRemoteDataSource: UserRemoteDataSource,
-    private val preferencesDataStore: PreferencesDataStore,
+    private val userPreferencesDataStore: UserPreferencesDataStore,
     private val userApi: UserApi,
 ) : Repository() {
 
@@ -37,7 +37,7 @@ class UserProfileRepository(
     private suspend fun executePostLogoutActions() = IOOperation {
         userSessionRepository.updateUser(User.emptyUser)
 
-        preferencesDataStore.clearUserPreferences()
+        userPreferencesDataStore.clearUserPreferences()
     }
 
 }

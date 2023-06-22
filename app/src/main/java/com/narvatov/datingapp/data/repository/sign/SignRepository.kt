@@ -1,7 +1,7 @@
 package com.narvatov.datingapp.data.repository.sign
 
 import com.narvatov.datingapp.data.api.user.UserApi
-import com.narvatov.datingapp.data.preference.PreferencesDataStore
+import com.narvatov.datingapp.data.preference.UserPreferencesDataStore
 import com.narvatov.datingapp.data.remotedb.firestore.UserRemoteDataSource
 import com.narvatov.datingapp.data.remotedb.throwUserAlreadyExists
 import com.narvatov.datingapp.data.repository.Repository
@@ -15,7 +15,7 @@ import org.koin.core.annotation.Factory
 
 @Factory
 class SignRepository(
-    private val preferencesDataStore: PreferencesDataStore,
+    private val userPreferencesDataStore: UserPreferencesDataStore,
     private val userRemoteDataSource: UserRemoteDataSource,
     private val userSessionRepository: UserSessionRepository,
     private val userApi: UserApi,
@@ -26,11 +26,11 @@ class SignRepository(
         val fcmToken = userRemoteDataSource.updateUserFCM(signedUser.id)
 
         userSessionRepository.processSignedUser(signedUser.copy(fcmToken = fcmToken))
-        preferencesDataStore.saveUserPreferences(signedUser.toUserAuth())
+        userPreferencesDataStore.saveUserPreferences(signedUser.toUserAuth())
     }
 
     suspend fun signInSavedUser() = IOOperation {
-        val userAuth = preferencesDataStore.getUserPreferences()
+        val userAuth = userPreferencesDataStore.getUserPreferences()
 
         if (userAuth.isEmpty) return@IOOperation
 

@@ -1,21 +1,19 @@
 package com.narvatov.datingapp.data.preference
 
-import android.content.Context
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
 import com.narvatov.datingapp.model.local.user.UserAuth
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import org.koin.core.annotation.Single
 
 @Single
-class PreferencesDataStore(private val context: Context) {
+class UserPreferencesDataStore : PreferenceDataStore() {
 
-    private val Context.userPreferencesDataStore by preferencesDataStore(USER_PREFERENCE)
+    override val dataStoreName = USER_PREFERENCE
 
     suspend fun getUserPreferences(): UserAuth {
-        return context.userPreferencesDataStore.data.map { preferences ->
+        return dataStore.data.map { preferences ->
             val email = preferences[USER_EMAIL] ?: ""
             val password = preferences[USER_PASSWORD] ?: ""
 
@@ -24,14 +22,14 @@ class PreferencesDataStore(private val context: Context) {
     }
 
     suspend fun saveUserPreferences(userAuth: UserAuth) {
-        context.userPreferencesDataStore.edit { preferences ->
+        dataStore.edit { preferences ->
             preferences[USER_EMAIL] = userAuth.email
             preferences[USER_PASSWORD] = userAuth.password
         }
     }
 
     suspend fun clearUserPreferences() {
-        context.userPreferencesDataStore.edit { preferences ->
+        dataStore.edit { preferences ->
             preferences.clear()
         }
     }
