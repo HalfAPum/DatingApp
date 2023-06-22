@@ -1,11 +1,11 @@
 package com.narvatov.datingapp.data.repository
 
-import com.narvatov.datingapp.data.delegate.context.ContextDelegate
-import com.narvatov.datingapp.data.delegate.context.IContextDelegate
-import com.narvatov.datingapp.data.delegate.dispatcher.DispatcherDelegate
-import com.narvatov.datingapp.data.delegate.dispatcher.IDispatcherDelegate
-import com.narvatov.datingapp.data.delegate.repository.IRepositoryCoroutineDelegate
-import com.narvatov.datingapp.data.delegate.repository.RepositoryCoroutineDelegate
+import com.narvatov.datingapp.data.remotedb.firestore.delegate.dispatcher.DispatcherDelegate
+import com.narvatov.datingapp.data.remotedb.firestore.delegate.dispatcher.IDispatcherDelegate
+import com.narvatov.datingapp.data.remotedb.firestore.delegate.repository.IRepositoryCoroutineDelegate
+import com.narvatov.datingapp.data.remotedb.firestore.delegate.repository.RepositoryCoroutineDelegate
+import com.narvatov.datingapp.delegate.common.context.ContextDelegate
+import com.narvatov.datingapp.delegate.common.context.IContextDelegate
 import okio.IOException
 import retrofit2.HttpException
 

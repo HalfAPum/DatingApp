@@ -1,4 +1,4 @@
-package com.narvatov.datingapp.data.delegate.context
+package com.narvatov.datingapp.delegate.common.context
 
 import android.content.Context
 import com.narvatov.datingapp.utils.inject

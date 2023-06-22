@@ -1,4 +1,4 @@
-package com.narvatov.datingapp.ui.delegate.activity.availability
+package com.narvatov.datingapp.delegate.activity.availability
 
 interface IUserAvailabilityDelegate {
 

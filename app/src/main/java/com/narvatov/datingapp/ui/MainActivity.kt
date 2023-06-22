@@ -20,9 +20,9 @@ import androidx.core.view.WindowInsetsCompat.toWindowInsetsCompat
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.narvatov.datingapp.delegate.activity.admob.AdMobDelegate
+import com.narvatov.datingapp.delegate.activity.availability.UserAvailabilityDelegate
 import com.narvatov.datingapp.ui.common.PhotoPickBottomSheet
-import com.narvatov.datingapp.ui.delegate.activity.admob.AdMobDelegate
-import com.narvatov.datingapp.ui.delegate.activity.availability.UserAvailabilityDelegate
 import com.narvatov.datingapp.ui.navigation.BottomBar
 import com.narvatov.datingapp.ui.navigation.NavHostContent
 import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.bottomSheetVisibilityEvents

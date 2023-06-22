@@ -2,8 +2,8 @@ package com.narvatov.datingapp.data.repository.messages.chat
 
 import com.narvatov.datingapp.data.remotedb.firestore.ChatRemoteDataSource
 import com.narvatov.datingapp.data.remotedb.firestore.ConversationRemoteDataSource
-import com.narvatov.datingapp.data.repository.NotificationRepository
 import com.narvatov.datingapp.data.repository.Repository
+import com.narvatov.datingapp.data.repository.notification.NotificationRepository
 import com.narvatov.datingapp.model.local.user.User
 import com.narvatov.datingapp.model.remote.ConversationEntity.Companion.updateConversationEntity
 import com.narvatov.datingapp.model.remote.SendNewMessage.Companion.newSendMessageEntity

@@ -1,4 +1,4 @@
-package com.narvatov.datingapp.ui.delegate.activity.admob
+package com.narvatov.datingapp.delegate.activity.admob
 
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.lifecycleScope

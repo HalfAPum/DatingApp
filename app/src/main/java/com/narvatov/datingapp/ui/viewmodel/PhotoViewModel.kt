@@ -6,8 +6,8 @@ import android.provider.MediaStore
 import androidx.activity.result.ActivityResult
 import androidx.lifecycle.ViewModel
 import com.halfapum.general.coroutines.launchCatching
-import com.narvatov.datingapp.data.delegate.context.ContextDelegate
-import com.narvatov.datingapp.data.delegate.context.IContextDelegate
+import com.narvatov.datingapp.delegate.common.context.ContextDelegate
+import com.narvatov.datingapp.delegate.common.context.IContextDelegate
 import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.hidePhotoBottomSheet
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

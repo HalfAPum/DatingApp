@@ -62,9 +62,11 @@ class ConversationRemoteDataSource(
             ?: throwNoConversationId()
     }
 
+
     suspend fun addConversation(conversationEntity: ConversationEntity) = IOOperation {
         collection.add(conversationEntity).awaitUnit()
     }
+
 
     suspend fun updateConversation(
         conversationId: String,

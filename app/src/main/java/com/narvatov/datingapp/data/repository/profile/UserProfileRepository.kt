@@ -35,8 +35,6 @@ class UserProfileRepository(
     }
 
     private suspend fun executePostLogoutActions() = IOOperation {
-        userRemoteDataSource.clearAllUsers()
-
         userSessionRepository.updateUser(User.emptyUser)
 
         preferencesDataStore.clearUserPreferences()

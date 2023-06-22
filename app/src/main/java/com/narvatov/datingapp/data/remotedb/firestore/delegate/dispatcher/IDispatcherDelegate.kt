@@ -1,4 +1,4 @@
-package com.narvatov.datingapp.data.delegate.dispatcher
+package com.narvatov.datingapp.data.remotedb.firestore.delegate.dispatcher
 
 import com.halfapum.general.coroutines.Dispatcher
 import kotlinx.coroutines.CoroutineDispatcher

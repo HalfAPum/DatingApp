@@ -44,8 +44,6 @@ class SignRepository(
 
         userApi.signUp(SignUpRequest(id = userId))
 
-        userRemoteDataSource.clearAllUsers()
-
         signIn(newUser.toUserAuth())
     }
 

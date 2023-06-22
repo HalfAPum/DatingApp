@@ -1,4 +1,4 @@
-package com.narvatov.datingapp.data.delegate.coroutine
+package com.narvatov.datingapp.data.remotedb.firestore.delegate.coroutine
 
 import com.halfapum.general.coroutines.launchCatching
 import kotlinx.coroutines.CoroutineScope

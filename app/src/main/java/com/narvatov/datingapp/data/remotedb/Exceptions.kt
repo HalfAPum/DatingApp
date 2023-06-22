@@ -3,7 +3,7 @@ package com.narvatov.datingapp.data.remotedb
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import com.narvatov.datingapp.R
-import com.narvatov.datingapp.data.delegate.context.IContextDelegate
+import com.narvatov.datingapp.delegate.common.context.IContextDelegate
 
 context (IContextDelegate)
 fun throwNoSuchUserException(): Nothing = throw NoSuchElementException(

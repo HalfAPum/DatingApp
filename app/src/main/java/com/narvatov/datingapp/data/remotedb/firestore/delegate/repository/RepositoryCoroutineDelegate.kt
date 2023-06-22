@@ -1,6 +1,6 @@
-package com.narvatov.datingapp.data.delegate.repository
+package com.narvatov.datingapp.data.remotedb.firestore.delegate.repository
 
-import com.narvatov.datingapp.data.delegate.dispatcher.DispatcherDelegate.IODispatcher
+import com.narvatov.datingapp.data.remotedb.firestore.delegate.dispatcher.DispatcherDelegate.IODispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 

@@ -9,7 +9,6 @@ import com.narvatov.datingapp.data.remotedb.Schema
 import com.narvatov.datingapp.data.remotedb.awaitUnit
 import com.narvatov.datingapp.data.remotedb.mapUser
 import com.narvatov.datingapp.data.remotedb.throwNoSuchUserException
-import com.narvatov.datingapp.model.local.user.User
 import com.narvatov.datingapp.model.local.user.UserAuth
 import com.narvatov.datingapp.model.remote.NewUserEntity
 import kotlinx.coroutines.flow.map
@@ -21,38 +20,16 @@ class UserRemoteDataSource : FireStoreRemoteDataSource() {
 
     override val collectionName = Schema.USER_TABLE
 
-    //TODO ALL USERS IS TEMP IMPLEMENTATION REMOVE THIS SHIT LATER
-    private var allUsers: Map<String, User> = emptyMap()
-
-    suspend fun getAllUsers(): Map<String, User> = IOOperation {
-        if (allUsers.isNotEmpty()) return@IOOperation allUsers
-
-        val data = collection.get().await()
-
-        data.documents.associate { rawUser ->
-            val id = rawUser.id
-            val user = rawUser.mapUser()
-
-            id to user
-        }.apply {
-            allUsers = this
-        }
-    }
-
-    fun clearAllUsers() {
-        allUsers = emptyMap()
-    }
-
     suspend fun getSignedUser(userAuth: UserAuth) = IOOperation {
-        val user = getAllUsers().values.firstOrNull { it.email == userAuth.email }
+        val user = collection
+            .whereEqualTo(Schema.USER_EMAIL, userAuth.email)
+            .get()
+            .await()
+            .map { it.mapUser() }
+            .firstOrNull()
 
         return@IOOperation user ?: throwNoSuchUserException()
     }
-
-    fun getUserFlow(userId: String) = collection
-        .document(userId)
-        .snapshots()
-        .map { it.mapUser() }
 
     suspend fun getUsersByIds(userIds: List<String>) = IOOperation {
         collection
@@ -63,6 +40,23 @@ class UserRemoteDataSource : FireStoreRemoteDataSource() {
             .map { it.mapUser() }
     }
 
+    fun getUserFlow(userId: String) = collection
+        .document(userId)
+        .snapshots()
+        .map { it.mapUser() }
+
+
+    suspend fun saveNewUser(newUserEntity: NewUserEntity) = IOOperation {
+        collection.add(newUserEntity).await().id
+    }
+
+
+    suspend fun updateUserAvailability(userId: String, available: Boolean) = IOOperation {
+        if (userId.isBlank()) return@IOOperation
+
+        collection.document(userId).update(Schema.USER_AVAILABLE, available).awaitUnit()
+    }
+
     suspend fun updateUserFCM(userId: String): String = IOOperation {
         val token = Firebase.messaging.token.await()
 
@@ -71,22 +65,13 @@ class UserRemoteDataSource : FireStoreRemoteDataSource() {
         token
     }
 
+
     suspend fun removeUserFCM(userId: String) = IOOperation {
         collection.document(userId).update(Schema.USER_FCM_TOKEN, FieldValue.delete()).awaitUnit()
     }
 
     suspend fun deleteUser(userId: String) = IOOperation {
         collection.document(userId).delete().awaitUnit()
-    }
-
-    suspend fun saveNewUser(newUserEntity: NewUserEntity) = IOOperation {
-        collection.add(newUserEntity).await().id
-    }
-
-    suspend fun updateUserAvailability(userId: String, available: Boolean) = IOOperation {
-        if (userId.isBlank()) return@IOOperation
-
-        collection.document(userId).update(Schema.USER_AVAILABLE, available).awaitUnit()
     }
 
 }
