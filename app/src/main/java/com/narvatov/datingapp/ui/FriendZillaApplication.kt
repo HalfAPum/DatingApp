@@ -5,7 +5,9 @@ import com.halfapum.general.coroutines.exception.DefaultCoroutineExceptionHandle
 import com.halfapum.general.coroutines.exception.ExceptionPropagator
 import com.halfapum.general.coroutines.exception.generalCoroutineExceptionHandler
 import com.narvatov.datingapp.di.appModule
-import com.narvatov.datingapp.di.networkModule
+import com.narvatov.datingapp.di.network.fcmNetworkModule
+import com.narvatov.datingapp.di.network.friendZillaNetworkModule
+import com.narvatov.datingapp.di.network.networkModule
 import com.narvatov.datingapp.di.viewModelModule
 import com.narvatov.datingapp.utils.plantTimberDebug
 import org.koin.android.ext.koin.androidContext
@@ -16,7 +18,7 @@ import org.koin.ksp.generated.defaultModule
 import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
 
-class DatingApplication : Application(), KoinComponent {
+class FriendZillaApplication : Application(), KoinComponent {
 
     override fun onCreate() {
         super.onCreate()
@@ -33,12 +35,15 @@ class DatingApplication : Application(), KoinComponent {
 
         startKoin {
             androidLogger()
-            androidContext(this@DatingApplication)
+            androidContext(this@FriendZillaApplication)
             modules(
                 defaultModule,
                 appModule,
                 viewModelModule,
+
                 networkModule,
+                fcmNetworkModule,
+                friendZillaNetworkModule,
             )
         }
     }

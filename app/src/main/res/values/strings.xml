@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Dating App</string>
+    <string name="app_name">FriendZilla</string>
     <string name="welcome">Welcome!</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
