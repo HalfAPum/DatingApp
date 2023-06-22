@@ -33,9 +33,7 @@ class ChatRepository(
         val updateConversationEntity = updateConversationEntity(message, userId)
         conversationRemoteDataSource.updateConversation(conversationId, updateConversationEntity)
 
-        if (friend.offline) {
-            notificationRepository.sendNotification(friend, message)
-        }
+        notificationRepository.sendNotification(friend, message)
     }
 
 }

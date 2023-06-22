@@ -16,7 +16,7 @@ class NotificationRepository(
 ) : Repository() {
 
     suspend fun sendNotification(friend: User, message: String) = IOOperation {
-        if (friend.fcmToken == null) return@IOOperation
+        if (friend.online || friend.fcmToken == null) return@IOOperation
 
         val sendNotification = SendNotification(
             NotificationData(
