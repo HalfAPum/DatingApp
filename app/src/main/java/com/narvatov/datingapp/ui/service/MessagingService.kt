@@ -3,14 +3,19 @@ package com.narvatov.datingapp.ui.service
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.app.TaskStackBuilder
+import androidx.core.net.toUri
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.halfapum.general.coroutines.Dispatcher
 import com.narvatov.datingapp.R
 import com.narvatov.datingapp.data.preference.NotificationPreferencesDataStore
+import com.narvatov.datingapp.ui.MainActivity
 import com.narvatov.datingapp.utils.inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -41,8 +46,21 @@ class MessagingService : FirebaseMessagingService() {
 
             if (notificationPreference.isNotAllowed()) return@launch
 
+            val friendId = remoteMessage.data["friend_id"]
             val userName = remoteMessage.data["name"]
             val message = remoteMessage.data["message"]
+
+            val deepLinkIntent = Intent(
+                Intent.ACTION_VIEW,
+                "https://www.friendzilla.chat/$friendId".toUri(),
+                context,
+                MainActivity::class.java,
+            )
+
+            val deepLinkPendingIntent = TaskStackBuilder.create(context).run {
+                addNextIntentWithParentStack(deepLinkIntent)
+                getPendingIntent(0, PendingIntent.FLAG_MUTABLE)
+            }
 
             val notificationId = Random().nextInt()
             val channelId = "chat_message"
@@ -52,6 +70,7 @@ class MessagingService : FirebaseMessagingService() {
                 setContentTitle(userName)
                 setContentText(message)
                 setStyle(NotificationCompat.BigTextStyle().bigText(message))
+                setContentIntent(deepLinkPendingIntent)
                 priority = NotificationCompat.PRIORITY_DEFAULT
                 setAutoCancel(true)
             }

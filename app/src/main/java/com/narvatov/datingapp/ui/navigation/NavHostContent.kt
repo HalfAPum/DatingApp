@@ -10,7 +10,9 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
+import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
 import com.narvatov.datingapp.ui.screen.connect.Connect
 import com.narvatov.datingapp.ui.screen.messages.Messages
 import com.narvatov.datingapp.ui.screen.messages.chat.Chat
@@ -70,6 +72,19 @@ fun NavHostContent(
             argument = navArgument(Chat.FRIEND_ID) { type = NavType.StringType }
         ) { backStackEntry ->
             val fiendId = backStackEntry.arguments?.getString(Chat.FRIEND_ID)
+
+            val chatViewModel: ChatViewModel = getViewModel(parameters = { parametersOf(fiendId) })
+
+            Chat(viewModel = chatViewModel)
+        }
+
+        val uri = "https://www.friendzilla.chat"
+        composable(
+            route = "friendchat?id={id}",
+            deepLinks = listOf(navDeepLink { uriPattern = "$uri/{id}" })
+//            { navArgument(Chat.FRIEND_ID) { type = NavType.StringType }
+        ) { backStackEntry ->
+            val fiendId = backStackEntry.arguments?.getString("id")
 
             val chatViewModel: ChatViewModel = getViewModel(parameters = { parametersOf(fiendId) })
 

@@ -10,8 +10,8 @@ data class SendNotification(
 )
 
 data class NotificationData(
-    @SerializedName("user_id")
-    val userId: String,
+    @SerializedName("friend_id")
+    val friendId: String,
     @SerializedName("name")
     val name: String,
     @SerializedName("fcm_token")
