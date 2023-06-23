@@ -56,7 +56,7 @@ fun SignIn(
 
         val focusManager = LocalFocusManager.current
 
-        var email by rememberSaveable { mutableStateOf("kitty@gmail.com") }
+        var email by rememberSaveable { mutableStateOf("coffee@gmail.com") }
 
         OutlinedTextField(
             value = email,

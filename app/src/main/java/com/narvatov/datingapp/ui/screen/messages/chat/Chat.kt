@@ -52,9 +52,16 @@ import com.narvatov.datingapp.ui.screen.messages.chat.message.UserMessage
 import com.narvatov.datingapp.ui.theme.PrimaryColor
 import com.narvatov.datingapp.ui.theme.Typography
 import com.narvatov.datingapp.ui.viewmodel.messages.chat.ChatViewModel
+import org.koin.androidx.compose.getViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
-fun Chat(viewModel: ChatViewModel) {
+fun Chat(friendId: String?) {
+    ChatImpl(viewModel = getViewModel(parameters = { parametersOf(friendId) }))
+}
+
+@Composable
+private fun ChatImpl(viewModel: ChatViewModel) {
     val friendFlow by viewModel.friendFlow.collectAsState(null)
     val chatMessages by viewModel.chatMessageFlow.collectAsState(emptyList())
 

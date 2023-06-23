@@ -6,6 +6,7 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
+import androidx.navigation.NavDeepLink
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptionsBuilder
@@ -27,6 +28,18 @@ fun NavGraphBuilder.composable(
         route = destination.route,
         arguments = if (argument == null) emptyList() else listOf(argument),
         deepLinks = emptyList(),
+        content = content,
+    )
+}
+
+fun NavGraphBuilder.composable(
+    destination: Destination,
+    deepLink: NavDeepLink,
+    content: @Composable (NavBackStackEntry) -> Unit,
+) {
+    composable(
+        route = destination.route,
+        deepLinks = listOf(deepLink),
         content = content,
     )
 }

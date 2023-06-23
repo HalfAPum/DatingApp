@@ -1,11 +1,16 @@
 package com.narvatov.datingapp.ui.navigation
 
+import android.content.Context
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material.icons.rounded.ConnectWithoutContact
 import androidx.compose.material.icons.rounded.Message
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.navigation.NamedNavArgument
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
 import com.narvatov.datingapp.R
 import com.narvatov.datingapp.model.local.user.User
 
@@ -110,6 +115,25 @@ object Chat : Destination {
 
     override val navigationParam: String
         get() = FRIEND_ID
+
+    const val FRIEND_ID = "fiendId"
+
+    val navigationArgument: NamedNavArgument
+        get() = navArgument(FRIEND_ID) { type = NavType.StringType }
+
+}
+
+object ChatDeeplink : Destination {
+
+    override val simpleRoute: String
+        get() = super.simpleRoute + deeplinkQuery
+
+    private val deeplinkQuery: String
+        get() = "?$FRIEND_ID={$FRIEND_ID}"
+
+    fun getDeeplink(context: Context) = navDeepLink {
+        uriPattern = "${context.getString(R.string.chat_deeplink_host)}/{$FRIEND_ID}"
+    }
 
     const val FRIEND_ID = "fiendId"
 

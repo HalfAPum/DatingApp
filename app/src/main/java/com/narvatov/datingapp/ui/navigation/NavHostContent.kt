@@ -7,24 +7,18 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
-import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
-import androidx.navigation.navDeepLink
-import com.narvatov.datingapp.R
 import com.narvatov.datingapp.ui.screen.connect.Connect
 import com.narvatov.datingapp.ui.screen.messages.Messages
 import com.narvatov.datingapp.ui.screen.messages.chat.Chat
+import com.narvatov.datingapp.ui.screen.messages.chat.DeeplinkChat
 import com.narvatov.datingapp.ui.screen.profile.FriendProfile
 import com.narvatov.datingapp.ui.screen.profile.UserProfile
 import com.narvatov.datingapp.ui.screen.sign.SignIn
 import com.narvatov.datingapp.ui.screen.sign.SignUp
-import com.narvatov.datingapp.ui.viewmodel.messages.chat.ChatViewModel
 import org.koin.androidx.compose.getViewModel
-import org.koin.core.parameter.parametersOf
 
 @Composable
 fun NavHostContent(
@@ -35,6 +29,8 @@ fun NavHostContent(
     val scope = rememberCoroutineScope()
 
     val isBottomSheetVisible by UiNavigationEventPropagator.bottomSheetVisibilityEvents.collectAsState(false)
+
+    val context = LocalContext.current
 
     NavHost(
         navController = navController,
@@ -71,24 +67,20 @@ fun NavHostContent(
 
         composable(
             destination = Chat,
-            argument = navArgument(Chat.FRIEND_ID) { type = NavType.StringType }
+            argument = Chat.navigationArgument
         ) { backStackEntry ->
-            val fiendId = backStackEntry.arguments?.getString(Chat.FRIEND_ID)
+            val friendId = backStackEntry.arguments?.getString(Chat.FRIEND_ID)
 
-            val chatViewModel: ChatViewModel = getViewModel(parameters = { parametersOf(fiendId) })
-
-            Chat(viewModel = chatViewModel)
+            Chat(friendId)
         }
 
         composable(
-            route = "friendchat?id={id}",
-            deepLinks = listOf(navDeepLink { uriPattern = "${stringResource(R.string.chat_deeplink_host)}/{id}" })
+            destination = ChatDeeplink,
+            deepLink = ChatDeeplink.getDeeplink(context)
         ) { backStackEntry ->
-            val fiendId = backStackEntry.arguments?.getString("id")
+            val friendId = backStackEntry.arguments?.getString(ChatDeeplink.FRIEND_ID)
 
-            val chatViewModel: ChatViewModel = getViewModel(parameters = { parametersOf(fiendId) })
-
-            Chat(viewModel = chatViewModel)
+            DeeplinkChat(friendId)
         }
     }
 }

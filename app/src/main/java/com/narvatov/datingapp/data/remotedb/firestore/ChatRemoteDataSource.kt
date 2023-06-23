@@ -16,6 +16,10 @@ class ChatRemoteDataSource(
     private val friendId: String,
 ) : FireStoreRemoteDataSource() {
 
+    init {
+        println("FUCK WTF USER ${userId} AGAINST ${friendId}")
+    }
+
     override val collectionName = Schema.CHAT_TABLE
 
     //Todo add paging
