@@ -3,8 +3,10 @@ package com.narvatov.datingapp.ui.viewmodel.sign
 import com.halfapum.general.coroutines.launchCatching
 import com.narvatov.datingapp.R
 import com.narvatov.datingapp.data.repository.sign.SignRepository
+import com.narvatov.datingapp.model.local.action.Action
 import com.narvatov.datingapp.model.local.user.UserAuth
 import com.narvatov.datingapp.ui.navigation.BottomNavigationDestination
+import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.actionFlow
 import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.navigate
 import com.narvatov.datingapp.ui.viewmodel.ErrorViewModel
 import org.koin.android.annotation.KoinViewModel
@@ -30,6 +32,8 @@ class SignInViewModel(private val signRepository: SignRepository): ErrorViewMode
                 signRepository.signIn(UserAuth(email, password))
 
                 navigate(BottomNavigationDestination.Messages, clearBackStack = true)
+
+                actionFlow.emit(Action.SignAction.SignInAction)
             }
         }
     }

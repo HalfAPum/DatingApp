@@ -1,7 +1,5 @@
 package com.narvatov.datingapp.delegate.activity.availability
 
-interface IUserAvailabilityDelegate {
+import com.narvatov.datingapp.delegate.activity.InitializeDelegate
 
-    fun initialize() = Unit
-
-}
+interface IUserAvailabilityDelegate : InitializeDelegate

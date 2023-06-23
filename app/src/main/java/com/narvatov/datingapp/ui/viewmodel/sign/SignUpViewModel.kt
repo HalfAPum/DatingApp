@@ -3,8 +3,10 @@ package com.narvatov.datingapp.ui.viewmodel.sign
 import android.graphics.Bitmap
 import com.narvatov.datingapp.R
 import com.narvatov.datingapp.data.repository.sign.SignRepository
+import com.narvatov.datingapp.model.local.action.Action
 import com.narvatov.datingapp.model.local.user.NewUser
 import com.narvatov.datingapp.ui.navigation.BottomNavigationDestination
+import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.actionFlow
 import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.navigate
 import com.narvatov.datingapp.ui.viewmodel.ErrorViewModel
 import com.narvatov.datingapp.utils.toBase64
@@ -40,6 +42,8 @@ class SignUpViewModel(private val signRepository: SignRepository): ErrorViewMode
                 signRepository.signUp(NewUser(email, password, firstName, lastName, photoBitmap.toBase64))
 
                 navigate(BottomNavigationDestination.UserProfile, clearBackStack = true)
+
+                actionFlow.emit(Action.SignAction.SignUpAction)
             }
         }
     }

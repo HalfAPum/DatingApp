@@ -1,5 +1,6 @@
 package com.narvatov.datingapp.ui.navigation
 
+import com.narvatov.datingapp.model.local.action.Action
 import com.narvatov.datingapp.model.local.admob.AdMobEvent
 import com.narvatov.datingapp.model.local.user.User
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -9,6 +10,7 @@ object UiNavigationEventPropagator {
     val navigationEvents = MutableSharedFlow<Destination>(extraBufferCapacity = 1)
     val bottomSheetVisibilityEvents = MutableSharedFlow<Boolean>(extraBufferCapacity = 1)
     val adMobEvents = MutableSharedFlow<AdMobEvent>(replay = 1, extraBufferCapacity = 1)
+    val actionFlow = MutableSharedFlow<Action>(extraBufferCapacity = 1)
 
     private fun MutableSharedFlow<Destination>.navigate(destination: Destination) {
         println("NAVIGATOR LOGGER NAVIGATE TO ${destination.route}")

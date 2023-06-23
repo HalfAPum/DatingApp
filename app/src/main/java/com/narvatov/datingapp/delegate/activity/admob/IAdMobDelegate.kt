@@ -1,7 +1,5 @@
 package com.narvatov.datingapp.delegate.activity.admob
 
-interface IAdMobDelegate {
+import com.narvatov.datingapp.delegate.activity.InitializeDelegate
 
-    fun initialize() = Unit
-
-}
+interface IAdMobDelegate : InitializeDelegate
