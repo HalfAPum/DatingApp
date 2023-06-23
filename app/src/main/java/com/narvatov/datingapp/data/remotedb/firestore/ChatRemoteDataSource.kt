@@ -14,11 +14,7 @@ import java.util.LinkedList
 class ChatRemoteDataSource(
     private val userId: String,
     private val friendId: String,
-) : FireStoreRemoteDataSource() {
-
-    init {
-        println("FUCK WTF USER ${userId} AGAINST ${friendId}")
-    }
+) : FirestoreRemoteDataSource() {
 
     override val collectionName = Schema.CHAT_TABLE
 

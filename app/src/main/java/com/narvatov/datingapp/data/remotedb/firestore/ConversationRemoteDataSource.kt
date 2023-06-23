@@ -15,7 +15,7 @@ import java.util.LinkedList
 
 class ConversationRemoteDataSource(
     private val userId: String,
-) : FireStoreRemoteDataSource() {
+) : FirestoreRemoteDataSource() {
 
     override val collectionName = Schema.CONVERSATION_TABLE
 

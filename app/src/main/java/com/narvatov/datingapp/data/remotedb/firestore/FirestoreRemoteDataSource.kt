@@ -10,7 +10,7 @@ import com.narvatov.datingapp.data.remotedb.firestore.delegate.dispatcher.IDispa
 import com.narvatov.datingapp.delegate.common.context.ContextDelegate
 import com.narvatov.datingapp.delegate.common.context.IContextDelegate
 
-abstract class FireStoreRemoteDataSource : IDispatcherDelegate by DispatcherDelegate, IContextDelegate by ContextDelegate,
+abstract class FirestoreRemoteDataSource : IDispatcherDelegate by DispatcherDelegate, IContextDelegate by ContextDelegate,
     ICoroutineDelegate by CoroutineDelegate {
 
     private val db = Firebase.firestore

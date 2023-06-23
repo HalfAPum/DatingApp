@@ -16,7 +16,7 @@ import kotlinx.coroutines.tasks.await
 import org.koin.core.annotation.Single
 
 @Single
-class UserRemoteDataSource : FireStoreRemoteDataSource() {
+class UserRemoteDataSource : FirestoreRemoteDataSource() {
 
     override val collectionName = Schema.USER_TABLE
 

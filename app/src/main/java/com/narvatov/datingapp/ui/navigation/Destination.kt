@@ -98,9 +98,9 @@ val bottomNavigationDestinations = listOf(
     BottomNavigationDestination.UserProfile,
 )
 
-//val deeplinkDestinationToBottomNavigationDestination = mapOf(
-//
-//)
+val deeplinkDestinationToBottomNavigationDestination = mapOf(
+    ChatDeeplink.simpleRoute to BottomNavigationDestination.Messages
+)
 
 sealed class DialogDestination(
     val dismissOnBackPress: Boolean = true,
@@ -139,4 +139,4 @@ object ChatDeeplink : Destination {
 
 }
 
-val noBottomBarDestinations = listOf(SignIn, SignUp, Chat).map { it.route }
+val noBottomBarDestinations = listOf(SignIn, SignUp, Chat, ChatDeeplink).map { it.route }
