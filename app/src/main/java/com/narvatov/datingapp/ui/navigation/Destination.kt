@@ -93,6 +93,10 @@ val bottomNavigationDestinations = listOf(
     BottomNavigationDestination.UserProfile,
 )
 
+//val deeplinkDestinationToBottomNavigationDestination = mapOf(
+//
+//)
+
 sealed class DialogDestination(
     val dismissOnBackPress: Boolean = true,
     val dismissOnClickOutside: Boolean = true,

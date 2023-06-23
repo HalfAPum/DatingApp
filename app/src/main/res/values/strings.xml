@@ -1,4 +1,10 @@
 <resources>
+    <!--Constants-->
+    <string name="chat_deeplink_host">www.friendzilla.chat</string>
+    <string name="chat_deeplink_scheme">https</string>
+    <string name="chat_full_deeplink">https://www.friendzilla.chat</string>
+
+    <!--Translations-->
     <string name="app_name">FriendZilla</string>
     <string name="welcome">Welcome!</string>
     <string name="email">Email</string>
@@ -40,4 +46,6 @@
     <string name="no_fcmtoken_exception">User can\'t have empty FCM token something must have gone wrong.</string>
     <string name="user_with_such_email_already_exists">User with such email already exists.</string>
     <string name="new_match">New Match!</string>
+    <string name="chat_notification_channel_name">Chat Message</string>
+    <string name="chat_notification_channel_description">This notification channel is used for message notifications</string>
 </resources>

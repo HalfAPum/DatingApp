@@ -50,9 +50,11 @@ class MessagingService : FirebaseMessagingService() {
             val userName = remoteMessage.data["name"]
             val message = remoteMessage.data["message"]
 
+            val chatDeeplinkUrl = getString(R.string.chat_full_deeplink)
+
             val deepLinkIntent = Intent(
                 Intent.ACTION_VIEW,
-                "https://www.friendzilla.chat/$friendId".toUri(),
+                "$chatDeeplinkUrl/$friendId".toUri(),
                 context,
                 MainActivity::class.java,
             )
@@ -76,9 +78,8 @@ class MessagingService : FirebaseMessagingService() {
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val channelName = "Chat Message"
-                val channelDescription =
-                    "This notification channel is used for message notifications"
+                val channelName = getString(R.string.chat_notification_channel_name)
+                val channelDescription = getString(R.string.chat_notification_channel_description)
                 val importance = NotificationManager.IMPORTANCE_DEFAULT
                 val channel = NotificationChannel(channelId, channelName, importance)
                 channel.description = channelDescription
