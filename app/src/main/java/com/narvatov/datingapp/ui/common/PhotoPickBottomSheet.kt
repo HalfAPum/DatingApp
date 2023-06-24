@@ -9,6 +9,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -22,8 +25,9 @@ import com.narvatov.datingapp.ui.viewmodel.PhotoViewModel
 import com.narvatov.datingapp.utils.CameraIntent
 import com.narvatov.datingapp.utils.GalleryIntent
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun PhotoPickBottomSheet(viewModel: PhotoViewModel) {
+fun PhotoPickBottomSheet(viewModel: PhotoViewModel, bottomSheetState: ModalBottomSheetState) {
     val selectPhotoLauncher = rememberLauncherForActivityResult(
         contract = StartActivityForResult(),
         onResult = viewModel::onPhotoSelected,
@@ -36,31 +40,35 @@ fun PhotoPickBottomSheet(viewModel: PhotoViewModel) {
 
     val context = LocalContext.current
 
-    Column(modifier = Modifier.fillMaxWidth().background(color = Color.LightGray)) {
-        Spacer(Modifier.height(20.dp))
+    if (bottomSheetState.isVisible) {
+        Column(modifier = Modifier.fillMaxWidth().background(color = Color.LightGray)) {
+            Spacer(Modifier.height(20.dp))
 
-        Text(
-            text = stringResource(R.string.select_photo_from_gallery),
-            style = Typography.h6,
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable { selectPhotoLauncher.launch(GalleryIntent(context)) }
-                .padding(vertical = 10.dp)
-                .padding(start = 20.dp)
-        )
+            Text(
+                text = stringResource(R.string.select_photo_from_gallery),
+                style = Typography.h6,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { selectPhotoLauncher.launch(GalleryIntent(context)) }
+                    .padding(vertical = 10.dp)
+                    .padding(start = 20.dp)
+            )
 
-        Spacer(Modifier.height(10.dp))
+            Spacer(Modifier.height(10.dp))
 
-        Text(
-            text = stringResource(R.string.take_photo_now),
-            style = Typography.h6,
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable { takePhotoLauncher.launch(CameraIntent()) }
-                .padding(vertical = 10.dp)
-                .padding(start = 20.dp)
-        )
+            Text(
+                text = stringResource(R.string.take_photo_now),
+                style = Typography.h6,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { takePhotoLauncher.launch(CameraIntent()) }
+                    .padding(vertical = 10.dp)
+                    .padding(start = 20.dp)
+            )
 
-        Spacer(Modifier.height(20.dp))
+            Spacer(Modifier.height(20.dp))
+        }
+    } else {
+        Spacer(modifier = Modifier.size(1.dp).background(color = Color.Transparent))
     }
 }

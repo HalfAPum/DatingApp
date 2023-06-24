@@ -124,7 +124,7 @@ class MainActivity : ComponentActivity() {
                 ModalBottomSheetLayout(
                     sheetState = modalSheetState,
                     sheetShape = Shapes.large.copy(bottomStart = CornerSize(0.dp), bottomEnd = CornerSize(0.dp)),
-                    sheetContent = { PhotoPickBottomSheet(getViewModel(owner = activityViewModelStoreOwner)) }
+                    sheetContent = { PhotoPickBottomSheet(getViewModel(owner = activityViewModelStoreOwner), modalSheetState) }
                 ) {
                     Scaffold(
                         navController = navController,
