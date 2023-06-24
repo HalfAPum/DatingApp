@@ -5,6 +5,7 @@ import com.halfapum.general.coroutines.Dispatcher
 import com.halfapum.general.coroutines.launchCatching
 import com.narvatov.datingapp.data.remotedb.firestore.UserRemoteDataSource
 import com.narvatov.datingapp.data.repository.messages.chat.ChatRepository
+import com.narvatov.datingapp.domain.chat.SendMessageUseCase
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOn
 import org.koin.android.annotation.KoinViewModel
@@ -23,14 +24,19 @@ class ChatViewModel(
         parameters = { parametersOf(friendId) },
     )
 
+    private val sendMessageUseCase: SendMessageUseCase by lazy {
+        inject<SendMessageUseCase>(
+            SendMessageUseCase::class.java,
+            parameters = { parametersOf(chatRepository) },
+        ).value
+    }
+
     val chatMessageFlow = chatRepository.chatMessageFlow.flowOn(dispatcher.IO)
 
     val friendFlow = userRemoteDataSource.getUserFlow(friendId)
 
     fun sendMessage(message: String) = launchCatching {
-        if (message.isBlank()) return@launchCatching
-
-        chatRepository.sendMessage(friendFlow.first(), message)
+        sendMessageUseCase(message, friendFlow.first())
     }
 
 }

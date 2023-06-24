@@ -5,6 +5,7 @@ import com.narvatov.datingapp.data.remotedb.firestore.ChatRemoteDataSource
 import com.narvatov.datingapp.data.remotedb.firestore.ConversationRemoteDataSource
 import com.narvatov.datingapp.data.repository.messages.chat.ChatRepository
 import com.narvatov.datingapp.data.repository.user.UserSessionRepository
+import com.narvatov.datingapp.domain.chat.SendMessageUseCase
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 
@@ -20,6 +21,10 @@ val appModule = module {
             get(),
             get()
         )
+    }
+
+    factory {
+        SendMessageUseCase(it.get())
     }
 
     factory {

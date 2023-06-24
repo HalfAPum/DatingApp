@@ -27,7 +27,7 @@ class ChatRepository(
         }
     }
 
-    suspend fun sendMessage(friend: User, message: String) {
+    suspend fun sendMessage(message: String, friend: User) {
         chatRemoteDataSource.sendMessage(newSendMessageEntity(message, userId, friendId))
 
         val updateConversationEntity = updateConversationEntity(message, userId)

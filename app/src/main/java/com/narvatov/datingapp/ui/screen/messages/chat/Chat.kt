@@ -28,6 +28,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -52,6 +53,7 @@ import com.narvatov.datingapp.ui.screen.messages.chat.message.UserMessage
 import com.narvatov.datingapp.ui.theme.PrimaryColor
 import com.narvatov.datingapp.ui.theme.Typography
 import com.narvatov.datingapp.ui.viewmodel.messages.chat.ChatViewModel
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -160,6 +162,8 @@ private fun ChatImpl(viewModel: ChatViewModel) {
                         modifier = Modifier.padding(start = 20.dp).weight(1F)
                     )
 
+                    val scrollScope = rememberCoroutineScope()
+
                     Image(
                         imageVector = Icons.Rounded.Send,
                         contentDescription = stringResource(R.string.send_message),
@@ -172,6 +176,10 @@ private fun ChatImpl(viewModel: ChatViewModel) {
                             .clickable {
                                 viewModel.sendMessage(message)
                                 message = ""
+
+                                scrollScope.launch {
+                                    chatMessagesListState.animateScrollToItem(0, 0)
+                                }
                             },
                     )
                 }
