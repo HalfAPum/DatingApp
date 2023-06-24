@@ -40,7 +40,7 @@ fun NavHostContent(
         composableNavigationHandler(scope, isBottomSheetVisible, navController)
 
         composable(SignIn) {
-            SignIn()
+            SignIn(navController)
         }
 
         composable(SignUp) {

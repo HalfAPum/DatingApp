@@ -61,7 +61,7 @@ class MessagingService : FirebaseMessagingService() {
 
             val deepLinkPendingIntent = TaskStackBuilder.create(context).run {
                 addNextIntentWithParentStack(deepLinkIntent)
-                getPendingIntent(0, PendingIntent.FLAG_MUTABLE)
+                getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
             }
 
             val notificationId = Random().nextInt()

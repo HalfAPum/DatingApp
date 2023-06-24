@@ -25,6 +25,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.narvatov.datingapp.R
 import com.narvatov.datingapp.ui.common.ErrorText
 import com.narvatov.datingapp.ui.common.WideButton
@@ -35,7 +36,13 @@ import com.narvatov.datingapp.ui.viewmodel.sign.SignInViewModel
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun SignIn(
+fun SignIn(navController: NavHostController) {
+    println("FUCK WTF BACK STACK ${navController.backQueue.map { it.destination.route }}")
+    SignInImpl()
+}
+
+@Composable
+fun SignInImpl(
     viewModel: SignInViewModel = getViewModel()
 ) {
     val scrollState = rememberScrollState()
