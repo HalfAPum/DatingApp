@@ -158,7 +158,7 @@ private fun ChatImpl(viewModel: ChatViewModel) {
                             viewModel.sendMessage(message)
                             message = ""
                         }),
-                        singleLine = true,
+                        maxLines = 6,
                         modifier = Modifier.padding(start = 20.dp).weight(1F)
                     )
 
