@@ -7,6 +7,8 @@ import com.narvatov.datingapp.data.repository.notification.NotificationRepositor
 import com.narvatov.datingapp.model.local.user.User
 import com.narvatov.datingapp.model.remote.ConversationEntity.Companion.updateConversationEntity
 import com.narvatov.datingapp.model.remote.SendNewMessage.Companion.newSendMessageEntity
+import com.narvatov.datingapp.ui.navigation.BottomNavigationDestination
+import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.navigate
 import kotlin.properties.Delegates.notNull
 
 class ChatRepository(
@@ -23,7 +25,13 @@ class ChatRepository(
 
     init {
         launchCatching {
-            conversationId = conversationRemoteDataSource.getConversationId(friendId)
+            try {
+                conversationId = conversationRemoteDataSource.getConversationId(friendId)
+            } catch (e: IllegalArgumentException) {
+                //Error occurs when we open deeplink message from deleted account.
+                //Consider adding blocking dialog with explanation what happened.
+                navigate(BottomNavigationDestination.Messages, clearBackStack = true)
+            }
         }
     }
 

@@ -49,7 +49,7 @@ class ChatViewModel(
     init {
         userRemoteDataSource.getUserFlow(friendId)
             .catch {
-                //Occurs when we are in chat with person and he deletes account.
+                //Error occurs when we are in chat with person and he deletes account.
                 //Just ignore it don't pop user back because it is unexpected behavior for user.
                 //Consider adding blocking dialog with explanation what happened.
             }
