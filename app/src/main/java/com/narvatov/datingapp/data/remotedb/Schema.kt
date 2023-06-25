@@ -23,6 +23,7 @@ object Schema {
     const val CONVERSATION_AUTHOR_NAME = "author_name"
     const val CONVERSATION_RESPONDER_NAME = "responder_name"
     const val CONVERSATION_LAST_MESSAGE = "last_message"
+    const val CONVERSATION_IS_READ = "is_read"
     const val CONVERSATION_LAST_MESSAGE_TIMESTAMP = "last_message_timestamp"
     const val CONVERSATION_LAST_MESSAGE_SENDER_ID = "last_message_sender_id"
 }

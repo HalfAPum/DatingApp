@@ -6,33 +6,35 @@ import com.narvatov.datingapp.data.remotedb.firestore.ConversationRemoteDataSour
 import com.narvatov.datingapp.data.remotedb.firestore.UserRemoteDataSource
 import com.narvatov.datingapp.model.local.message.ChatMessage
 import com.narvatov.datingapp.model.local.message.Conversation
+import com.narvatov.datingapp.model.local.message.ReadableConversationMessage
 import com.narvatov.datingapp.model.local.user.User
 import java.util.Date
 
 context (ConversationRemoteDataSource)
 fun List<DocumentSnapshot>.mapConversations(userId: String): List<Conversation> {
-    return map { rawMessage ->
+    return map { rawConversation ->
         val friendId: String
         val friendPhotoBase64: String
         val friendName: String
 
 
-        val authorId = rawMessage.requestString(Schema.CONVERSATION_AUTHOR_ID)
-        val responderId = rawMessage.requestString(Schema.CONVERSATION_RESPONDER_ID)
+        val authorId = rawConversation.requestString(Schema.CONVERSATION_AUTHOR_ID)
+        val responderId = rawConversation.requestString(Schema.CONVERSATION_RESPONDER_ID)
 
         if (authorId == userId) {
             friendId = responderId
-            friendPhotoBase64 = rawMessage.requestString(Schema.CONVERSATION_RESPONDER_PHOTO_BASE_64)
-            friendName = rawMessage.requestString(Schema.CONVERSATION_RESPONDER_NAME)
+            friendPhotoBase64 = rawConversation.requestString(Schema.CONVERSATION_RESPONDER_PHOTO_BASE_64)
+            friendName = rawConversation.requestString(Schema.CONVERSATION_RESPONDER_NAME)
         } else {
             friendId = authorId
-            friendPhotoBase64 = rawMessage.requestString(Schema.CONVERSATION_AUTHOR_PHOTO_BASE_64)
-            friendName = rawMessage.requestString(Schema.CONVERSATION_AUTHOR_NAME)
+            friendPhotoBase64 = rawConversation.requestString(Schema.CONVERSATION_AUTHOR_PHOTO_BASE_64)
+            friendName = rawConversation.requestString(Schema.CONVERSATION_AUTHOR_NAME)
         }
 
-        val lastText = rawMessage.requestString(Schema.CONVERSATION_LAST_MESSAGE)
-        val senderId = rawMessage.requestString(Schema.CONVERSATION_LAST_MESSAGE_SENDER_ID)
-        val timestamp = rawMessage.requestString(Schema.CONVERSATION_LAST_MESSAGE_TIMESTAMP)
+        val isRead = rawConversation.getBoolean(Schema.CONVERSATION_IS_READ) ?: true
+        val lastText = rawConversation.requestString(Schema.CONVERSATION_LAST_MESSAGE)
+        val senderId = rawConversation.requestString(Schema.CONVERSATION_LAST_MESSAGE_SENDER_ID)
+        val timestamp = rawConversation.requestString(Schema.CONVERSATION_LAST_MESSAGE_TIMESTAMP)
         val sendDate = Date(timestamp.toLong())
 
         val dumbFriend = User(
@@ -46,8 +48,9 @@ fun List<DocumentSnapshot>.mapConversations(userId: String): List<Conversation> 
         )
 
         val chatMessage = ChatMessage.getChatMessage(userId, senderId, lastText, sendDate)
+        val readableConversationMessage = ReadableConversationMessage(chatMessage, isRead)
 
-        Conversation(dumbFriend, chatMessage)
+        Conversation(rawConversation.id, dumbFriend, readableConversationMessage)
     }
 }
 
