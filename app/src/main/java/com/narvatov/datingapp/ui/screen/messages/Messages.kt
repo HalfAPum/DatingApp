@@ -1,9 +1,11 @@
 package com.narvatov.datingapp.ui.screen.messages
 
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateDp
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -30,10 +32,11 @@ import androidx.compose.ui.unit.dp
 import com.narvatov.datingapp.R
 import com.narvatov.datingapp.model.local.message.UserChatMessage
 import com.narvatov.datingapp.ui.WeightedSpacer
+import com.narvatov.datingapp.ui.common.NewMessagesBadge
+import com.narvatov.datingapp.ui.common.enterBadgeAnimation
+import com.narvatov.datingapp.ui.common.exitBadgeAnimation
 import com.narvatov.datingapp.ui.navigation.Chat
 import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.navigate
-import com.narvatov.datingapp.ui.theme.OnPrimaryColor
-import com.narvatov.datingapp.ui.theme.PrimaryColor
 import com.narvatov.datingapp.ui.theme.Typography
 import com.narvatov.datingapp.ui.viewmodel.messages.MessagesViewModel
 import org.koin.androidx.compose.getViewModel
@@ -61,8 +64,8 @@ fun Messages(viewModel: MessagesViewModel = getViewModel()) {
         itemsIndexed(conversations) { index, conversation ->
             Row(Modifier
                 .clickable {
-                    viewModel.updateMessageRead(conversation)
                     navigate(Chat, conversation.friend.id)
+                    viewModel.updateMessageRead(conversation)
                 }
                 .padding(horizontal = cardHorizontalPadding)
                 .height(68.dp)
@@ -104,20 +107,23 @@ fun Messages(viewModel: MessagesViewModel = getViewModel()) {
 
                     WeightedSpacer()
 
-                    if (conversation.showNewMessageBadge) {
-                        Box(
+                    val badgeTransition = updateTransition(conversation.showNewMessageBadge, "Badge Transition change size messages ${conversation.id}")
+                    val messageBadgeAnimatedSize by badgeTransition.animateDp(label = "BadgeChangeSize${conversation.id}") { increaseSize ->
+                        if (increaseSize) 20.dp  else 0.dp
+                    }
+
+                    androidx.compose.animation.AnimatedVisibility(
+                        visible = conversation.showNewMessageBadge,
+                        enter = enterBadgeAnimation,
+                        exit = exitBadgeAnimation,
+                        modifier = Modifier.align(Alignment.End)
+                    ) {
+                        NewMessagesBadge(
+                            messagesCount = 1,
                             modifier = Modifier
-                                .background(color = PrimaryColor, shape = CircleShape)
-                                .size(20.dp)
-                                .align(Alignment.End)
-                        ) {
-                            Text(
-                                text = "1",
-                                style = Typography.caption.copy(fontWeight = FontWeight.Bold),
-                                color = OnPrimaryColor,
-                                modifier = Modifier.align(Alignment.Center)
-                            )
-                        }
+                                .size(messageBadgeAnimatedSize)
+                                .animateContentSize()
+                        )
                     }
                 }
             }

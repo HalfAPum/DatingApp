@@ -36,7 +36,7 @@
     <string name="send_message">Send message</string>
     <string name="you">"You: "</string>
     <string name="conversation_between_this_users_doesn_t_exist">Conversation between this users doesn\'t exist</string>
-    <string name="connect">Connect</string>
+    <string name="friends">Friends</string>
     <string name="online">Online</string>
     <string name="last_seen_recently">Last seen recently</string>
     <string name="nullable_friend_profile_parameter">You passed no user to profile screen. You may used wrong navigation method or your friend was nullable before you even did it.</string>

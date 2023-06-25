@@ -6,36 +6,47 @@ import com.narvatov.datingapp.data.remotedb.Schema
 import com.narvatov.datingapp.data.remotedb.awaitUnit
 import com.narvatov.datingapp.data.remotedb.mapConversations
 import com.narvatov.datingapp.data.remotedb.throwNoConversationId
+import com.narvatov.datingapp.data.repository.user.UserSessionRepository
 import com.narvatov.datingapp.model.local.message.Conversation
 import com.narvatov.datingapp.model.remote.ConversationEntity
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flattenConcat
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
+import org.koin.core.annotation.Single
 import java.util.LinkedList
 
+@Single
 class ConversationRemoteDataSource(
-    private val userId: String,
+    private val userSessionRepository: UserSessionRepository,
 ) : FirestoreRemoteDataSource() {
+
+    private val userId: String
+        get() = userSessionRepository.user.id
+
+    private val userStateFlow = userSessionRepository.userStateFlow
 
     override val collectionName = Schema.CONVERSATION_TABLE
 
-    val conversationFlow = userAuthoredConversationFlow
-        .combine(userRespondedConversationFlow) { source1, source2 ->
-            LinkedList<Conversation>().apply {
-                addAll(source1)
-                addAll(source2)
-            }.sortedByDescending { it.sendDate.time }
-        }
+    @OptIn(FlowPreview::class)
+    val conversationFlow = userStateFlow.map { user ->
+        userAuthoredConversationFlow(user.id)
+            .combine(userRespondedConversationFlow(user.id)) { source1, source2 ->
+                LinkedList<Conversation>().apply {
+                    addAll(source1)
+                    addAll(source2)
+                }.sortedByDescending { it.sendDate.time }
+            }
+    }.flattenConcat()
 
-    private val userAuthoredConversationFlow
-        get() = collection
-            .whereEqualTo(Schema.CONVERSATION_AUTHOR_ID, userId)
-            .conversationFlow()
+    private fun userAuthoredConversationFlow(userId: String) = collection
+        .whereEqualTo(Schema.CONVERSATION_AUTHOR_ID, userId)
+        .conversationFlow()
 
-    private val userRespondedConversationFlow
-        get() = collection
-            .whereEqualTo(Schema.CONVERSATION_RESPONDER_ID, userId)
-            .conversationFlow()
+    private fun userRespondedConversationFlow(userId: String) = collection
+        .whereEqualTo(Schema.CONVERSATION_RESPONDER_ID, userId)
+        .conversationFlow()
 
     private fun Query.conversationFlow() = this
         .snapshots()

@@ -1,12 +1,8 @@
 package com.narvatov.datingapp.ui.navigation
 
 import android.content.Context
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.AccountCircle
-import androidx.compose.material.icons.rounded.ConnectWithoutContact
-import androidx.compose.material.icons.rounded.Message
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
@@ -58,26 +54,27 @@ class ClearBackStackDestination(
 ) : Destination
 
 sealed class BottomNavigationDestination(
-    val icon: ImageVector,
+    @DrawableRes
+    val icon: Int,
     @StringRes
     val text: Int,
 ): Destination {
 
     object Messages : BottomNavigationDestination(
-        icon = Icons.Rounded.Message,
+        icon = R.drawable.menu_chat,
         text = R.string.messages,
     )
 
     object Connect : BottomNavigationDestination(
-        icon = Icons.Rounded.ConnectWithoutContact,
-        text = R.string.connect,
+        icon = R.drawable.menu_friends,
+        text = R.string.friends,
     )
 
     /**
      * [BottomNavigationDestination.UserProfile] represents current users profile.
      */
     object UserProfile : BottomNavigationDestination(
-        icon = Icons.Rounded.AccountCircle,
+        icon = R.drawable.menu_profile,
         text = R.string.profile,
     )
 
