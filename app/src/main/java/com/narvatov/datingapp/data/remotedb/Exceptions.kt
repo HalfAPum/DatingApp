@@ -6,6 +6,11 @@ import com.narvatov.datingapp.R
 import com.narvatov.datingapp.delegate.common.context.IContextDelegate
 
 context (IContextDelegate)
+fun throwNoFriendException(): Nothing = throw NoSuchElementException(
+    "This friend does not exist"
+)
+
+context (IContextDelegate)
 fun throwNoSuchUserException(): Nothing = throw NoSuchElementException(
     context.getString(R.string.invalid_credentials)
 )

@@ -10,7 +10,10 @@ import com.narvatov.datingapp.data.repository.user.UserSessionRepository
 import com.narvatov.datingapp.model.local.message.Conversation
 import com.narvatov.datingapp.model.remote.ConversationEntity
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flattenConcat
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
@@ -86,6 +89,13 @@ class ConversationRemoteDataSource(
         collection.document(conversationId)
             .update(conversationEntity as Map<String, Any>)
             .awaitUnit()
+    }
+
+
+    suspend fun deleteUserConversations() = IOOperation {
+        conversationFlow.first().map {
+            async { collection.document(it.id).delete().awaitUnit() }
+        }.awaitAll()
     }
 
 }

@@ -1,6 +1,8 @@
 package com.narvatov.datingapp.ui
 
 import android.app.Application
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.ktx.Firebase
 import com.halfapum.general.coroutines.exception.DefaultCoroutineExceptionHandler
 import com.halfapum.general.coroutines.exception.ExceptionPropagator
 import com.halfapum.general.coroutines.exception.generalCoroutineExceptionHandler
@@ -26,6 +28,8 @@ class FriendZillaApplication : Application(), KoinComponent {
         generalCoroutineExceptionHandler = object : DefaultCoroutineExceptionHandler() {
             override fun handleException(context: CoroutineContext, exception: Throwable) {
                 Timber.e(coroutineTag + exceptionMessage + exception)
+
+                Firebase.crashlytics.recordException(exception)
 
                 ExceptionPropagator.propagate(exception)
             }

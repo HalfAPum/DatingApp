@@ -1,13 +1,23 @@
 package com.narvatov.datingapp.ui.viewmodel.messages.chat
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.halfapum.general.coroutines.Dispatcher
 import com.halfapum.general.coroutines.launchCatching
 import com.narvatov.datingapp.data.remotedb.firestore.UserRemoteDataSource
+import com.narvatov.datingapp.data.remotedb.throwNoFriendException
 import com.narvatov.datingapp.data.repository.messages.chat.ChatRepository
+import com.narvatov.datingapp.delegate.common.context.ContextDelegate
+import com.narvatov.datingapp.delegate.common.context.IContextDelegate
 import com.narvatov.datingapp.domain.chat.SendMessageUseCase
+import com.narvatov.datingapp.model.local.user.User
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.koin.android.annotation.KoinViewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.java.KoinJavaComponent.inject
@@ -17,7 +27,7 @@ class ChatViewModel(
     friendId: String,
     userRemoteDataSource: UserRemoteDataSource,
     dispatcher: Dispatcher,
-) : ViewModel() {
+) : ViewModel(), IContextDelegate by ContextDelegate {
 
     private val chatRepository by inject<ChatRepository>(
         ChatRepository::class.java,
@@ -33,10 +43,27 @@ class ChatViewModel(
 
     val chatMessageFlow = chatRepository.chatMessageFlow.flowOn(dispatcher.IO)
 
-    val friendFlow = userRemoteDataSource.getUserFlow(friendId)
+    private val _friendFlow = MutableStateFlow<User?>(null)
+    val friendFlow = _friendFlow.asStateFlow()
+
+    init {
+        userRemoteDataSource.getUserFlow(friendId)
+            .catch {
+                //Occurs when we are in chat with person and he deletes account.
+                //Just ignore it don't pop user back because it is unexpected behavior for user.
+                //Consider adding blocking dialog with explanation what happened.
+            }
+            .onEach {
+                _friendFlow.emit(it)
+            }
+            .flowOn(dispatcher.IO)
+            .launchIn(viewModelScope)
+    }
 
     fun sendMessage(message: String) = launchCatching {
-        sendMessageUseCase(message, friendFlow.first())
+        val friend = friendFlow.first() ?: throwNoFriendException()
+
+        sendMessageUseCase(message, friend)
     }
 
 }
