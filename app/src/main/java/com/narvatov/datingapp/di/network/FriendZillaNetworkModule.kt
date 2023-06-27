@@ -28,5 +28,5 @@ val friendZillaNetworkModule = module {
 
 }
 
-private const val FRIEND_ZILLA_BASE_URL = "http://10.0.2.2:8080/v1/"
+private const val FRIEND_ZILLA_BASE_URL = "https://friendzillabackend-production.up.railway.app/v1/"
 private const val FRIEND_ZILLA_RETROFIT = "FriendZillaRetrofit"
