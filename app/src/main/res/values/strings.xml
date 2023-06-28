@@ -48,4 +48,7 @@
     <string name="new_match">New Match!</string>
     <string name="chat_notification_channel_name">Chat Message</string>
     <string name="chat_notification_channel_description">This notification channel is used for message notifications</string>
+    <string name="discover">Discover</string>
+    <string name="like_person">Like person</string>
+    <string name="dislike_person">Dislike person</string>
 </resources>

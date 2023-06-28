@@ -107,6 +107,8 @@ dependencies {
     //Ads
     implementation("com.google.android.gms:play-services-ads:22.1.0")
 
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
+
     //Test dependencies
 
     // Koin Test

@@ -10,8 +10,10 @@ val Purple40 = Color(0xFF6650a4)
 val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
-val PrimaryColor = Color(0xFFE94057)
+val PrimaryColor = Color(0xFF2934D0)
 val OnPrimaryColor = Color.White
+
+val BorderColor = Color(0xFFE8E6EA)
 
 val SoftGrey = Color(0xFFCDCDCD)
 val SuperSoftGrey = Color(0xFF8C8C8C)

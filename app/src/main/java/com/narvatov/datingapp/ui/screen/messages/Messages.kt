@@ -37,6 +37,7 @@ import com.narvatov.datingapp.ui.common.enterBadgeAnimation
 import com.narvatov.datingapp.ui.common.exitBadgeAnimation
 import com.narvatov.datingapp.ui.navigation.Chat
 import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.navigate
+import com.narvatov.datingapp.ui.theme.BorderColor
 import com.narvatov.datingapp.ui.theme.Typography
 import com.narvatov.datingapp.ui.viewmodel.messages.MessagesViewModel
 import org.koin.androidx.compose.getViewModel
@@ -136,7 +137,7 @@ fun Messages(viewModel: MessagesViewModel = getViewModel()) {
                         .padding(start = contentToImagePadding)
                         .fillMaxWidth()
                         .height(1.dp)
-                        .background(color = Color(0xFFE8E6EA))
+                        .background(color = BorderColor)
                 )
             }
         }

@@ -1,8 +1,6 @@
 package com.narvatov.datingapp.ui
 
 import android.Manifest
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
@@ -10,11 +8,9 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.material.Button
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
-import androidx.compose.material.Text
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -23,7 +19,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsCompat.Type.ime
 import androidx.core.view.WindowInsetsCompat.toWindowInsetsCompat
 import androidx.lifecycle.ViewModelStoreOwner
@@ -135,25 +130,25 @@ class MainActivity : ComponentActivity() {
                     )
                     val context = LocalContext.current
 
-                    Button(
-                        {
-                            if (ContextCompat.checkSelfPermission(
-                                    context,
-                                    Manifest.permission.POST_NOTIFICATIONS
-                                ) == PackageManager.PERMISSION_GRANTED
-                            ) {
-                                Timber.tag(notificationTag).d("Permission has already been granted")
-                            } else {
-                                if (Build.VERSION.SDK_INT == Build.VERSION_CODES.TIRAMISU) {
-                                    launcher.launch(Manifest.permission.POST_NOTIFICATIONS)
-                                }
-                            }
-                        }
-                    ) {
-                        Text(
-                            text = "permission"
-                        )
-                    }
+//                    Button(
+//                        {
+//                            if (ContextCompat.checkSelfPermission(
+//                                    context,
+//                                    Manifest.permission.POST_NOTIFICATIONS
+//                                ) == PackageManager.PERMISSION_GRANTED
+//                            ) {
+//                                Timber.tag(notificationTag).d("Permission has already been granted")
+//                            } else {
+//                                if (Build.VERSION.SDK_INT == Build.VERSION_CODES.TIRAMISU) {
+//                                    launcher.launch(Manifest.permission.POST_NOTIFICATIONS)
+//                                }
+//                            }
+//                        }
+//                    ) {
+//                        Text(
+//                            text = "permission"
+//                        )
+//                    }
                 }
             }
         }
