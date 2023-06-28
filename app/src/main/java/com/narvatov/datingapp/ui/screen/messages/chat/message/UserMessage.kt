@@ -36,13 +36,15 @@ fun UserMessage(chatMessage: ChatMessage, modifier: Modifier) {
                 )
             }
 
-            Text(
-                text = chatMessage.sendTime,
-                style = Typography.caption,
-                modifier = Modifier
-                    .align(Alignment.End)
-                    .padding(top = 4.dp)
-            )
+            if (chatMessage.showMessageTime) {
+                Text(
+                    text = chatMessage.sendTimeFormatted,
+                    style = Typography.caption,
+                    modifier = Modifier
+                        .align(Alignment.End)
+                        .padding(top = 4.dp)
+                )
+            }
         }
     }
 }

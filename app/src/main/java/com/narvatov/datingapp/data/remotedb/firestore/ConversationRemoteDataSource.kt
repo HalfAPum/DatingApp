@@ -39,7 +39,7 @@ class ConversationRemoteDataSource(
                 LinkedList<Conversation>().apply {
                     addAll(source1)
                     addAll(source2)
-                }.sortedByDescending { it.sendDate.time }
+                }.sortedByDescending { it.sendTime }
             }
     }.flattenConcat()
 

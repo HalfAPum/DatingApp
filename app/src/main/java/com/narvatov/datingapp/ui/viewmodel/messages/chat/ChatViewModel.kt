@@ -9,6 +9,7 @@ import com.narvatov.datingapp.data.remotedb.throwNoFriendException
 import com.narvatov.datingapp.data.repository.messages.chat.ChatRepository
 import com.narvatov.datingapp.delegate.common.context.ContextDelegate
 import com.narvatov.datingapp.delegate.common.context.IContextDelegate
+import com.narvatov.datingapp.domain.chat.ChatMessagesFlowUseCase
 import com.narvatov.datingapp.domain.chat.SendMessageUseCase
 import com.narvatov.datingapp.model.local.user.User
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -41,7 +42,14 @@ class ChatViewModel(
         ).value
     }
 
-    val chatMessageFlow = chatRepository.chatMessageFlow.flowOn(dispatcher.IO)
+    private val chatMessagesFlowUseCase: ChatMessagesFlowUseCase by lazy {
+        inject<ChatMessagesFlowUseCase>(
+            ChatMessagesFlowUseCase::class.java,
+            parameters = { parametersOf(chatRepository) },
+        ).value
+    }
+
+    val chatMessageFlow = chatMessagesFlowUseCase().flowOn(dispatcher.IO)
 
     private val _friendFlow = MutableStateFlow<User?>(null)
     val friendFlow = _friendFlow.asStateFlow()

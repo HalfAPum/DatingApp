@@ -1,13 +1,13 @@
 package com.narvatov.datingapp.model.local.message
 
 import android.icu.text.SimpleDateFormat
-import java.util.Date
+import java.util.Locale
 
 interface CommonMessage {
 
-    val sendDate: Date
+    val sendTime: Long
 
-    val sendTime: String
-        get() = SimpleDateFormat("hh:mm a").format(sendDate)
+    val sendTimeFormatted: String
+        get() = SimpleDateFormat("hh:mm a", Locale.CANADA).format(sendTime)
 
 }

@@ -101,7 +101,7 @@ fun Messages(viewModel: MessagesViewModel = getViewModel()) {
 
                 Column {
                     Text(
-                        text = conversation.sendTime,
+                        text = conversation.sendTimeFormatted,
                         style = Typography.caption.copy(fontWeight = FontWeight.Bold),
                         color = Color(0xFFADAFBB)
                     )

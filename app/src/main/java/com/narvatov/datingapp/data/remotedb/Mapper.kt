@@ -8,7 +8,6 @@ import com.narvatov.datingapp.model.local.message.ChatMessage
 import com.narvatov.datingapp.model.local.message.Conversation
 import com.narvatov.datingapp.model.local.message.ReadableConversationMessage
 import com.narvatov.datingapp.model.local.user.User
-import java.util.Date
 
 context (ConversationRemoteDataSource)
 fun List<DocumentSnapshot>.mapConversations(userId: String): List<Conversation> {
@@ -35,7 +34,6 @@ fun List<DocumentSnapshot>.mapConversations(userId: String): List<Conversation> 
         val lastText = rawConversation.requestString(Schema.CONVERSATION_LAST_MESSAGE)
         val senderId = rawConversation.requestString(Schema.CONVERSATION_LAST_MESSAGE_SENDER_ID)
         val timestamp = rawConversation.requestString(Schema.CONVERSATION_LAST_MESSAGE_TIMESTAMP)
-        val sendDate = Date(timestamp.toLong())
 
         val dumbFriend = User(
             id = friendId,
@@ -47,7 +45,7 @@ fun List<DocumentSnapshot>.mapConversations(userId: String): List<Conversation> 
             fcmToken = "Stub",
         )
 
-        val chatMessage = ChatMessage.getChatMessage(userId, senderId, lastText, sendDate)
+        val chatMessage = ChatMessage.getChatMessage(userId, senderId, lastText, timestamp.toLong())
         val readableConversationMessage = ReadableConversationMessage(chatMessage, isRead)
 
         Conversation(rawConversation.id, dumbFriend, readableConversationMessage)
@@ -60,9 +58,8 @@ fun List<DocumentSnapshot>.mapMessages(userId: String): List<ChatMessage> {
         val text = rawMessage.requestString(Schema.CHAT_MESSAGE)
         val senderId = rawMessage.requestString(Schema.CHAT_SENDER_ID)
         val timestamp = rawMessage.requestString(Schema.CHAT_TIMESTAMP)
-        val sendDate = Date(timestamp.toLong())
 
-        ChatMessage.getChatMessage(userId, senderId, text, sendDate)
+        ChatMessage.getChatMessage(userId, senderId, text, timestamp.toLong())
     }
 }
 

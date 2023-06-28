@@ -24,7 +24,7 @@ class ChatRemoteDataSource(
             LinkedList<ChatMessage>().apply {
                 addAll(friendMessages)
                 addAll(userMessages)
-            }.sortedByDescending { it.sendDate.time }
+            }.sortedByDescending { it.sendTime }
         }
 
     private val friendChatMessageFlow
