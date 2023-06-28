@@ -57,8 +57,10 @@ fun LazyListScope.ListSpacer(modifier: Modifier = Modifier) {
 }
 
 fun Modifier.noRippleClickable(onClick: () -> Unit): Modifier = composed {
-    clickable(indication = null,
-        interactionSource = remember { MutableInteractionSource() }) {
+    clickable(
+        indication = null,
+        interactionSource = remember { MutableInteractionSource() }
+    ) {
         onClick()
     }
 }

@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.alexstyl.swipeablecard.rememberSwipeableCardState
 import com.narvatov.datingapp.R
 import com.narvatov.datingapp.ui.WeightedSpacer
-import com.narvatov.datingapp.ui.common.SquareIconButton
+import com.narvatov.datingapp.ui.common.square.SquareIconButton
 import com.narvatov.datingapp.ui.theme.Typography
 import com.narvatov.datingapp.ui.viewmodel.connect.ConnectViewModel
 import org.koin.androidx.compose.getViewModel

@@ -2,8 +2,6 @@ package com.narvatov.datingapp.ui.screen.connect
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -38,12 +36,13 @@ import com.alexstyl.swipeablecard.Direction
 import com.alexstyl.swipeablecard.ExperimentalSwipeableCardApi
 import com.alexstyl.swipeablecard.SwipeableCardState
 import com.alexstyl.swipeablecard.swipableCard
-import com.narvatov.datingapp.R
 import com.narvatov.datingapp.model.local.user.User
 import com.narvatov.datingapp.ui.WeightedSpacer
-import com.narvatov.datingapp.ui.common.SquareIconButton
+import com.narvatov.datingapp.ui.common.square.SquareReportButton
 import com.narvatov.datingapp.ui.navigation.FriendProfile
 import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.navigate
+import com.narvatov.datingapp.ui.noRippleClickable
+import com.narvatov.datingapp.ui.theme.GreenActive
 import com.narvatov.datingapp.ui.theme.OnPrimaryColor
 import com.narvatov.datingapp.ui.theme.Shapes
 import com.narvatov.datingapp.ui.theme.Typography
@@ -77,28 +76,21 @@ fun ConnectCard(
                 modifier = Modifier.clip(Shapes.large)
             ) {
                 Box {
-                    val interactionSource = remember { MutableInteractionSource() }
                     Image(
                         bitmap = friend.photoBitmap,
                         contentScale = ContentScale.Crop,
                         contentDescription = friend.photoDescription(),
-                        modifier = Modifier.fillMaxSize().clickable(
-                            interactionSource = interactionSource,
-                            indication = null,
-                        ) {
+                        modifier = Modifier.fillMaxSize().noRippleClickable {
                             navigate(FriendProfile, friend)
                         },
                     )
 
-                    SquareIconButton(
-                        iconRes = R.drawable.more,
+                    SquareReportButton(
+                        friend = friend,
                         modifier = Modifier
                             .padding(16.dp)
-                            .size(48.dp)
                             .align(Alignment.TopEnd)
-                    ) {
-
-                    }
+                    )
 
                     ConstraintLayout(modifier = Modifier.fillMaxSize()) {
                         val (infoBackground, friendInfo, actionsRow) = createRefs()
@@ -121,7 +113,7 @@ fun ConnectCard(
 
                             ConnectActionButton(
                                 imageVector = Icons.Rounded.ThumbUp,
-                                backgroundColor = Color(0xFF17B53A),
+                                backgroundColor = GreenActive,
                             ) {
                                 state.swipe(Direction.Right)
                             }

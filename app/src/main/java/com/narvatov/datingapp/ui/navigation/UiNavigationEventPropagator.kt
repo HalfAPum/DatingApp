@@ -38,6 +38,7 @@ object UiNavigationEventPropagator {
         navigationEvents.navigate(Back.withParam(destination, inclusive))
     }
 
+    @Deprecated("Doesn't work don't know why but better fix it later")
     fun popBack() {
         navigationEvents.navigate(Back)
     }

@@ -51,4 +51,5 @@
     <string name="discover">Discover</string>
     <string name="like_person">Like person</string>
     <string name="dislike_person">Dislike person</string>
+    <string name="back_button">Back button</string>
 </resources>

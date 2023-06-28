@@ -16,8 +16,8 @@ import com.narvatov.datingapp.ui.theme.Shapes
 import com.narvatov.datingapp.ui.theme.Typography
 
 @Composable
-fun FriendMessage(chatMessage: ChatMessage) {
-    Column {
+fun FriendMessage(chatMessage: ChatMessage, modifier: Modifier) {
+    Column(modifier = modifier) {
         Box(
             modifier = Modifier.background(
                 color = PrimaryColor.copy(alpha = 0.07F),

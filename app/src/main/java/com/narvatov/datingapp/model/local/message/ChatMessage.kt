@@ -4,6 +4,9 @@ import java.util.Date
 
 interface ChatMessage : CommonMessage {
 
+    val showTime: Boolean
+        get() = false
+
     val text: String
 
     companion object {

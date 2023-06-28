@@ -18,14 +18,14 @@ import com.narvatov.datingapp.ui.theme.Shapes
 import com.narvatov.datingapp.ui.theme.Typography
 
 @Composable
-fun UserMessage(chatMessage: ChatMessage) {
-    Row {
+fun UserMessage(chatMessage: ChatMessage, modifier: Modifier) {
+    Row(modifier = modifier) {
         WeightedSpacer()
 
         Column {
             Box(
                 modifier = Modifier.background(
-                    color = Color.LightGray.copy(alpha = 0.8F),
+                    color = Color(0xFFF3F3F3),
                     shape = Shapes.large.copy(bottomEnd = CornerSize(0.dp))
                 )
             ) {

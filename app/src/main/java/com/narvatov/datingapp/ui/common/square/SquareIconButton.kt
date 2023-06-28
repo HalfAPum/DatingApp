@@ -1,4 +1,4 @@
-package com.narvatov.datingapp.ui.common
+package com.narvatov.datingapp.ui.common.square
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
