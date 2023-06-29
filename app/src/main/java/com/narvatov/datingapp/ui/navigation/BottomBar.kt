@@ -1,7 +1,6 @@
 package com.narvatov.datingapp.ui.navigation
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -78,9 +77,6 @@ fun BottomBar(
                         }
                 ]?.route
 
-                AnimatedVisibility(true) {
-
-                }
                 bottomNavigationDestinations.forEach { destination ->
                     val selected = destination.route == selectedRoute
 

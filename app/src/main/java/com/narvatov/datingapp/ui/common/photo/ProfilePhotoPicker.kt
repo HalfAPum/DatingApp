@@ -1,4 +1,4 @@
-package com.narvatov.datingapp.ui.common
+package com.narvatov.datingapp.ui.common.photo
 
 import android.graphics.Bitmap
 import androidx.compose.foundation.Image

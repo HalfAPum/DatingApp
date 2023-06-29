@@ -52,4 +52,12 @@
     <string name="like_person">Like person</string>
     <string name="dislike_person">Dislike person</string>
     <string name="back_button">Back button</string>
+    <string name="filter">Filter</string>
+    <string name="age">Age</string>
+    <string name="continue_t">Continue</string>
+    <string name="clear_filter">Clear filter</string>
+    <string name="gender">Gender</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="both">Both</string>
 </resources>

@@ -9,6 +9,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.NavHostController
 import com.narvatov.datingapp.ui.screen.connect.Connect
+import com.narvatov.datingapp.ui.screen.filter.ConnectFilter
 import com.narvatov.datingapp.ui.screen.messages.Messages
 import com.narvatov.datingapp.ui.screen.messages.chat.Chat
 import com.narvatov.datingapp.ui.screen.messages.chat.DeeplinkChat
@@ -80,6 +81,10 @@ fun NavHostContent(
             val friendId = backStackEntry.arguments?.getString(ChatDeeplink.FRIEND_ID)
 
             DeeplinkChat(friendId)
+        }
+
+        composable(ConnectFilter) {
+            ConnectFilter()
         }
     }
 }

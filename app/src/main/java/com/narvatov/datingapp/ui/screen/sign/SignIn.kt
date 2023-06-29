@@ -27,7 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.narvatov.datingapp.R
 import com.narvatov.datingapp.ui.common.ErrorText
-import com.narvatov.datingapp.ui.common.WideButton
+import com.narvatov.datingapp.ui.common.button.WideButton
 import com.narvatov.datingapp.ui.navigation.SignUp
 import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.navigate
 import com.narvatov.datingapp.ui.theme.Typography

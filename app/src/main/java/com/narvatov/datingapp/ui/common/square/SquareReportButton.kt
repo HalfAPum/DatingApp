@@ -11,7 +11,7 @@ import com.narvatov.datingapp.model.local.user.User
 fun SquareReportButton(friend: User, modifier: Modifier = Modifier) {
     SquareIconButton(
         iconRes = R.drawable.more,
-        modifier = Modifier.size(48.dp).then(modifier)
+        modifier = modifier.size(48.dp)
     ) {
 
     }

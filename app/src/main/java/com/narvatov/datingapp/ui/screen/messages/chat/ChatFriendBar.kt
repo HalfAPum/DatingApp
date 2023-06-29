@@ -1,9 +1,7 @@
 package com.narvatov.datingapp.ui.screen.messages.chat
 
-import androidx.activity.ComponentActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,13 +16,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.narvatov.datingapp.R
 import com.narvatov.datingapp.model.local.user.User
 import com.narvatov.datingapp.ui.WeightedSpacer
+import com.narvatov.datingapp.ui.common.header.HeaderBackButton
 import com.narvatov.datingapp.ui.common.square.SquareReportButton
 import com.narvatov.datingapp.ui.navigation.FriendProfile
 import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.navigate
@@ -34,8 +31,6 @@ import com.narvatov.datingapp.ui.theme.Typography
 
 @Composable
 fun ChatFriendBar(friend: User) {
-    val activity = LocalContext.current as ComponentActivity
-
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -43,17 +38,7 @@ fun ChatFriendBar(friend: User) {
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Image(
-            painter = painterResource(R.drawable.back),
-            contentDescription = stringResource(R.string.back_button),
-            modifier = Modifier
-                .size(32.dp)
-                .align(Alignment.CenterVertically)
-                .clip(CircleShape)
-                .clickable {
-                    activity.onBackPressedDispatcher.onBackPressed()
-                }
-        )
+        HeaderBackButton(modifier = Modifier.align(Alignment.CenterVertically))
 
         Row(modifier = Modifier
             .padding(start = 20.dp)

@@ -136,4 +136,6 @@ object ChatDeeplink : Destination {
 
 }
 
+object ConnectFilter : Destination
+
 val noBottomBarDestinations = listOf(SignIn, SignUp, Chat, ChatDeeplink).map { it.route }

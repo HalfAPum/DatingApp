@@ -28,7 +28,7 @@ import com.narvatov.datingapp.data.preference.NotificationPreferencesDataStore
 import com.narvatov.datingapp.delegate.activity.admob.AdMobDelegate
 import com.narvatov.datingapp.delegate.activity.availability.UserAvailabilityDelegate
 import com.narvatov.datingapp.model.local.notification.NotificationPreference.*
-import com.narvatov.datingapp.ui.common.PhotoPickBottomSheet
+import com.narvatov.datingapp.ui.common.photo.PhotoPickBottomSheet
 import com.narvatov.datingapp.ui.navigation.BottomBar
 import com.narvatov.datingapp.ui.navigation.NavHostContent
 import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.bottomSheetVisibilityEvents

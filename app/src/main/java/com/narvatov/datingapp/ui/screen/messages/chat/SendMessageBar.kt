@@ -25,7 +25,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -34,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import com.narvatov.datingapp.R
 import com.narvatov.datingapp.ui.theme.BorderColor
 import com.narvatov.datingapp.ui.theme.ChatBackground
+import com.narvatov.datingapp.ui.theme.HintGrey
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -64,7 +64,7 @@ fun SendMessageBar(messagesListState: LazyListState, sendMessage: (String) -> Un
                 placeholder = {
                     Text(
                         text = stringResource(R.string.your_message),
-                        color = Color.Black.copy(alpha = 0.7F),
+                        color = HintGrey,
                     )
                 },
                 keyboardOptions = KeyboardOptions(

@@ -10,10 +10,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.narvatov.datingapp.model.local.message.ChatMessage
 import com.narvatov.datingapp.ui.WeightedSpacer
+import com.narvatov.datingapp.ui.theme.BackgroundGrey
 import com.narvatov.datingapp.ui.theme.Shapes
 import com.narvatov.datingapp.ui.theme.Typography
 
@@ -25,7 +25,7 @@ fun UserMessage(chatMessage: ChatMessage, modifier: Modifier) {
         Column {
             Box(
                 modifier = Modifier.background(
-                    color = Color(0xFFF3F3F3),
+                    color = BackgroundGrey,
                     shape = Shapes.large.copy(bottomEnd = CornerSize(0.dp))
                 )
             ) {

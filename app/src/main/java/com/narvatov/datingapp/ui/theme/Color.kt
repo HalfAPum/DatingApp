@@ -16,6 +16,11 @@ val OnPrimaryColor = Color.White
 val BorderColor = Color(0xFFE8E6EA)
 val ChatBackground = Color(0xFFF6F8FC)
 
+val HintGrey = Color(0xB3000000)
+val TextPrimaryColor = Color(0xB3000000)
+
+val BackgroundGrey = Color(0xFFF3F3F3)
+
 val GreenActive = Color(0xFF17B53A)
 
 val SoftGrey = Color(0xFFCDCDCD)

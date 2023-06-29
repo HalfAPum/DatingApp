@@ -1,4 +1,4 @@
-package com.narvatov.datingapp.ui.common
+package com.narvatov.datingapp.ui.common.photo
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult

@@ -16,6 +16,8 @@ import com.alexstyl.swipeablecard.rememberSwipeableCardState
 import com.narvatov.datingapp.R
 import com.narvatov.datingapp.ui.WeightedSpacer
 import com.narvatov.datingapp.ui.common.square.SquareIconButton
+import com.narvatov.datingapp.ui.navigation.ConnectFilter
+import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.navigate
 import com.narvatov.datingapp.ui.theme.Typography
 import com.narvatov.datingapp.ui.viewmodel.connect.ConnectViewModel
 import org.koin.androidx.compose.getViewModel
@@ -38,9 +40,7 @@ fun Connect(viewModel: ConnectViewModel = getViewModel()) {
             SquareIconButton(
                 iconRes = R.drawable.filter,
                 modifier = Modifier.size(50.dp)
-            ) {
-
-            }
+            ) { navigate(ConnectFilter) }
         }
 
         val newFriends by viewModel.newFriendStateFlow.collectAsState()

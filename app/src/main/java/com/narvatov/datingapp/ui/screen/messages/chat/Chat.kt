@@ -1,5 +1,6 @@
 package com.narvatov.datingapp.ui.screen.messages.chat
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -29,6 +30,7 @@ fun Chat(friendId: String?) {
     ChatImpl(viewModel = getViewModel(parameters = { parametersOf(friendId) }))
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun ChatImpl(viewModel: ChatViewModel) {
     val friendFlow by viewModel.friendFlow.collectAsState(null)
@@ -53,15 +55,15 @@ private fun ChatImpl(viewModel: ChatViewModel) {
             ) {
                 ListSpacer()
 
-                items(chatMessages) { chatMessage ->
+                items(chatMessages, key = { it.sendTime }) { chatMessage ->
                     when(chatMessage) {
                         is FriendChatMessage -> FriendMessage(
                             chatMessage = chatMessage,
-                            modifier = Modifier.padding(horizontal = 16.dp),
+                            modifier = Modifier.padding(horizontal = 16.dp).animateItemPlacement(),
                         )
                         is UserChatMessage -> UserMessage(
                             chatMessage = chatMessage,
-                            modifier = Modifier.padding(horizontal = 16.dp),
+                            modifier = Modifier.padding(horizontal = 16.dp).animateItemPlacement(),
                         )
                     }
                 }
