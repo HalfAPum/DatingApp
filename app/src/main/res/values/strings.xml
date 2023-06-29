@@ -60,4 +60,7 @@
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="both">Both</string>
+    <string name="arrow_next">Arrow next</string>
+    <string name="interests">Interests</string>
+    <string name="location">Location</string>
 </resources>

@@ -17,7 +17,7 @@ fun TextHeader(
     textRes: Int,
     modifier: Modifier = Modifier
 ) {
-    Row(modifier = modifier) {
+    Row(modifier = modifier.padding(bottom = 20.dp)) {
         HeaderBackButton(modifier = Modifier.align(Alignment.CenterVertically))
 
         Text(
