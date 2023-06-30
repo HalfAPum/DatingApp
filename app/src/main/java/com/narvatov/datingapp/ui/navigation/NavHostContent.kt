@@ -15,6 +15,7 @@ import com.narvatov.datingapp.ui.screen.messages.chat.Chat
 import com.narvatov.datingapp.ui.screen.messages.chat.DeeplinkChat
 import com.narvatov.datingapp.ui.screen.profile.FriendProfile
 import com.narvatov.datingapp.ui.screen.profile.UserProfile
+import com.narvatov.datingapp.ui.screen.report.Report
 import com.narvatov.datingapp.ui.screen.sign.SignIn
 import com.narvatov.datingapp.ui.screen.sign.SignUp
 import kotlinx.coroutines.launch
@@ -85,6 +86,15 @@ fun NavHostContent(
 
         composable(ConnectFilter) {
             ConnectFilter()
+        }
+
+        composable(
+            destination = Report,
+            argument = Chat.navigationArgument,
+        ) { backStackEntry ->
+            val friendId = backStackEntry.arguments?.getString(Report.FRIEND_ID)
+
+            friendId?.let { Report(friendId) }
         }
     }
 }

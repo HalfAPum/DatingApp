@@ -63,4 +63,10 @@
     <string name="arrow_next">Arrow next</string>
     <string name="interests">Interests</string>
     <string name="location">Location</string>
+    <string name="report_block_user"><![CDATA[Report & Block user]]></string>
+    <string name="this_report_is_totally_anonymous">This report is totally anonymous.</string>
+    <string name="fake_photo">Fake photo</string>
+    <string name="inappropriate_profile">Inappropriate profile</string>
+    <string name="abuse">Abuse</string>
+    <string name="spam_scam">Spam / Scam</string>
 </resources>

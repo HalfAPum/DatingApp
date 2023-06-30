@@ -27,8 +27,8 @@ fun SquareIconButton(
     Box(modifier = modifier
         .clip(shape = Shapes.small)
         .background(color = Color.Companion.White, shape = Shapes.small)
-        .border(width = 1.dp, color = BorderColor, shape = Shapes.small)
         .clickable { onClick.invoke() }
+        .border(width = 1.dp, color = BorderColor, shape = Shapes.small)
     ) {
         Image(
             painter = painterResource(iconRes),

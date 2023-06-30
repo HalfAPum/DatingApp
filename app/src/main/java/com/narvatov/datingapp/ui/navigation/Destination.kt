@@ -138,4 +138,16 @@ object ChatDeeplink : Destination {
 
 object ConnectFilter : Destination
 
+object Report : Destination {
+
+    override val navigationParam: String
+        get() = FRIEND_ID
+
+    const val FRIEND_ID = "fiendId"
+
+    val navigationArgument: NamedNavArgument
+        get() = navArgument(FRIEND_ID) { type = NavType.StringType }
+
+}
+
 val noBottomBarDestinations = listOf(SignIn, SignUp, Chat, ChatDeeplink).map { it.route }

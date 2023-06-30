@@ -57,8 +57,8 @@ fun ClickableFilterField(
                 .height(58.dp)
                 .background(color = Color.White, shape = Shapes.small)
                 .clip(shape = Shapes.small)
-                .border(width = 1.dp, color = BorderColor, shape = Shapes.small)
                 .clickable { onClick.invoke() }
+                .border(width = 1.dp, color = BorderColor, shape = Shapes.small)
         ) {
             Row(modifier = Modifier.padding(horizontal = 16.dp).fillMaxSize()) {
                 content.invoke(this)
