@@ -71,4 +71,6 @@
     <string name="spam_scam">Spam / Scam</string>
     <string name="camera_permission_denied">Camera permission denied.</string>
     <string name="camera_permission_denied_try_again">Camera permission denied. Try again.</string>
+    <string name="write_to_storage_permission_denied">Write to storage permission denied.</string>
+    <string name="write_to_storage_permission_denied_try_again">Write to storage permission denied. Try again.</string>
 </resources>

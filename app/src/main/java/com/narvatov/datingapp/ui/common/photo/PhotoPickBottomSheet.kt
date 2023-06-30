@@ -46,15 +46,33 @@ fun PhotoPickBottomSheet(viewModel: PhotoViewModel, bottomSheetState: ModalBotto
     val context = LocalContext.current
     val activity = context as Activity
 
+    val writeStorageLauncherPermission = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        when {
+            isGranted -> {
+                takePhotoLauncher.launch(CameraIntent(activity))
+            }
+            activity.shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE) -> {
+                Toast.makeText(context, context.getString(R.string.write_to_storage_permission_denied_try_again), Toast.LENGTH_SHORT).show()
+            }
+            else -> {
+                Toast.makeText(context, context.getString(R.string.write_to_storage_permission_denied), Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
     val takePhotoLauncherPermission = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
-        if (isGranted) {
-            takePhotoLauncher.launch(CameraIntent(activity))
-        } else {
-            if (activity.shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+        when {
+            isGranted -> {
+                writeStorageLauncherPermission.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            }
+            activity.shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) -> {
                 Toast.makeText(context, context.getString(R.string.camera_permission_denied_try_again), Toast.LENGTH_SHORT).show()
-            } else {
+            }
+            else -> {
                 Toast.makeText(context, context.getString(R.string.camera_permission_denied), Toast.LENGTH_SHORT).show()
             }
         }

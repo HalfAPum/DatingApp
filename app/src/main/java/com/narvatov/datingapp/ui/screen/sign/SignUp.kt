@@ -60,7 +60,7 @@ fun SignUp(
         val photoBitmap by photoViewModel.photoBitmapStateFlow.collectAsState()
 
         ProfilePhotoPicker(
-            photoBitmap = photoBitmap.first,
+            photoBitmap = photoBitmap,
             modifier = Modifier
                 .padding(top = 30.dp)
                 .align(Alignment.CenterHorizontally),
@@ -127,6 +127,11 @@ fun SignUp(
 
         var password by rememberSaveable { mutableStateOf("") }
 
+        val signUpAction = {
+            viewModel.signUp(email, password, firstName, lastName, photoBitmap)
+            focusManager.clearFocus()
+        }
+
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
@@ -137,10 +142,7 @@ fun SignUp(
                 keyboardType = KeyboardType.Password,
                 imeAction = ImeAction.Done
             ),
-            keyboardActions = KeyboardActions(onDone = {
-                viewModel.signUp(email, password, firstName, lastName, photoBitmap.first)
-                focusManager.clearFocus()
-            }),
+            keyboardActions = KeyboardActions(onDone = { signUpAction.invoke() }),
             singleLine = true,
             modifier = Modifier.padding(top = 10.dp).fillMaxWidth()
         )
@@ -148,10 +150,7 @@ fun SignUp(
         WideButton(
             text = stringResource(R.string.sign_up),
             modifier = Modifier.padding(top = 20.dp)
-        ) {
-            viewModel.signUp(email, password, firstName, lastName, photoBitmap.first)
-            focusManager.clearFocus()
-        }
+        ) { signUpAction.invoke() }
 
         ErrorText(
             errorViewModel = viewModel,
