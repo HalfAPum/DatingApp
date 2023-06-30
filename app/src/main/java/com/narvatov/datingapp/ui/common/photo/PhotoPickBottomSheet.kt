@@ -1,6 +1,10 @@
 package com.narvatov.datingapp.ui.common.photo
 
+import android.Manifest
+import android.app.Activity
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -25,6 +29,7 @@ import com.narvatov.datingapp.ui.viewmodel.PhotoViewModel
 import com.narvatov.datingapp.utils.CameraIntent
 import com.narvatov.datingapp.utils.GalleryIntent
 
+
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun PhotoPickBottomSheet(viewModel: PhotoViewModel, bottomSheetState: ModalBottomSheetState) {
@@ -39,6 +44,21 @@ fun PhotoPickBottomSheet(viewModel: PhotoViewModel, bottomSheetState: ModalBotto
     )
 
     val context = LocalContext.current
+    val activity = context as Activity
+
+    val takePhotoLauncherPermission = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            takePhotoLauncher.launch(CameraIntent(activity))
+        } else {
+            if (activity.shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                Toast.makeText(context, context.getString(R.string.camera_permission_denied_try_again), Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, context.getString(R.string.camera_permission_denied), Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
     if (bottomSheetState.isVisible) {
         Column(modifier = Modifier.fillMaxWidth().background(color = Color.LightGray)) {
@@ -61,7 +81,9 @@ fun PhotoPickBottomSheet(viewModel: PhotoViewModel, bottomSheetState: ModalBotto
                 style = Typography.h6,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable { takePhotoLauncher.launch(CameraIntent()) }
+                    .clickable {
+                        takePhotoLauncherPermission.launch(Manifest.permission.CAMERA)
+                    }
                     .padding(vertical = 10.dp)
                     .padding(start = 20.dp)
             )

@@ -60,7 +60,7 @@ fun SignUp(
         val photoBitmap by photoViewModel.photoBitmapStateFlow.collectAsState()
 
         ProfilePhotoPicker(
-            photoBitmap = photoBitmap,
+            photoBitmap = photoBitmap.first,
             modifier = Modifier
                 .padding(top = 30.dp)
                 .align(Alignment.CenterHorizontally),
@@ -138,7 +138,7 @@ fun SignUp(
                 imeAction = ImeAction.Done
             ),
             keyboardActions = KeyboardActions(onDone = {
-                viewModel.signUp(email, password, firstName, lastName, photoBitmap)
+                viewModel.signUp(email, password, firstName, lastName, photoBitmap.first)
                 focusManager.clearFocus()
             }),
             singleLine = true,
@@ -149,7 +149,7 @@ fun SignUp(
             text = stringResource(R.string.sign_up),
             modifier = Modifier.padding(top = 20.dp)
         ) {
-            viewModel.signUp(email, password, firstName, lastName, photoBitmap)
+            viewModel.signUp(email, password, firstName, lastName, photoBitmap.first)
             focusManager.clearFocus()
         }
 
