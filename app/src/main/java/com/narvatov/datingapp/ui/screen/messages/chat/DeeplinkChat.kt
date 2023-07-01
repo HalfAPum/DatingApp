@@ -4,6 +4,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import com.narvatov.datingapp.ui.common.LoaderBox
 import com.narvatov.datingapp.ui.navigation.BottomNavigationDestination
 import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.navigate
 import com.narvatov.datingapp.ui.viewmodel.messages.chat.DeeplinkChatViewModel
@@ -20,7 +21,9 @@ fun DeeplinkChat(
 
     val chatIsReady by deeplinkChatViewModel.chatIsReadyStateFlow.collectAsState()
 
-    if (chatIsReady) {
-        Chat(friendId)
+    LoaderBox(deeplinkChatViewModel) {
+        if (chatIsReady) {
+            Chat(friendId)
+        }
     }
 }

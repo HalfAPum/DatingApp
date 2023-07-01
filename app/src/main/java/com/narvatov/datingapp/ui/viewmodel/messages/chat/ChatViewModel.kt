@@ -12,6 +12,8 @@ import com.narvatov.datingapp.delegate.common.context.IContextDelegate
 import com.narvatov.datingapp.domain.chat.ChatMessagesFlowUseCase
 import com.narvatov.datingapp.domain.chat.SendMessageUseCase
 import com.narvatov.datingapp.model.local.user.User
+import com.narvatov.datingapp.ui.viewmodel.delegate.progress.IProgressDelegate
+import com.narvatov.datingapp.ui.viewmodel.delegate.progress.ProgressDelegate
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
@@ -28,7 +30,8 @@ class ChatViewModel(
     friendId: String,
     userRemoteDataSource: UserRemoteDataSource,
     dispatcher: Dispatcher,
-) : ViewModel(), IContextDelegate by ContextDelegate {
+) : ViewModel(), IContextDelegate by ContextDelegate,
+    IProgressDelegate by ProgressDelegate(configHideAttempts = 2) {
 
     private val chatRepository by inject<ChatRepository>(
         ChatRepository::class.java,
@@ -49,7 +52,13 @@ class ChatViewModel(
         ).value
     }
 
-    val chatMessageFlow = chatMessagesFlowUseCase().flowOn(dispatcher.IO)
+    init {
+        showProgress()
+    }
+
+    val chatMessageFlow = chatMessagesFlowUseCase()
+        .onEach { hideProgress() }
+        .flowOn(dispatcher.IO)
 
     private val _friendFlow = MutableStateFlow<User?>(null)
     val friendFlow = _friendFlow.asStateFlow()
@@ -63,6 +72,7 @@ class ChatViewModel(
             }
             .onEach {
                 _friendFlow.emit(it)
+                hideProgress()
             }
             .flowOn(dispatcher.IO)
             .launchIn(viewModelScope)

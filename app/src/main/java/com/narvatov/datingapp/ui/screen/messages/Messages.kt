@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import com.narvatov.datingapp.R
 import com.narvatov.datingapp.model.local.message.UserChatMessage
 import com.narvatov.datingapp.ui.WeightedSpacer
+import com.narvatov.datingapp.ui.common.LoaderBox
 import com.narvatov.datingapp.ui.common.NewMessagesBadge
 import com.narvatov.datingapp.ui.common.enterBadgeAnimation
 import com.narvatov.datingapp.ui.common.exitBadgeAnimation
@@ -43,7 +44,9 @@ import com.narvatov.datingapp.ui.viewmodel.messages.MessagesViewModel
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun Messages(viewModel: MessagesViewModel = getViewModel()) {
+fun Messages(
+    viewModel: MessagesViewModel = getViewModel()
+) = LoaderBox(viewModel) {
     val conversations by viewModel.conversationFlow.collectAsState(emptyList())
 
     val cardHorizontalPadding = 20.dp

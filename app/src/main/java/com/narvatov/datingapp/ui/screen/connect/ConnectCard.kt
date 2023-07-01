@@ -64,7 +64,7 @@ fun ConnectCard(
                     state = state,
                     onSwiped = { direction ->
                         when (direction) {
-                                Direction.Left -> viewModel.rejectFriend(friend)
+                            Direction.Left -> viewModel.rejectFriend(friend)
                             Direction.Right -> viewModel.acceptFriend(friend)
                             else -> {}
                         }
@@ -107,6 +107,7 @@ fun ConnectCard(
                                 backgroundColor = Color(0xFFE94057),
                             ) {
                                 state.swipe(Direction.Left)
+                                viewModel.rejectFriend(friend)
                             }
 
                             Spacer(modifier = Modifier.size(width = 40.dp, height = 1.dp))
@@ -116,6 +117,7 @@ fun ConnectCard(
                                 backgroundColor = GreenActive,
                             ) {
                                 state.swipe(Direction.Right)
+                                viewModel.acceptFriend(friend)
                             }
 
                             WeightedSpacer()

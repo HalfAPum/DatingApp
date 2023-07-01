@@ -20,8 +20,6 @@ suspend fun composableNavigationHandler(navHostController: NavHostController) = 
                 )
             }
             Back -> {
-                println("FUCK WTF ${navHostController.currentBackStackEntry?.destination?.route}")
-                println("FUCK WTF OTHER SIDE ${navHostController.backQueue.map { it.destination.route }}")
                 popBackStack()
             }
             is ClearBackStackDestination -> {

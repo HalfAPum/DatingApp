@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.narvatov.datingapp.model.local.message.FriendChatMessage
 import com.narvatov.datingapp.model.local.message.UserChatMessage
 import com.narvatov.datingapp.ui.ListSpacer
+import com.narvatov.datingapp.ui.common.LoaderBox
 import com.narvatov.datingapp.ui.screen.messages.chat.message.FriendMessage
 import com.narvatov.datingapp.ui.screen.messages.chat.message.UserMessage
 import com.narvatov.datingapp.ui.theme.ChatBackground
@@ -32,7 +33,7 @@ fun Chat(friendId: String?) {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun ChatImpl(viewModel: ChatViewModel) {
+private fun ChatImpl(viewModel: ChatViewModel) = LoaderBox(viewModel) {
     val friendFlow by viewModel.friendFlow.collectAsState(null)
     val chatMessages by viewModel.chatMessageFlow.collectAsState(emptyList())
 
