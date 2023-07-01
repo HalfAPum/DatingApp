@@ -49,7 +49,7 @@ class SignRepository(
 
     private suspend fun checkUserExists(newUser: NewUser) = IOOperation {
         try {
-            userRemoteDataSource.getSignedUser(newUser.toUserAuth())
+            userRemoteDataSource.getRegisteredUser(newUser.toUserAuth())
 
             true
         } catch (noSuchUser: NoSuchElementException) {

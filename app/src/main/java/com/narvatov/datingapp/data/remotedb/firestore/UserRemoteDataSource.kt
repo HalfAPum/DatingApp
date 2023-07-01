@@ -20,10 +20,29 @@ class UserRemoteDataSource : FirestoreRemoteDataSource() {
 
     override val collectionName = Schema.USER_TABLE
 
+    /**
+     * Get user for verification purposes.
+     * Requires email and password match input values.
+     */
     suspend fun getSignedUser(userAuth: UserAuth) = IOOperation {
         val user = collection
             .whereEqualTo(Schema.USER_EMAIL, userAuth.email)
             .whereEqualTo(Schema.USER_PASSWORD, userAuth.password)
+            .get()
+            .await()
+            .map { it.mapUser() }
+            .firstOrNull()
+
+        return@IOOperation user ?: throwNoSuchUserException()
+    }
+
+    /**
+     * Get user for registration purposes.
+     * Requires only email to match.
+     */
+    suspend fun getRegisteredUser(userAuth: UserAuth) = IOOperation {
+        val user = collection
+            .whereEqualTo(Schema.USER_EMAIL, userAuth.email)
             .get()
             .await()
             .map { it.mapUser() }

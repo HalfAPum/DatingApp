@@ -27,6 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.narvatov.datingapp.R
 import com.narvatov.datingapp.ui.common.ErrorText
+import com.narvatov.datingapp.ui.common.LoaderBox
 import com.narvatov.datingapp.ui.common.button.WideButton
 import com.narvatov.datingapp.ui.navigation.SignUp
 import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.navigate
@@ -35,13 +36,16 @@ import com.narvatov.datingapp.ui.viewmodel.sign.SignInViewModel
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun SignIn(viewModel: SignInViewModel = getViewModel()) {
+fun SignIn(
+    viewModel: SignInViewModel = getViewModel()
+) = LoaderBox(viewModel) {
     val scrollState = rememberScrollState()
 
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .padding(horizontal = 40.dp)
-        .verticalScroll(scrollState)
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 40.dp)
+            .verticalScroll(scrollState)
     ) {
         Spacer(Modifier.height(100.dp))
 

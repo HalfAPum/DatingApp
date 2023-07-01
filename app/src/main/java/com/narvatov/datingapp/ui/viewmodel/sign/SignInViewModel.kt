@@ -16,8 +16,11 @@ import com.narvatov.datingapp.ui.viewmodel.delegate.progress.ProgressDelegate
 import org.koin.android.annotation.KoinViewModel
 
 @KoinViewModel
-class SignInViewModel(private val signRepository: SignRepository): ViewModel(),
-    IErrorDelegate by ErrorDelegate(), IProgressDelegate by ProgressDelegate() {
+class SignInViewModel(
+    private val signRepository: SignRepository,
+    private val progressDelegate: ProgressDelegate,
+): ViewModel(), IErrorDelegate by ErrorDelegate(progressDelegate),
+    IProgressDelegate by progressDelegate {
 
     init {
         launchCatching {
@@ -34,6 +37,8 @@ class SignInViewModel(private val signRepository: SignRepository): ViewModel(),
                 errorSharedFlow.emit(context.getString(R.string.password_8_symbols_warn))
             }
             else -> {
+                showProgress()
+
                 signRepository.signIn(UserAuth(email, password))
 
                 navigate(BottomNavigationDestination.Messages, clearBackStack = true)

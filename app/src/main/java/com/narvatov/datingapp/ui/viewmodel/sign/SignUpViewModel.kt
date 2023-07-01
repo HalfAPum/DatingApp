@@ -17,8 +17,11 @@ import com.narvatov.datingapp.utils.toBase64
 import org.koin.android.annotation.KoinViewModel
 
 @KoinViewModel
-class SignUpViewModel(private val signRepository: SignRepository): ViewModel(),
-    IErrorDelegate by ErrorDelegate(), IProgressDelegate by ProgressDelegate() {
+class SignUpViewModel(
+    private val signRepository: SignRepository,
+    private val progressDelegate: ProgressDelegate,
+): ViewModel(), IErrorDelegate by ErrorDelegate(progressDelegate),
+    IProgressDelegate by progressDelegate {
 
     fun signUp(
         email: String,
@@ -44,6 +47,8 @@ class SignUpViewModel(private val signRepository: SignRepository): ViewModel(),
                 errorSharedFlow.emit(context.getString(R.string.please_pick_photo_for_your_profile))
             }
             else -> {
+                showProgress()
+
                 signRepository.signUp(NewUser(email, password, firstName, lastName, photoBitmap.toBase64))
 
                 navigate(BottomNavigationDestination.UserProfile, clearBackStack = true)

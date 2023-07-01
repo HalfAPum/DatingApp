@@ -29,6 +29,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.narvatov.datingapp.R
 import com.narvatov.datingapp.ui.common.ErrorText
+import com.narvatov.datingapp.ui.common.LoaderBox
 import com.narvatov.datingapp.ui.common.button.WideButton
 import com.narvatov.datingapp.ui.common.photo.ProfilePhotoPicker
 import com.narvatov.datingapp.ui.theme.Typography
@@ -40,7 +41,7 @@ import org.koin.androidx.compose.getViewModel
 fun SignUp(
     viewModel: SignUpViewModel = getViewModel(),
     photoViewModel: PhotoViewModel = getViewModel(),
-) {
+) = LoaderBox(viewModel) {
     val scrollState = rememberScrollState()
 
     Column(modifier = Modifier
