@@ -23,6 +23,7 @@ class UserRemoteDataSource : FirestoreRemoteDataSource() {
     suspend fun getSignedUser(userAuth: UserAuth) = IOOperation {
         val user = collection
             .whereEqualTo(Schema.USER_EMAIL, userAuth.email)
+            .whereEqualTo(Schema.USER_PASSWORD, userAuth.password)
             .get()
             .await()
             .map { it.mapUser() }

@@ -8,14 +8,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import com.narvatov.datingapp.ui.theme.RedError
 import com.narvatov.datingapp.ui.theme.Typography
-import com.narvatov.datingapp.ui.viewmodel.ErrorViewModel
+import com.narvatov.datingapp.ui.viewmodel.delegate.error.IErrorDelegate
 
 @Composable
 fun ErrorText(
-    errorViewModel: ErrorViewModel,
+    errorDelegate: IErrorDelegate,
     modifier: Modifier,
 ) {
-    val errorMessage by errorViewModel.errorSharedFlow.collectAsState(null)
+    val errorMessage by errorDelegate.errorSharedFlow.collectAsState(null)
 
     if (errorMessage != null) {
         Text(

@@ -109,7 +109,7 @@ fun SignIn(viewModel: SignInViewModel = getViewModel()) {
         }
 
         ErrorText(
-            errorViewModel = viewModel,
+            errorDelegate = viewModel,
             modifier = Modifier.fillMaxWidth().padding(top = 20.dp)
         )
 
