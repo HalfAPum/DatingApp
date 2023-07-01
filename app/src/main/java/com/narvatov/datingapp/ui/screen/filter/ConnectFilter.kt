@@ -21,6 +21,8 @@ import com.narvatov.datingapp.R
 import com.narvatov.datingapp.ui.common.button.WideButton
 import com.narvatov.datingapp.ui.common.button.WideButtonSecondary
 import com.narvatov.datingapp.ui.common.header.TextHeader
+import com.narvatov.datingapp.ui.screen.filter.child.AGE_RANGE_OPTIMAL_MAX
+import com.narvatov.datingapp.ui.screen.filter.child.AGE_RANGE_START
 import com.narvatov.datingapp.ui.screen.filter.child.AgeFilter
 import com.narvatov.datingapp.ui.screen.filter.child.ClickableFilterField
 import com.narvatov.datingapp.ui.screen.filter.child.gender.GenderFilter
@@ -75,7 +77,14 @@ fun ConnectFilter() {
                 )
             }
 
-            AgeFilter(modifier = Modifier.padding(top = 16.dp).padding(horizontal = 20.dp))
+            var ageRange by remember { mutableStateOf(AGE_RANGE_START..AGE_RANGE_OPTIMAL_MAX) }
+
+            AgeFilter(
+                ageRange = ageRange,
+                modifier = Modifier
+                    .padding(top = 16.dp)
+                    .padding(horizontal = 20.dp)
+            ) { ageRange = it }
 
             WideButton(
                 text = stringResource(R.string.continue_t),

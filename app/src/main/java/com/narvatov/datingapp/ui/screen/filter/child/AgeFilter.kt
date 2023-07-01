@@ -8,8 +8,6 @@ import androidx.compose.material.RangeSlider
 import androidx.compose.material.SliderDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -25,12 +23,12 @@ import com.narvatov.datingapp.ui.theme.Typography
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun AgeFilter(modifier: Modifier = Modifier) {
+fun AgeFilter(
+    ageRange: ClosedFloatingPointRange<Float>,
+    modifier: Modifier = Modifier,
+    onAgeRangeChanged: (ClosedFloatingPointRange<Float>) -> Unit,
+) {
     Column(modifier = modifier) {
-        val sliderValues = remember {
-            mutableStateOf(AGE_RANGE_START..AGE_RANGE_OPTIMAL_MAX)
-        }
-
         Row(modifier = Modifier.padding(start = thumbRadius)) {
             Text(
                 text = stringResource(R.string.age),
@@ -41,11 +39,11 @@ fun AgeFilter(modifier: Modifier = Modifier) {
 
             WeightedSpacer()
 
-            val endValue = if (sliderValues.value.endInclusive == AGE_RANGE_END) "${AGE_RANGE_END.toInt()}+"
-            else sliderValues.value.endInclusive.toInt().toString()
+            val endValue = if (ageRange.endInclusive == AGE_RANGE_END) "${AGE_RANGE_END.toInt()}+"
+            else ageRange.endInclusive.toInt().toString()
 
             Text(
-                text = "${sliderValues.value.start.toInt()}-$endValue",
+                text = "${ageRange.start.toInt()}-$endValue",
                 style = Typography.body2,
                 color = HintGrey,
                 modifier = Modifier.align(Alignment.CenterVertically)
@@ -57,17 +55,17 @@ fun AgeFilter(modifier: Modifier = Modifier) {
         val stepsCount = (stepsRange.endInclusive - stepsRange.start - 1).toInt()
 
         RangeSlider(
-            values = sliderValues.value,
+            values = ageRange,
             onValueChange = { sliderValuesChanged ->
                 when {
                     sliderValuesChanged.start <= AGE_RANGE_START -> {
-                        sliderValues.value = AGE_RANGE_START..sliderValuesChanged.endInclusive
+                        onAgeRangeChanged.invoke(AGE_RANGE_START..sliderValuesChanged.endInclusive)
                     }
                     sliderValuesChanged.endInclusive <= sliderValuesChanged.start -> {
-                        sliderValues.value = sliderValuesChanged.start..sliderValuesChanged.start
+                        onAgeRangeChanged.invoke(sliderValuesChanged.start..sliderValuesChanged.start)
                     }
                     else -> {
-                        sliderValues.value = sliderValuesChanged
+                        onAgeRangeChanged.invoke(sliderValuesChanged)
                     }
                 }
             },
@@ -85,6 +83,6 @@ fun AgeFilter(modifier: Modifier = Modifier) {
 
 private val thumbRadius = 10.dp
 
-private const val AGE_RANGE_START = 18F
+const val AGE_RANGE_START = 18F
 private const val AGE_RANGE_END = 99F
-private const val AGE_RANGE_OPTIMAL_MAX = 60F
+const val AGE_RANGE_OPTIMAL_MAX = 60F
