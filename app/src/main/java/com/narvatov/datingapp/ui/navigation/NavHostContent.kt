@@ -33,7 +33,7 @@ fun NavHostContent(
 
     NavHost(
         navController = navController,
-        startDestination = SignIn,
+        startDestination = ConnectFilter,
         modifier = Modifier.padding(innerPadding),
     ) {
         scope.launch {

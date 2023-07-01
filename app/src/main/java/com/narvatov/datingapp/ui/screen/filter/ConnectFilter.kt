@@ -9,6 +9,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -19,7 +23,8 @@ import com.narvatov.datingapp.ui.common.button.WideButtonSecondary
 import com.narvatov.datingapp.ui.common.header.TextHeader
 import com.narvatov.datingapp.ui.screen.filter.child.AgeFilter
 import com.narvatov.datingapp.ui.screen.filter.child.ClickableFilterField
-import com.narvatov.datingapp.ui.screen.filter.child.GenderFilter
+import com.narvatov.datingapp.ui.screen.filter.child.gender.GenderFilter
+import com.narvatov.datingapp.ui.screen.filter.child.gender.genders
 import com.narvatov.datingapp.ui.theme.Typography
 
 @Composable
@@ -33,7 +38,14 @@ fun ConnectFilter() {
         )
 
         Column(modifier = Modifier.verticalScroll(scrollState)) {
-            GenderFilter(modifier = Modifier.padding(top = 20.dp))
+            val initialGender = stringResource(genders.first())
+
+            var gender by remember { mutableStateOf(initialGender) }
+
+            GenderFilter(
+                selectedGender = gender,
+                modifier = Modifier.padding(top = 20.dp),
+            ) { gender = it }
 
             ClickableFilterField(
                 titleRes = R.string.interests,
