@@ -17,18 +17,15 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.material.Button
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
-import androidx.compose.material.Text
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
 import androidx.core.view.WindowInsetsCompat.Type.ime
@@ -46,7 +43,6 @@ import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.location.LocationSettingsResponse
 import com.google.android.gms.location.LocationSettingsStatusCodes
 import com.google.android.gms.tasks.Task
-import com.narvatov.datingapp.data.preference.NotificationPreferencesDataStore
 import com.narvatov.datingapp.delegate.activity.admob.AdMobDelegate
 import com.narvatov.datingapp.delegate.activity.availability.UserAvailabilityDelegate
 import com.narvatov.datingapp.model.local.notification.NotificationPreference.*
@@ -57,19 +53,15 @@ import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.bottomSh
 import com.narvatov.datingapp.ui.navigation.showBottomBar
 import com.narvatov.datingapp.ui.theme.DatingAppTheme
 import com.narvatov.datingapp.ui.theme.Shapes
-import com.narvatov.datingapp.utils.inject
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.getViewModel
-import timber.log.Timber
 
 
 class MainActivity : ComponentActivity() {
 
     private val userAvailabilityDelegate by UserAvailabilityDelegate()
     private val adMobDelegate by AdMobDelegate()
-
-    private val notificationPreferenceDataStore: NotificationPreferencesDataStore by inject()
 
     @OptIn(ExperimentalMaterialApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,28 +77,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             DatingAppTheme {
-                val notificationTag = "NOTIFICATIONS_PERMISSION"
-
                 val coroutineScope = rememberCoroutineScope()
-
-                val launcher = rememberLauncherForActivityResult(
-                    ActivityResultContracts.RequestPermission()
-                ) { isGranted ->
-                    coroutineScope.launch {
-                        if (isGranted) {
-                            Timber.tag(notificationTag).d("Permission granted")
-                            notificationPreferenceDataStore.save(GRANTED)
-                        } else {
-                            if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
-                                Timber.tag(notificationTag).d("Permission denied show rationale")
-                                notificationPreferenceDataStore.save(SHOW_RATIONALE)
-                            } else {
-                                Timber.tag(notificationTag).d("Permission denied")
-                                notificationPreferenceDataStore.save(DENIED)
-                            }
-                        }
-                    }
-                }
 
                 val bottomBarState = rememberSaveable { (mutableStateOf(false)) }
                 val navController = rememberNavController()
@@ -170,37 +141,16 @@ class MainActivity : ComponentActivity() {
                             NavHostContent(navController, activityViewModelStoreOwner, innerPadding)
                         }
                     )
-                    val context = LocalContext.current
 
 //                    Button(
 //                        {
-//                            if (ContextCompat.checkSelfPermission(
-//                                    context,
-//                                    Manifest.permission.POST_NOTIFICATIONS
-//                                ) == PackageManager.PERMISSION_GRANTED
-//                            ) {
-//                                Timber.tag(notificationTag).d("Permission has already been granted")
-//                            } else {
-//                                if (Build.VERSION.SDK_INT == Build.VERSION_CODES.TIRAMISU) {
-//                                    launcher.launch(Manifest.permission.POST_NOTIFICATIONS)
-//                                }
-//                            }
+//                            getCurrentLocation(locationPermissionLauncher, turnOnGPSLauncher)
 //                        }
 //                    ) {
 //                        Text(
 //                            text = "permission"
 //                        )
 //                    }
-
-                    Button(
-                        {
-                            getCurrentLocation(locationPermissionLauncher, turnOnGPSLauncher)
-                        }
-                    ) {
-                        Text(
-                            text = "permission"
-                        )
-                    }
                 }
             }
         }

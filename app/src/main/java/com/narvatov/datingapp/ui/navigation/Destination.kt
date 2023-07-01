@@ -1,6 +1,7 @@
 package com.narvatov.datingapp.ui.navigation
 
 import android.content.Context
+import android.os.Build
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.navigation.NamedNavArgument
@@ -8,7 +9,9 @@ import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
 import com.narvatov.datingapp.R
+import com.narvatov.datingapp.data.preference.NotificationPreferencesDataStore
 import com.narvatov.datingapp.model.local.user.User
+import com.narvatov.datingapp.utils.inject
 
 interface Destination {
 
@@ -106,7 +109,38 @@ sealed class DialogDestination(
 
 object SignIn : Destination
 
-object SignUp : Destination
+sealed interface SignUpFlow : Destination {
+
+    object SignUp : SignUpFlow
+
+
+
+}
+
+sealed interface OnBoardingFlow : Destination {
+
+    object NotificationPermissionOnBoarding : OnBoardingFlow {
+
+        private val notificationPreferenceDataStore: NotificationPreferencesDataStore by inject()
+
+        override suspend fun shouldShow(): Boolean {
+            return Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+                    && notificationPreferenceDataStore.get().showOnBoarding
+        }
+
+    }
+
+    object LocationPermissionOnBoarding : OnBoardingFlow {
+
+        override suspend fun shouldShow(): Boolean {
+            return false
+        }
+
+    }
+
+    suspend fun shouldShow(): Boolean
+
+}
 
 object Chat : Destination {
 
@@ -150,4 +184,8 @@ object Report : Destination {
 
 }
 
-val noBottomBarDestinations = listOf(SignIn, SignUp, Chat, ChatDeeplink).map { it.route }
+val noBottomBarDestinations = listOf(
+    SignIn, SignUpFlow.SignUp, Chat, ChatDeeplink,
+    OnBoardingFlow.NotificationPermissionOnBoarding,
+    OnBoardingFlow.LocationPermissionOnBoarding,
+).map { it.route }

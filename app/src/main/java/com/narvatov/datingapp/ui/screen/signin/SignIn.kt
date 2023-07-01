@@ -1,4 +1,4 @@
-package com.narvatov.datingapp.ui.screen.sign
+package com.narvatov.datingapp.ui.screen.signin
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -29,10 +29,10 @@ import com.narvatov.datingapp.R
 import com.narvatov.datingapp.ui.common.ErrorText
 import com.narvatov.datingapp.ui.common.LoaderBox
 import com.narvatov.datingapp.ui.common.button.WideButton
-import com.narvatov.datingapp.ui.navigation.SignUp
+import com.narvatov.datingapp.ui.navigation.SignUpFlow
 import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.navigate
 import com.narvatov.datingapp.ui.theme.Typography
-import com.narvatov.datingapp.ui.viewmodel.sign.SignInViewModel
+import com.narvatov.datingapp.ui.viewmodel.signin.SignInViewModel
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -109,7 +109,7 @@ fun SignIn(
             text = stringResource(R.string.don_t_have_an_account_sign_up),
             modifier = Modifier.padding(top = 20.dp)
         ) {
-            navigate(SignUp)
+            navigate(SignUpFlow.SignUp)
         }
 
         ErrorText(

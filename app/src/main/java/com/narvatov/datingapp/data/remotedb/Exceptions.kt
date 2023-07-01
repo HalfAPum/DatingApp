@@ -47,3 +47,8 @@ context (IContextDelegate)
 fun throwEmptyFCMToken(): Nothing = throw IllegalArgumentException(
     context.getString(R.string.no_fcmtoken_exception)
 )
+
+context (IContextDelegate)
+fun throwNoAfterOnBoardingDestination(): Nothing = throw IllegalArgumentException(
+    "After OnBoardingDestination is empty. It shouldn't have happened."
+)

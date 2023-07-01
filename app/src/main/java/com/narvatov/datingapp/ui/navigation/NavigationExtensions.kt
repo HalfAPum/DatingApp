@@ -19,6 +19,14 @@ fun NavGraphBuilder.bottomNavigation(builder: NavGraphBuilder.() -> Unit) {
     builder()
 }
 
+fun NavGraphBuilder.signUpFlow(builder: NavGraphBuilder.() -> Unit) {
+    builder()
+}
+
+fun NavGraphBuilder.onBoardingFlow(builder: NavGraphBuilder.() -> Unit) {
+    builder()
+}
+
 fun NavGraphBuilder.composable(
     destination: Destination,
     argument: NamedNavArgument? = null,

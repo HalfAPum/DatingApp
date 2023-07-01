@@ -1,4 +1,4 @@
-package com.narvatov.datingapp.ui.screen.sign
+package com.narvatov.datingapp.ui.screen.signup
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -34,7 +34,7 @@ import com.narvatov.datingapp.ui.common.button.WideButton
 import com.narvatov.datingapp.ui.common.photo.ProfilePhotoPicker
 import com.narvatov.datingapp.ui.theme.Typography
 import com.narvatov.datingapp.ui.viewmodel.PhotoViewModel
-import com.narvatov.datingapp.ui.viewmodel.sign.SignUpViewModel
+import com.narvatov.datingapp.ui.viewmodel.signup.SignUpViewModel
 import org.koin.androidx.compose.getViewModel
 
 @Composable

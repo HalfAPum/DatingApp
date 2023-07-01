@@ -44,7 +44,7 @@ class MessagingService : FirebaseMessagingService() {
         scope.launch {
             val notificationPreference = notificationPreferencesDataStore.get()
 
-            if (notificationPreference.isNotAllowed()) return@launch
+            if (notificationPreference.isNotAllowed) return@launch
 
             val friendId = remoteMessage.data["friend_id"]
             val userName = remoteMessage.data["name"]

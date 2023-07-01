@@ -1,10 +1,13 @@
 package com.narvatov.datingapp.utils
 
+import android.content.Context
+import android.content.pm.PackageManager
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
@@ -12,7 +15,6 @@ import com.narvatov.datingapp.BuildConfig
 import kotlinx.coroutines.flow.Flow
 import org.koin.java.KoinJavaComponent.inject
 import timber.log.Timber
-import java.util.*
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
@@ -39,4 +41,15 @@ fun <T : R, R> Flow<T>.collectAsStateLifecycleAware(
 ): State<R> {
     val lifecycleAwareFlow = rememberFlow(flow = this)
     return lifecycleAwareFlow.collectAsState(initial = initial, context = context)
+}
+
+fun Context.isPermissionDenied(permission: String): Boolean {
+    return !isPermissionGranted(permission)
+}
+
+fun Context.isPermissionGranted(permission: String): Boolean {
+    return ContextCompat.checkSelfPermission(
+        this,
+        permission,
+    ) == PackageManager.PERMISSION_GRANTED
 }

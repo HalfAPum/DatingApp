@@ -16,8 +16,9 @@ import com.narvatov.datingapp.ui.screen.messages.chat.DeeplinkChat
 import com.narvatov.datingapp.ui.screen.profile.FriendProfile
 import com.narvatov.datingapp.ui.screen.profile.UserProfile
 import com.narvatov.datingapp.ui.screen.report.Report
-import com.narvatov.datingapp.ui.screen.sign.SignIn
-import com.narvatov.datingapp.ui.screen.sign.SignUp
+import com.narvatov.datingapp.ui.screen.signin.SignIn
+import com.narvatov.datingapp.ui.screen.signup.NotificationPermissionOnBoarding
+import com.narvatov.datingapp.ui.screen.signup.SignUp
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
@@ -44,8 +45,20 @@ fun NavHostContent(
             SignIn()
         }
 
-        composable(SignUp) {
-            SignUp(photoViewModel = getViewModel(owner = activityViewModelStoreOwner))
+        signUpFlow {
+            composable(SignUpFlow.SignUp) {
+                SignUp(photoViewModel = getViewModel(owner = activityViewModelStoreOwner))
+            }
+        }
+
+        onBoardingFlow {
+            composable(OnBoardingFlow.NotificationPermissionOnBoarding) {
+                NotificationPermissionOnBoarding()
+            }
+
+            composable(OnBoardingFlow.LocationPermissionOnBoarding) {
+
+            }
         }
 
         bottomNavigation {
@@ -90,7 +103,7 @@ fun NavHostContent(
 
         composable(
             destination = Report,
-            argument = Chat.navigationArgument,
+            argument = Report.navigationArgument,
         ) { backStackEntry ->
             val friendId = backStackEntry.arguments?.getString(Report.FRIEND_ID)
 

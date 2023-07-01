@@ -6,8 +6,10 @@ enum class NotificationPreference {
     SHOW_RATIONALE,
     DENIED;
 
-    fun isNotAllowed(): Boolean {
-        return this != GRANTED
-    }
+    val isNotAllowed: Boolean
+        get() = this != GRANTED
+
+    val showOnBoarding: Boolean
+        get() = this == NONE || this == SHOW_RATIONALE
 
 }
