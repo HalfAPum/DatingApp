@@ -1,7 +1,9 @@
 package com.narvatov.datingapp.utils
 
+import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
+import android.location.LocationManager
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
@@ -53,3 +55,10 @@ fun Context.isPermissionGranted(permission: String): Boolean {
         permission,
     ) == PackageManager.PERMISSION_GRANTED
 }
+
+val Activity.isGPSEnabled: Boolean
+    get() {
+        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+    }
