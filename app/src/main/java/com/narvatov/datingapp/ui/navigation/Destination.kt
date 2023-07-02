@@ -133,7 +133,7 @@ sealed interface OnBoardingFlow : Destination {
     object LocationPermissionOnBoarding : OnBoardingFlow {
 
         override suspend fun shouldShow(): Boolean {
-            return false
+            return true
         }
 
     }

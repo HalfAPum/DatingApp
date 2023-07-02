@@ -17,6 +17,7 @@ import com.narvatov.datingapp.ui.screen.profile.FriendProfile
 import com.narvatov.datingapp.ui.screen.profile.UserProfile
 import com.narvatov.datingapp.ui.screen.report.Report
 import com.narvatov.datingapp.ui.screen.signin.SignIn
+import com.narvatov.datingapp.ui.screen.signup.LocationPermissionOnBoarding
 import com.narvatov.datingapp.ui.screen.signup.NotificationPermissionOnBoarding
 import com.narvatov.datingapp.ui.screen.signup.SignUp
 import kotlinx.coroutines.launch
@@ -57,7 +58,7 @@ fun NavHostContent(
             }
 
             composable(OnBoardingFlow.LocationPermissionOnBoarding) {
-
+                LocationPermissionOnBoarding()
             }
         }
 
