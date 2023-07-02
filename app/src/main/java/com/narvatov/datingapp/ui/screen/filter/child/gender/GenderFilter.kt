@@ -11,6 +11,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.narvatov.datingapp.R
+import com.narvatov.datingapp.ui.common.tab.horizontal.AnimatedHorizontalTab
 import com.narvatov.datingapp.ui.theme.TextPrimaryColor
 import com.narvatov.datingapp.ui.theme.Typography
 
@@ -36,7 +37,7 @@ fun GenderFilter(
             else this
         }
 
-        AnimatedTab(
+        AnimatedHorizontalTab(
             modifier = Modifier.fillMaxWidth().padding(top = 8.dp).height(58.dp),
             selectedItemIndex = selectedGenderIndex,
             onSelectedTab = { onGenderSelected(stringGenders[it]) },
@@ -47,4 +48,4 @@ fun GenderFilter(
 
 val genders = listOf(R.string.male, R.string.female, R.string.both)
 
-private const val INVALID_INDEX = -1
+const val INVALID_INDEX = -1

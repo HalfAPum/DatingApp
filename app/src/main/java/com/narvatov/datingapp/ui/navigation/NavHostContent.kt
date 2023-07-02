@@ -3,6 +3,7 @@ package com.narvatov.datingapp.ui.navigation
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -19,7 +20,12 @@ import com.narvatov.datingapp.ui.screen.profile.FriendProfile
 import com.narvatov.datingapp.ui.screen.profile.UserProfile
 import com.narvatov.datingapp.ui.screen.report.Report
 import com.narvatov.datingapp.ui.screen.signin.SignIn
+import com.narvatov.datingapp.ui.screen.signup.Credentials
+import com.narvatov.datingapp.ui.screen.signup.Details
+import com.narvatov.datingapp.ui.screen.signup.Gender
+import com.narvatov.datingapp.ui.screen.signup.Interests
 import com.narvatov.datingapp.ui.screen.signup.SignUp
+import com.narvatov.datingapp.ui.screen.start.StartPage
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
@@ -35,11 +41,15 @@ fun NavHostContent(
 
     NavHost(
         navController = navController,
-        startDestination = SignIn,
+        startDestination = StartPage,
         modifier = Modifier.padding(innerPadding),
     ) {
         scope.launch {
             composableNavigationHandler(navController)
+        }
+
+        composable(StartPage) {
+            StartPage()
         }
 
         composable(SignIn) {
@@ -49,6 +59,34 @@ fun NavHostContent(
         signUpFlow {
             composable(SignUpFlow.SignUp) {
                 SignUp(photoViewModel = getViewModel(owner = activityViewModelStoreOwner))
+            }
+
+            composable(SignUpFlow.Credentials) {
+                Credentials()
+            }
+
+            composable(SignUpFlow.Gender) {
+                val viewModelStateOwner = remember {
+                    navController.getBackStackEntry(SignUpFlow.Credentials)
+                }
+
+                Gender(viewModel = getViewModel(owner = viewModelStateOwner))
+            }
+
+            composable(SignUpFlow.Interests) {
+                val viewModelStateOwner = remember {
+                    navController.getBackStackEntry(SignUpFlow.Credentials)
+                }
+
+                Interests(viewModel = getViewModel(owner = viewModelStateOwner))
+            }
+
+            composable(SignUpFlow.Details) {
+                val viewModelStateOwner = remember {
+                    navController.getBackStackEntry(SignUpFlow.Credentials)
+                }
+
+                Details(viewModel = getViewModel(owner = viewModelStateOwner))
             }
         }
 

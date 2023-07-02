@@ -34,12 +34,12 @@ import com.narvatov.datingapp.ui.common.button.WideButton
 import com.narvatov.datingapp.ui.common.photo.ProfilePhotoPicker
 import com.narvatov.datingapp.ui.theme.Typography
 import com.narvatov.datingapp.ui.viewmodel.PhotoViewModel
-import com.narvatov.datingapp.ui.viewmodel.signup.SignUpViewModel
+import com.narvatov.datingapp.ui.viewmodel.signup.SignUpOldViewModel
 import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun SignUp(
-    viewModel: SignUpViewModel = getViewModel(),
+    viewModel: SignUpOldViewModel = getViewModel(),
     photoViewModel: PhotoViewModel = getViewModel(),
 ) = LoaderBox(viewModel) {
     val scrollState = rememberScrollState()

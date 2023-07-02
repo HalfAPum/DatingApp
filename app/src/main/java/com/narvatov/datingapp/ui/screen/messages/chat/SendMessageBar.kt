@@ -36,6 +36,7 @@ import com.narvatov.datingapp.ui.theme.ChatBackground
 import com.narvatov.datingapp.ui.theme.HintGrey
 import kotlinx.coroutines.launch
 
+//It looks like annotation is redundant but it's not.
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SendMessageBar(messagesListState: LazyListState, sendMessage: (String) -> Unit) {

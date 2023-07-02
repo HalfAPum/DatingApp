@@ -1,4 +1,4 @@
-package com.narvatov.datingapp.ui.screen.filter.child.gender.tab
+package com.narvatov.datingapp.ui.common.tab.horizontal
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.Box
@@ -14,7 +14,7 @@ import com.narvatov.datingapp.ui.theme.TextPrimaryColor
 import com.narvatov.datingapp.ui.theme.Typography
 
 @Composable
-fun GenderTabContent(
+fun GenderHorizontalTabContent(
     modifier: Modifier,
     onClick: () -> Unit,
     title: String,

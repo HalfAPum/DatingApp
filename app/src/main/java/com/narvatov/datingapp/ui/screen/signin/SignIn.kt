@@ -29,8 +29,6 @@ import com.narvatov.datingapp.R
 import com.narvatov.datingapp.ui.common.ErrorText
 import com.narvatov.datingapp.ui.common.LoaderBox
 import com.narvatov.datingapp.ui.common.button.WideButton
-import com.narvatov.datingapp.ui.navigation.SignUpFlow
-import com.narvatov.datingapp.ui.navigation.UiNavigationEventPropagator.navigate
 import com.narvatov.datingapp.ui.theme.Typography
 import com.narvatov.datingapp.ui.viewmodel.signin.SignInViewModel
 import org.koin.androidx.compose.getViewModel
@@ -90,8 +88,8 @@ fun SignIn(
                 imeAction = ImeAction.Done
             ),
             keyboardActions = KeyboardActions(onDone = {
-                viewModel.signIn(email, password)
                 focusManager.clearFocus()
+                viewModel.signIn(email, password)
             }),
             singleLine = true,
             modifier = Modifier.padding(top = 20.dp).fillMaxWidth()
@@ -101,15 +99,8 @@ fun SignIn(
             text = stringResource(R.string.sign_in),
             modifier = Modifier.padding(top = 40.dp)
         ) {
-            viewModel.signIn(email, password)
             focusManager.clearFocus()
-        }
-
-        WideButton(
-            text = stringResource(R.string.don_t_have_an_account_sign_up),
-            modifier = Modifier.padding(top = 20.dp)
-        ) {
-            navigate(SignUpFlow.SignUp)
+            viewModel.signIn(email, password)
         }
 
         ErrorText(

@@ -64,6 +64,8 @@ class ClearBackStackDestination(
     val clearBackStack: Boolean,
 ) : Destination
 
+object StartPage : Destination
+
 sealed class BottomNavigationDestination(
     @DrawableRes
     val icon: Int,
@@ -121,7 +123,13 @@ sealed interface SignUpFlow : Destination {
 
     object SignUp : SignUpFlow
 
+    object Credentials : SignUpFlow
 
+    object Gender : SignUpFlow
+
+    object Interests : SignUpFlow
+
+    object Details : SignUpFlow
 
 }
 
@@ -208,6 +216,8 @@ object Report : Destination {
 }
 
 val noBottomBarDestinations = listOf(
+    StartPage, SignUpFlow.Credentials, SignUpFlow.Gender,
+    SignUpFlow.Interests,SignUpFlow.Details,
     SignIn, SignUpFlow.SignUp, Chat, ChatDeeplink,
     OnBoardingFlow.NotificationPermissionOnBoarding,
     OnBoardingFlow.LocationPermissionOnBoarding,

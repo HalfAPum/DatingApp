@@ -1,4 +1,4 @@
-package com.narvatov.datingapp.ui.screen.filter.child.gender.tab
+package com.narvatov.datingapp.ui.common.tab
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

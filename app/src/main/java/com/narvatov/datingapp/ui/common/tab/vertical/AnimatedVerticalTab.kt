@@ -1,12 +1,12 @@
-package com.narvatov.datingapp.ui.screen.filter.child.gender
+package com.narvatov.datingapp.ui.common.tab.vertical
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
@@ -20,54 +20,51 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.narvatov.datingapp.ui.screen.filter.child.gender.tab.GenderTabBackground
-import com.narvatov.datingapp.ui.screen.filter.child.gender.tab.GenderTabContent
-import com.narvatov.datingapp.ui.screen.filter.child.gender.tab.GenderTabIndicator
+import com.narvatov.datingapp.ui.common.tab.GenderTabBackground
+import com.narvatov.datingapp.ui.common.tab.GenderTabIndicator
 
 @Composable
-fun AnimatedTab(
+fun AnimatedVerticalTab(
     items: List<String>,
     modifier: Modifier,
     selectedItemIndex: Int = 0,
     onSelectedTab: (index: Int) -> Unit
 ) {
-    var tabWidth by remember { mutableStateOf(0.dp) }
-
-    val indicatorWidth = (tabWidth - (listSpacing * 2) - (horizontalPadding * 2)) / items.size
+    var tabHeight by remember { mutableStateOf(0.dp) }
 
     val indicatorOffset: Dp by animateDpAsState(
         if (selectedItemIndex == 0) {
-            horizontalPadding
+            0.dp
         } else {
-            horizontalPadding + (listSpacing * selectedItemIndex) + indicatorWidth * selectedItemIndex
+            (listSpacing * selectedItemIndex) + com.narvatov.datingapp.ui.common.tab.vertical.tabHeight * selectedItemIndex
         }
     )
 
     with(LocalDensity.current) {
         Box(modifier = modifier.onSizeChanged { size ->
-            tabWidth = size.width.toDp()
+            tabHeight = size.height.toDp()
         }) {
             TabLayoutPositioner(items) { index, _ ->
                 GenderTabBackground(
                     modifier = Modifier
-                        .height(tabHeight)
-                        .weight(1F),
+                        .height(com.narvatov.datingapp.ui.common.tab.vertical.tabHeight)
+                        .fillMaxWidth(),
                     onClick = { onSelectedTab(index) },
                 )
             }
 
             GenderTabIndicator(
                 modifier = Modifier
-                    .height(tabHeight)
-                    .width(indicatorWidth),
-                indicatorOffset = indicatorOffset
+                    .height(com.narvatov.datingapp.ui.common.tab.vertical.tabHeight)
+                    .fillMaxWidth(),
+                indicatorOffsetY = indicatorOffset
             )
 
             TabLayoutPositioner(items) { index, title ->
-                GenderTabContent(
+                GenderVerticalTabContent(
                     modifier = Modifier
-                        .height(tabHeight)
-                        .weight(1F),
+                        .height(com.narvatov.datingapp.ui.common.tab.vertical.tabHeight)
+                        .fillMaxWidth(),
                     onClick = { onSelectedTab(index) },
                     title = title,
                     selected = selectedItemIndex == index,
@@ -80,30 +77,25 @@ fun AnimatedTab(
 @Composable
 private fun TabLayoutPositioner(
     items: List<String>,
-    tabContent: @Composable RowScope.(Int, String) -> Unit,
+    tabContent: @Composable ColumnScope.(Int, String) -> Unit,
 ) {
-    Row(
-        modifier = Modifier.fillMaxSize(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceEvenly
+    Column (
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceEvenly
     ) {
-        Spacer(modifier = Modifier.height(spacerStubHeight).width(horizontalPadding))
-
         items.forEachIndexed { index, title ->
             tabContent(index, title)
 
             if (index != items.lastIndex) {
-                Spacer(modifier = Modifier.height(spacerStubHeight).width(listSpacing))
+                Spacer(modifier = Modifier.height(listSpacing).width(spacerStubWidth))
             }
         }
-
-        Spacer(modifier = Modifier.height(spacerStubHeight).width(horizontalPadding))
     }
 }
 
-private val listSpacing = 8.dp
-private val horizontalPadding = 30.dp
+private val listSpacing = 12.dp
 //Composable with 0.dp doesn't draw
-private val spacerStubHeight = 1.dp
+private val spacerStubWidth = 1.dp
 
 private val tabHeight = 58.dp
