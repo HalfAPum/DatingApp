@@ -14,7 +14,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.halfapum.general.coroutines.Dispatcher
 import com.narvatov.datingapp.R
-import com.narvatov.datingapp.data.preference.NotificationPreferencesDataStore
+import com.narvatov.datingapp.data.preference.permission.NotificationPreferencesDataStore
 import com.narvatov.datingapp.ui.MainActivity
 import com.narvatov.datingapp.utils.inject
 import kotlinx.coroutines.CoroutineScope

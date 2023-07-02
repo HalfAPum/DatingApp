@@ -1,4 +1,4 @@
-package com.narvatov.datingapp.ui.screen.signup
+package com.narvatov.datingapp.ui.screen.onboarding
 
 import android.Manifest
 import android.app.Activity
@@ -14,24 +14,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.narvatov.datingapp.model.local.notification.PermissionPreference
 import com.narvatov.datingapp.ui.theme.Typography
-import com.narvatov.datingapp.ui.viewmodel.signup.NotificationPermissionOnBoardingViewModel
-import kotlinx.coroutines.launch
+import com.narvatov.datingapp.ui.viewmodel.onborading.NotificationPermissionOnBoardingViewModel
 import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun NotificationPermissionOnBoarding(
     viewModel: NotificationPermissionOnBoardingViewModel = getViewModel()
 ) {
-    val scope = rememberCoroutineScope()
-
     Box(modifier = Modifier.fillMaxSize().padding(20.dp)) {
         val context = LocalContext.current
         val activity = context as Activity
@@ -41,24 +36,20 @@ fun NotificationPermissionOnBoarding(
         val launcher = rememberLauncherForActivityResult(
             ActivityResultContracts.RequestPermission()
         ) { isGranted ->
-            scope.launch {
-                text = when {
-                    isGranted -> {
-                        viewModel.saveNotificationPreference(PermissionPreference.GRANTED)
-                        viewModel.processOnBoarding()
-                        "Permission granted"
-                    }
+            text = when {
+                isGranted -> {
+                    viewModel.permissionGranted()
+                    "Permission granted"
+                }
 
-                    activity.shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS) -> {
-                        viewModel.saveNotificationPreference(PermissionPreference.SHOW_RATIONALE)
-                        "Permission denied show rationale"
-                    }
+                activity.shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS) -> {
+                    viewModel.permissionDeniedShowRationale()
+                    "Permission denied show rationale"
+                }
 
-                    else -> {
-                        viewModel.saveNotificationPreference(PermissionPreference.DENIED)
-                        viewModel.processOnBoarding()
-                        "Permission denied"
-                    }
+                else -> {
+                    viewModel.permissionDenied()
+                    "Permission denied"
                 }
             }
         }
@@ -73,7 +64,7 @@ fun NotificationPermissionOnBoarding(
             onClick = {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     launcher.launch(Manifest.permission.POST_NOTIFICATIONS)
-                } else { viewModel.processOnBoarding(ignoreNotificationOnBoarding = true) }
+                } else { viewModel.processOnBoarding(ignore = true) }
             },
             modifier = Modifier.align(Alignment.BottomEnd)
         ) {
@@ -83,7 +74,7 @@ fun NotificationPermissionOnBoarding(
         }
 
         Button(
-            onClick = { viewModel.processOnBoarding(ignoreNotificationOnBoarding = true) },
+            onClick = { viewModel.processOnBoarding(ignore = true) },
             modifier = Modifier.align(Alignment.BottomStart)
         ) {
             Text(

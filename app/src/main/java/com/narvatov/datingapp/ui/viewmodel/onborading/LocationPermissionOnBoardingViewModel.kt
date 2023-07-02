@@ -1,11 +1,10 @@
-package com.narvatov.datingapp.ui.viewmodel.signup
+package com.narvatov.datingapp.ui.viewmodel.onborading
 
-import androidx.lifecycle.ViewModel
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.Priority
 import com.halfapum.general.coroutines.launch
 import com.halfapum.general.coroutines.launchCatching
-import com.narvatov.datingapp.data.preference.LocationPreferencesDataStore
+import com.narvatov.datingapp.data.preference.permission.LocationPreferencesDataStore
 import com.narvatov.datingapp.data.repository.user.UserSessionRepository
 import com.narvatov.datingapp.model.local.notification.PermissionPreference
 import com.narvatov.datingapp.model.local.user.Location
@@ -18,9 +17,11 @@ import org.koin.android.annotation.KoinViewModel
 @KoinViewModel
 class LocationPermissionOnBoardingViewModel(
     private val userSessionRepository: UserSessionRepository,
-    private val onBoardingManager: OnBoardingManager,
-    private val locationPreferencesDataStore: LocationPreferencesDataStore,
-) : ViewModel(), IProgressDelegate by ProgressDelegate() {
+    override val onBoardingManager: OnBoardingManager,
+    override val permissionPreferenceDataStore: LocationPreferencesDataStore,
+) : PermissionOnBoardingViewModel(), IProgressDelegate by ProgressDelegate() {
+
+    override val currentDestination = OnBoardingFlow.LocationPermissionOnBoarding
 
     val locationRequest = LocationRequest.Builder(
         Priority.PRIORITY_HIGH_ACCURACY,
@@ -30,17 +31,8 @@ class LocationPermissionOnBoardingViewModel(
     }.build()
 
     fun permissionGranted() = launch {
-        locationPreferencesDataStore.save(PermissionPreference.GRANTED)
+        permissionPreferenceDataStore.save(PermissionPreference.GRANTED)
         showProgress()
-    }
-
-    fun permissionDenied() = launch {
-        locationPreferencesDataStore.save(PermissionPreference.DENIED)
-        processOnBoarding()
-    }
-
-    fun permissionDeniedShowRationale() = launch {
-        locationPreferencesDataStore.save(PermissionPreference.SHOW_RATIONALE)
     }
 
     fun locationDetected(location: Location) = launchCatching {
@@ -48,16 +40,5 @@ class LocationPermissionOnBoardingViewModel(
 
         processOnBoarding()
     }
-
-    fun processOnBoarding(ignoreLocationOnBoarding: Boolean = false) = launchCatching {
-        if (ignoreLocationOnBoarding) {
-            onBoardingManager.addIgnoreOnBoardingDestination(
-                onBoardingFlow = OnBoardingFlow.LocationPermissionOnBoarding
-            )
-        }
-
-        onBoardingManager.processOnBoarding()
-    }
-
 
 }

@@ -1,4 +1,4 @@
-package com.narvatov.datingapp.ui.screen.signup
+package com.narvatov.datingapp.ui.screen.onboarding
 
 import android.Manifest
 import android.app.Activity
@@ -23,7 +23,7 @@ import androidx.core.app.ActivityCompat
 import com.narvatov.datingapp.model.local.user.Location
 import com.narvatov.datingapp.ui.common.LoaderBox
 import com.narvatov.datingapp.ui.theme.Typography
-import com.narvatov.datingapp.ui.viewmodel.signup.LocationPermissionOnBoardingViewModel
+import com.narvatov.datingapp.ui.viewmodel.onborading.LocationPermissionOnBoardingViewModel
 import com.narvatov.datingapp.utils.getGPSLocation
 import com.narvatov.datingapp.utils.getUserLocation
 import org.koin.androidx.compose.getViewModel
@@ -105,7 +105,7 @@ fun LocationPermissionOnBoarding(
         }
 
         Button(
-            onClick = { viewModel.processOnBoarding(ignoreLocationOnBoarding = true) },
+            onClick = { viewModel.processOnBoarding(ignore = true) },
             modifier = Modifier.align(Alignment.BottomStart)
         ) {
             Text(

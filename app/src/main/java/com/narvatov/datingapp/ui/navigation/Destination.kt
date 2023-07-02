@@ -12,8 +12,8 @@ import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
 import com.narvatov.datingapp.R
-import com.narvatov.datingapp.data.preference.LocationPreferencesDataStore
-import com.narvatov.datingapp.data.preference.NotificationPreferencesDataStore
+import com.narvatov.datingapp.data.preference.permission.LocationPreferencesDataStore
+import com.narvatov.datingapp.data.preference.permission.NotificationPreferencesDataStore
 import com.narvatov.datingapp.data.repository.user.UserSessionRepository
 import com.narvatov.datingapp.delegate.common.context.ContextDelegate
 import com.narvatov.datingapp.delegate.common.context.IContextDelegate

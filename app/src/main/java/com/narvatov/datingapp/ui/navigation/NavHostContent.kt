@@ -13,12 +13,12 @@ import com.narvatov.datingapp.ui.screen.filter.ConnectFilter
 import com.narvatov.datingapp.ui.screen.messages.Messages
 import com.narvatov.datingapp.ui.screen.messages.chat.Chat
 import com.narvatov.datingapp.ui.screen.messages.chat.DeeplinkChat
+import com.narvatov.datingapp.ui.screen.onboarding.LocationPermissionOnBoarding
+import com.narvatov.datingapp.ui.screen.onboarding.NotificationPermissionOnBoarding
 import com.narvatov.datingapp.ui.screen.profile.FriendProfile
 import com.narvatov.datingapp.ui.screen.profile.UserProfile
 import com.narvatov.datingapp.ui.screen.report.Report
 import com.narvatov.datingapp.ui.screen.signin.SignIn
-import com.narvatov.datingapp.ui.screen.signup.LocationPermissionOnBoarding
-import com.narvatov.datingapp.ui.screen.signup.NotificationPermissionOnBoarding
 import com.narvatov.datingapp.ui.screen.signup.SignUp
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
