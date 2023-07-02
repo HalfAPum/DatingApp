@@ -20,7 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.narvatov.datingapp.model.local.notification.NotificationPreference
+import com.narvatov.datingapp.model.local.notification.PermissionPreference
 import com.narvatov.datingapp.ui.theme.Typography
 import com.narvatov.datingapp.ui.viewmodel.signup.NotificationPermissionOnBoardingViewModel
 import kotlinx.coroutines.launch
@@ -44,18 +44,18 @@ fun NotificationPermissionOnBoarding(
             scope.launch {
                 text = when {
                     isGranted -> {
-                        viewModel.saveNotificationPreference(NotificationPreference.GRANTED)
+                        viewModel.saveNotificationPreference(PermissionPreference.GRANTED)
                         viewModel.processOnBoarding()
                         "Permission granted"
                     }
 
                     activity.shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS) -> {
-                        viewModel.saveNotificationPreference(NotificationPreference.SHOW_RATIONALE)
+                        viewModel.saveNotificationPreference(PermissionPreference.SHOW_RATIONALE)
                         "Permission denied show rationale"
                     }
 
                     else -> {
-                        viewModel.saveNotificationPreference(NotificationPreference.DENIED)
+                        viewModel.saveNotificationPreference(PermissionPreference.DENIED)
                         viewModel.processOnBoarding()
                         "Permission denied"
                     }

@@ -15,6 +15,7 @@ data class User(
     val photoBase64: String,
     val online: Boolean,
     var fcmToken: String?,
+    val location: Location = Location.emptyLocation
 ) {
 
     val offline = online.not()

@@ -1,6 +1,6 @@
 package com.narvatov.datingapp.model.local.notification
 
-enum class NotificationPreference {
+enum class PermissionPreference {
     NONE,
     GRANTED,
     SHOW_RATIONALE,

@@ -22,7 +22,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.narvatov.datingapp.delegate.activity.admob.AdMobDelegate
 import com.narvatov.datingapp.delegate.activity.availability.UserAvailabilityDelegate
-import com.narvatov.datingapp.model.local.notification.NotificationPreference.*
+import com.narvatov.datingapp.model.local.notification.PermissionPreference.*
 import com.narvatov.datingapp.ui.common.photo.PhotoPickBottomSheet
 import com.narvatov.datingapp.ui.navigation.BottomBar
 import com.narvatov.datingapp.ui.navigation.NavHostContent

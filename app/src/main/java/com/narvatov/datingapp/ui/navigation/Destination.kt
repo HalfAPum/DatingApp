@@ -1,15 +1,23 @@
 package com.narvatov.datingapp.ui.navigation
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Build
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
 import com.narvatov.datingapp.R
+import com.narvatov.datingapp.data.preference.LocationPreferencesDataStore
 import com.narvatov.datingapp.data.preference.NotificationPreferencesDataStore
+import com.narvatov.datingapp.data.repository.user.UserSessionRepository
+import com.narvatov.datingapp.delegate.common.context.ContextDelegate
+import com.narvatov.datingapp.delegate.common.context.IContextDelegate
+import com.narvatov.datingapp.model.local.notification.PermissionPreference
 import com.narvatov.datingapp.model.local.user.User
 import com.narvatov.datingapp.utils.inject
 
@@ -130,10 +138,25 @@ sealed interface OnBoardingFlow : Destination {
 
     }
 
-    object LocationPermissionOnBoarding : OnBoardingFlow {
+    object LocationPermissionOnBoarding : OnBoardingFlow, IContextDelegate by ContextDelegate {
+
+        private val userSessionRepository: UserSessionRepository by inject()
+        private val locationPreferencesDataStore: LocationPreferencesDataStore by inject()
 
         override suspend fun shouldShow(): Boolean {
-            return true
+            return userSessionRepository.user.location.isEmpty
+                    && locationPermissionAllowShowOnBoarding()
+        }
+
+        private suspend fun locationPermissionAllowShowOnBoarding() : Boolean {
+            val locationPermissionState = ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+
+            return if (locationPermissionState == PackageManager.PERMISSION_GRANTED) {
+                true
+            } else locationPreferencesDataStore.get() != PermissionPreference.DENIED
         }
 
     }

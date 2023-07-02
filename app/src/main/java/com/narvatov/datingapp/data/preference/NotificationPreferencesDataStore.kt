@@ -3,7 +3,7 @@ package com.narvatov.datingapp.data.preference
 import android.os.Build
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.narvatov.datingapp.model.local.notification.NotificationPreference
+import com.narvatov.datingapp.model.local.notification.PermissionPreference
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import org.koin.core.annotation.Single
@@ -13,19 +13,19 @@ class NotificationPreferencesDataStore : PreferenceDataStore() {
 
     override val dataStoreName = NOTIFICATION_PREFERENCES
 
-    suspend fun get(): NotificationPreference {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return NotificationPreference.GRANTED
+    suspend fun get(): PermissionPreference {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return PermissionPreference.GRANTED
 
         return dataStore.data.map { preferences ->
             val notificationPreference = preferences[SELECTED_NOTIFICATION_PREFERENCE]
 
             notificationPreference?.let {
-                NotificationPreference.valueOf(notificationPreference)
-            } ?: NotificationPreference.NONE
-        }.firstOrNull() ?: NotificationPreference.NONE
+                PermissionPreference.valueOf(notificationPreference)
+            } ?: PermissionPreference.NONE
+        }.firstOrNull() ?: PermissionPreference.NONE
     }
 
-    suspend fun save(notificationPreference: NotificationPreference) {
+    suspend fun save(notificationPreference: PermissionPreference) {
         dataStore.edit { preferences ->
             preferences[SELECTED_NOTIFICATION_PREFERENCE] = notificationPreference.name
         }

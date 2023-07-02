@@ -63,10 +63,11 @@ fun LocationPermissionOnBoarding(
                 "Location permission granted"
             }
             activity.shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) -> {
+                viewModel.permissionDeniedShowRationale()
                 "Location permission denied show rationale."
             }
             else -> {
-                viewModel.processOnBoarding(ignoreLocationOnBoarding = true)
+                viewModel.permissionDenied()
                 "Location permission denied."
             }
         }
