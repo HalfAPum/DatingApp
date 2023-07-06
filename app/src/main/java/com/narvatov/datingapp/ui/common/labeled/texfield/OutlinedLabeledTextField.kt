@@ -1,4 +1,4 @@
-package com.narvatov.datingapp.ui.common.texfield
+package com.narvatov.datingapp.ui.common.labeled.texfield
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column

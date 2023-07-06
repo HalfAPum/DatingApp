@@ -82,4 +82,8 @@
     <string name="woman">Woman</string>
     <string name="man">Man</string>
     <string name="check">Check</string>
+    <string name="your_interests">Your interests</string>
+    <string name="select_at_least_3_interests">Select at least 3 of your interests to find the most relevant people.</string>
+    <string name="interest_icon">Interest icon</string>
+    <string name="profile_details">Profile details</string>
 </resources>

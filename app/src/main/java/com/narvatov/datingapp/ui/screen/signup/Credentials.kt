@@ -15,7 +15,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.narvatov.datingapp.R
-import com.narvatov.datingapp.ui.common.texfield.OutlinedLabeledTextField
+import com.narvatov.datingapp.ui.common.labeled.texfield.OutlinedLabeledTextField
 import com.narvatov.datingapp.ui.viewmodel.signup.SignUpViewModel
 import org.koin.androidx.compose.getViewModel
 
